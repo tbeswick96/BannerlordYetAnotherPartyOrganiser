@@ -257,12 +257,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Helpers.cs" />
+    <Compile Include="Strings.cs" />
     <Compile Include="TroopManagerSubModule.cs" />
     <Compile Include="PartyVmMixin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SavableSorterTypeDefiner.cs" />
+    <Compile Include="SavableSorterPropertiesTypeDefiner.cs" />
     <Compile Include="Sorter.cs" />
-    <Compile Include="PartyTroopSortButtonsExtension.cs" />
+    <Compile Include="TroopSortButtonsExtension.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

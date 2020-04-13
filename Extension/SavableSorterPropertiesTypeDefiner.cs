@@ -3,8 +3,8 @@ using TaleWorlds.Core;
 using TaleWorlds.SaveSystem;
 
 namespace TroopManager {
-    public class SavableSorterTypeDefiner : SaveableTypeDefiner {
-        public SavableSorterTypeDefiner() : base(13337000) { }
+    public class SavableSorterPropertiesTypeDefiner : SaveableTypeDefiner {
+        public SavableSorterPropertiesTypeDefiner() : base(13337000) { }
 
         protected override void DefineClassTypes() {
             AddClassDefinition(typeof(Sorter), 1);
@@ -21,8 +21,9 @@ namespace TroopManager {
         }
 
         protected override void DefineEnumTypes() {
-            AddEnumDefinition(typeof(SortingMode), 2);
-            AddEnumDefinition(typeof(SortingDirection), 3);
+            AddEnumDefinition(typeof(SortMode), 2);
+            AddEnumDefinition(typeof(SortDirection), 3);
+            AddEnumDefinition(typeof(SortSide), 4);
         }
     }
 }

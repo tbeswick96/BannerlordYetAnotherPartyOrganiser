@@ -9,25 +9,28 @@ namespace TroopManager {
     [SaveableClass(13337100)]
     public class Sorter : MBObjectBase {
         [SaveableProperty(10)]
-        public SortingMode CurrentlySortingMode { get; private set; }
+        public SortMode CurrentSortMode { get; private set; }
 
         [SaveableProperty(20)]
-        public SortingDirection SortDirection { get; private set; }
+        public SortDirection SortDirection { get; private set; }
 
         [SaveableProperty(30)]
         public bool UpgradableOnTop { get; set; }
 
-        public void UpdateSortingMode(SortingMode sortingMode = SortingMode.ALPHABETICAL, bool skipDirectionFlip = false) {
+        [SaveableProperty(40)]
+        public SortSide SortSide { get; set; }
+        
+        public void UpdateSortingMode(SortMode newSortMode = SortMode.ALPHABETICAL, bool skipDirectionFlip = false) {
             if (!skipDirectionFlip) {
-                SortDirection = CurrentlySortingMode == sortingMode ? SortDirection == SortingDirection.ASCENDING ? SortingDirection.DESCENDING : SortingDirection.ASCENDING : SortingDirection.ASCENDING;
+                SortDirection = CurrentSortMode == newSortMode ? SortDirection == SortDirection.ASCENDING ? SortDirection.DESCENDING : SortDirection.ASCENDING : SortDirection.ASCENDING;
             }
 
-            CurrentlySortingMode = sortingMode;
+            CurrentSortMode = newSortMode;
         }
 
         public void Sort(ref List<TroopRosterElement> sortedTroops, ref List<TroopRosterElement> heroTroops) {
-            sortedTroops.Sort(new TroopRosterElementComparer(CurrentlySortingMode, SortDirection));
-            heroTroops.Sort(new TroopRosterElementComparer(CurrentlySortingMode, SortDirection));
+            sortedTroops.Sort(new TroopRosterElementComparer(CurrentSortMode, SortDirection));
+            heroTroops.Sort(new TroopRosterElementComparer(CurrentSortMode, SortDirection));
 
             if (!UpgradableOnTop) return;
 
@@ -38,12 +41,12 @@ namespace TroopManager {
     }
 
     public class TroopRosterElementComparer : IComparer<TroopRosterElement> {
-        private readonly SortingDirection _sortingDirection;
-        private readonly SortingMode _sortingMode;
+        private readonly SortDirection _sortDirection;
+        private readonly SortMode _sortMode;
 
-        public TroopRosterElementComparer(SortingMode sortingMode, SortingDirection sortingDirection) {
-            _sortingDirection = sortingDirection;
-            _sortingMode = sortingMode;
+        public TroopRosterElementComparer(SortMode sortMode, SortDirection sortDirection) {
+            _sortDirection = sortDirection;
+            _sortMode = sortMode;
         }
 
         public int Compare(TroopRosterElement x, TroopRosterElement y) {
@@ -51,13 +54,13 @@ namespace TroopManager {
             if (y.Character == null) return ApplySortDirection(1);
             if (x.Character == null) return ApplySortDirection(-1);
 
-            switch (_sortingMode) {
-                case SortingMode.ALPHABETICAL: return ApplySortDirection(SortAlphabetically(x, y));
-                case SortingMode.TYPE: return ApplySortDirection(SortByType(x, y));
-                case SortingMode.GROUP: return ApplySortDirection(SortByGroup(x, y));
-                case SortingMode.TIER: return ApplySortDirection(SortByTier(x, y));
-                case SortingMode.NONE: return 0;
-                default: throw new ArgumentOutOfRangeException($"Can't sort on column {_sortingMode}");
+            switch (_sortMode) {
+                case SortMode.ALPHABETICAL: return ApplySortDirection(SortAlphabetically(x, y));
+                case SortMode.TYPE: return ApplySortDirection(SortByType(x, y));
+                case SortMode.GROUP: return ApplySortDirection(SortByGroup(x, y));
+                case SortMode.TIER: return ApplySortDirection(SortByTier(x, y));
+                case SortMode.NONE: return 0;
+                default: throw new ArgumentOutOfRangeException($"Can't sort on column {_sortMode}");
             }
         }
 
@@ -94,11 +97,11 @@ namespace TroopManager {
         // Tier
         private static int SortByTier(TroopRosterElement x, TroopRosterElement y) => x.Character.Tier < y.Character.Tier ? -1 : x.Character.Tier > y.Character.Tier ? 1 : SortAlphabetically(x, y);
 
-        private int ApplySortDirection(int result) => _sortingDirection == SortingDirection.ASCENDING ? result : result * -1;
+        private int ApplySortDirection(int result) => _sortDirection == SortDirection.ASCENDING ? result : result * -1;
     }
 
     [SaveableEnum(13337150)]
-    public enum SortingMode {
+    public enum SortMode {
         NONE,
         ALPHABETICAL,
         TYPE,
@@ -107,8 +110,14 @@ namespace TroopManager {
     }
 
     [SaveableEnum(13337200)]
-    public enum SortingDirection {
+    public enum SortDirection {
         ASCENDING,
         DESCENDING
+    }
+
+    [SaveableEnum(13337250)]
+    public enum SortSide {
+        OTHER,
+        PARTY
     }
 }
