@@ -1,0 +1,28 @@
+<Module>
+    <Name value="Troop Manager"/>
+    <Id value="TroopManager"/>
+    <Version value="v1.0.0"/>
+    <SingleplayerModule value="true"/>
+    <MultiplayerModule value="false"/>
+    <Official value="false"/>
+    <DependedModules>
+        <DependedModule Id="Native"/>
+        <DependedModule Id="SandBoxCore"/>
+        <DependedModule Id="Sandbox"/>
+        <DependedModule Id="CustomBattle"/>
+        <DependedModule Id="StoryMode" />
+        <DependedModule Id="UIExtenderLibModule" />
+    </DependedModules>
+    <SubModules>
+        <SubModule>
+            <Name value="TroopManager"/>
+            <DLLName value="TroopManager.dll"/>
+            <SubModuleClassType value="TroopManager.TroopManagerSubModule"/>
+            <Tags>
+                <Tag key="DedicatedServerType" value="none" />
+                <Tag key="IsNoRenderModeElement" value="false" />
+            </Tags>
+        </SubModule>
+    </SubModules>
+    <Xmls/>
+</Module>
