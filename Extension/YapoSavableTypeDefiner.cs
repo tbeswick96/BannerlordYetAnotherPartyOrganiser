@@ -2,6 +2,7 @@
 using TaleWorlds.Core;
 using TaleWorlds.SaveSystem;
 using YAPO.Services;
+// ReSharper disable UnusedType.Global
 
 namespace YAPO {
     public class YapoSavableTypeDefiner : SaveableTypeDefiner {

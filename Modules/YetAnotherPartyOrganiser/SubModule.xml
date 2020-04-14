@@ -11,7 +11,7 @@
         <DependedModule Id="Sandbox"/>
         <DependedModule Id="CustomBattle"/>
         <DependedModule Id="StoryMode" />
-        <DependedModule Id="UIExtenderLibModule" />
+        <DependedModule Id="0UIExtenderLibModule" />
     </DependedModules>
     <SubModules>
         <SubModule>

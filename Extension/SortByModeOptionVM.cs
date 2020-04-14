@@ -1,7 +1,11 @@
 ﻿using TaleWorlds.Library;
 using YAPO.Global;
 
-namespace YAPO.UI {
+// ReSharper disable InconsistentNaming
+// ReSharper disable UnusedType.Global
+// ReSharper disable UnusedMember.Global
+
+namespace YAPO {
     public class SortByModeOptionVm : ViewModel {
         private readonly PartyVmMixin _parentVm;
 

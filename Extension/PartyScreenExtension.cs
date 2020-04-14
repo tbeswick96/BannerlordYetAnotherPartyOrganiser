@@ -1,5 +1,8 @@
 ﻿using UIExtenderLib;
 using UIExtenderLib.Prefab;
+// ReSharper disable InconsistentNaming
+// ReSharper disable UnusedType.Global
+// ReSharper disable UnusedMember.Global
 
 namespace YAPO {
     [PrefabExtension("PartyScreen", "descendant::PartyScreenWidget[@Id='PartyScreen']/Children")]

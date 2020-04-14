@@ -9,7 +9,7 @@
                         <ButtonWidget Id="DropdownButton" DoNotPassEventsToChildren="true" WidthSizePolicy="StretchToParent" HeightSizePolicy="Fixed" SuggestedHeight="35" HorizontalAlignment="Center" VerticalAlignment="Center" Brush="Party.Role.Dropdown">
                             <Children>
                                 <RichTextWidget Id="SelectedTextWidget" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" HorizontalAlignment="Center" TextHorizontalAlignment="Center" TextVerticalAlignment="Center" VerticalAlignment="Center" PositionYOffset="1" PositionXOffset="7" Text="@CurrentPartySortByModeText" Brush="Party.Role.Main.Text"/>
-                                <HintWidget DataSource="{PartySortByHintText}" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Command.HoverBegin="ExecuteBeginHint" Command.HoverEnd="ExecuteEndHint" IsDisabled="true" />
+                                <HintWidget DataSource="{PartySortByHintText}" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Command.HoverBegin="ExecuteBeginHint" Command.HoverEnd="ExecuteEndHint"/>
                             </Children>
                         </ButtonWidget>
                         <Widget Id="DropdownClipWidget" WidthSizePolicy="CoverChildren" HeightSizePolicy="Fixed" ClipContents="true" WidgetToCopyHeightFrom="DropdownContainerWidget\ScrollablePanel">
@@ -61,7 +61,7 @@
                         <ButtonWidget Id="DropdownButton" DoNotPassEventsToChildren="true" WidthSizePolicy="StretchToParent" HeightSizePolicy="Fixed" SuggestedHeight="35" HorizontalAlignment="Center" VerticalAlignment="Center" Brush="Party.Role.Dropdown">
                             <Children>
                                 <RichTextWidget Id="SelectedTextWidget" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" HorizontalAlignment="Center" VerticalAlignment="Center" TextHorizontalAlignment="Center" TextVerticalAlignment="Center" PositionYOffset="1" PositionXOffset="7" Text="@CurrentPartyThenByModeText" Brush="Party.Role.Main.Text"/>
-                                <HintWidget DataSource="{PartyThenByHintText}" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Command.HoverBegin="ExecuteBeginHint" Command.HoverEnd="ExecuteEndHint" IsDisabled="true" />
+                                <HintWidget DataSource="{PartyThenByHintText}" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Command.HoverBegin="ExecuteBeginHint" Command.HoverEnd="ExecuteEndHint"/>
                             </Children>
                         </ButtonWidget>
                         <Widget Id="DropdownClipWidget" WidthSizePolicy="CoverChildren" HeightSizePolicy="Fixed" ClipContents="true" WidgetToCopyHeightFrom="DropdownContainerWidget\ScrollablePanel">
@@ -105,7 +105,7 @@
         </ListPanel>
 
         <!-- Sort buttons -->
-        <ListPanel WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" LayoutImp.LayoutMethod="HorizontalLeftToRight">
+        <ListPanel WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" HorizontalAlignment="Right" LayoutImp.LayoutMethod="HorizontalLeftToRight">
             <Children>
                 <!-- Sort ascending -->
                 <Widget Id="SortButtonPartyAscending" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="76" SuggestedHeight="52" HorizontalAlignment="Right" VerticalAlignment="Top" MarginTop="20" UpdateChildrenStates="true">
@@ -113,10 +113,9 @@
                         <ButtonIconOffsetWidget DoNotPassEventsToChildren="true" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Brush="MapBar.Left.Button4" ButtonIcon="SortAscendingTextIcon" Command.Click="ExecuteSortPartyAscending" PressedXOffset="0" PressedYOffset="1" UpdateChildrenStates="true">
                             <Children>
                                 <TextWidget Id="SortAscendingTextIcon" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="50" SuggestedHeight="45" HorizontalAlignment="Center" VerticalAlignment="Center" MarginTop="2" Brush="Party.Text.Toggle" Text="@SortPartyAscendingText"/>
-                                <HintWidget DataSource="{SortPartyAscendingHintText}" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Command.HoverBegin="ExecuteBeginHint" Command.HoverEnd="ExecuteEndHint" IsDisabled="true" />
                             </Children>
                         </ButtonIconOffsetWidget>
-                        <HintWidget DataSource="{SortPartyAscendingHintText}" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Command.HoverBegin="ExecuteBeginHint" Command.HoverEnd="ExecuteEndHint" IsDisabled="true" />
+                        <HintWidget DataSource="{SortPartyAscendingHintText}" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Command.HoverBegin="ExecuteBeginHint" Command.HoverEnd="ExecuteEndHint"/>
                     </Children>
                 </Widget>
 
@@ -126,41 +125,66 @@
                         <ButtonIconOffsetWidget DoNotPassEventsToChildren="true" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Brush="MapBar.Left.Button4" ButtonIcon="SortDescendingTextIcon" Command.Click="ExecuteSortPartyDescending" PressedXOffset="0" PressedYOffset="1" UpdateChildrenStates="true">
                             <Children>
                                 <TextWidget Id="SortDescendingTextIcon" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="50" SuggestedHeight="45" HorizontalAlignment="Center" VerticalAlignment="Center" MarginTop="2" Brush="Party.Text.Toggle" Text="@SortPartyDescendingText"/>
-                                <HintWidget DataSource="{SortPartyDescendingHintText}" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Command.HoverBegin="ExecuteBeginHint" Command.HoverEnd="ExecuteEndHint" IsDisabled="true" />
                             </Children>
                         </ButtonIconOffsetWidget>
-                        <HintWidget DataSource="{SortPartyDescendingHintText}" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Command.HoverBegin="ExecuteBeginHint" Command.HoverEnd="ExecuteEndHint" IsDisabled="true" />
+                        <HintWidget DataSource="{SortPartyDescendingHintText}" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Command.HoverBegin="ExecuteBeginHint" Command.HoverEnd="ExecuteEndHint"/>
                     </Children>
                 </Widget>
             </Children>
         </ListPanel>
 
         <!-- Option buttons -->
-        <ListPanel WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" LayoutImp.LayoutMethod="HorizontalLeftToRight">
+        <ListPanel WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" HorizontalAlignment="Right" LayoutImp.LayoutMethod="HorizontalLeftToRight">
             <Children>
                 <!-- Sort Order -->
                 <Widget Id="PartySortOrderOppositeButton" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="76" SuggestedHeight="52" HorizontalAlignment="Right" VerticalAlignment="Top" MarginTop="2" UpdateChildrenStates="true">
                     <Children>
-                        <ButtonIconOffsetWidget DoNotPassEventsToChildren="true" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Brush="MapBar.Left.Button4" ButtonIcon="PartySortOrderOppositeTextIcon" Command.Click="ExecutePartySortOrderOpposite" PressedXOffset="0" PressedYOffset="1" UpdateChildrenStates="true">
+                        <Widget Id="PartySortOrderOppositeButtonWidget" WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren">
                             <Children>
-                                <TextWidget Id="PartySortOrderOppositeTextIcon" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="50" SuggestedHeight="45" HorizontalAlignment="Center" VerticalAlignment="Center" MarginTop="2" Brush="Party.Text.Toggle" Text="@PartySortOrderOppositeText"/>
-                                <HintWidget DataSource="{PartySortOrderOppositeHintText}" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Command.HoverBegin="ExecuteBeginHint" Command.HoverEnd="ExecuteEndHint" IsDisabled="true" />
+                                <ButtonIconOffsetWidget DoNotPassEventsToChildren="true" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Brush="MapBar.Left.Button4" ButtonIcon="PartySortOrderOppositeTextIcon" Command.Click="ExecutePartySortOrderOpposite" PressedXOffset="0" PressedYOffset="1" UpdateChildrenStates="true">
+                                    <Children>
+                                        <TextWidget Id="PartySortOrderOppositeTextIcon" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="50" SuggestedHeight="45" HorizontalAlignment="Center" VerticalAlignment="Center" MarginTop="2" Brush="Party.Text.Toggle" Text="@PartySortOrderOppositeText"/>
+                                    </Children>
+                                </ButtonIconOffsetWidget>
+                                <HintWidget DataSource="{PartySortOrderOppositeHintText}" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Command.HoverBegin="ExecuteBeginHint" Command.HoverEnd="ExecuteEndHint"/>
                             </Children>
-                        </ButtonIconOffsetWidget>
-                        <HintWidget DataSource="{PartySortOrderOppositeHintText}" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Command.HoverBegin="ExecuteBeginHint" Command.HoverEnd="ExecuteEndHint" IsDisabled="true" />
+                        </Widget>
+                        <Widget Id="PartySortOrderOppositeButtonWidgetDisabled" WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren">
+                            <Children>
+                                <ButtonIconOffsetWidget DoNotPassEventsToChildren="true" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Brush="MapBar.Left.Button4" ButtonIcon="PartySortOrderOppositeTextIconDisabled" IsDisabled="true">
+                                    <Children>
+                                        <TextWidget Id="PartySortOrderOppositeTextIconDisabled" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="50" SuggestedHeight="45" HorizontalAlignment="Center" VerticalAlignment="Center" MarginTop="2" Brush="Party.Text.Toggle" Text="@PartySortOrderOppositeText"/>
+                                    </Children>
+                                </ButtonIconOffsetWidget>
+                                <HintWidget DataSource="{PartySortOrderOppositeDisabledHintText}" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Command.HoverBegin="ExecuteBeginHint" Command.HoverEnd="ExecuteEndHint"/>
+                            </Children>
+                        </Widget>
                     </Children>
                 </Widget>
-                
+
                 <!-- Upgradable troops on top -->
                 <Widget Id="UpgradableOnTopButton" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="76" SuggestedHeight="52" HorizontalAlignment="Right" VerticalAlignment="Top" MarginTop="2" MarginLeft="4" UpdateChildrenStates="true">
                     <Children>
-                        <ButtonIconOffsetWidget DoNotPassEventsToChildren="true" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Brush="MapBar.Left.Button4" ButtonIcon="UpgradableOnTopTextIcon" Command.Click="ExecuteUpgradableOnTop" PressedXOffset="0" PressedYOffset="1" UpdateChildrenStates="true">
+                        <Widget Id="PartyUpgradableOnTopButtonWidget" WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren">
                             <Children>
-                                <TextWidget Id="UpgradableOnTopTextIcon" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="50" SuggestedHeight="45" HorizontalAlignment="Center" VerticalAlignment="Center" MarginTop="2" Brush="Party.Text.Toggle" Text="@UpgradableOnTopText"/>
-                                <HintWidget DataSource="{UpgradableOnTopHintText}" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Command.HoverBegin="ExecuteBeginHint" Command.HoverEnd="ExecuteEndHint" IsDisabled="true" />
+                                <ButtonIconOffsetWidget DoNotPassEventsToChildren="true" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Brush="MapBar.Left.Button4" ButtonIcon="UpgradableOnTopTextIcon" Command.Click="ExecuteUpgradableOnTop" PressedXOffset="0" PressedYOffset="1" UpdateChildrenStates="true">
+                                    <Children>
+                                        <TextWidget Id="UpgradableOnTopTextIcon" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="50" SuggestedHeight="45" HorizontalAlignment="Center" VerticalAlignment="Center" MarginTop="2" Brush="Party.Text.Toggle" Text="@UpgradableOnTopText"/>
+                                    </Children>
+                                </ButtonIconOffsetWidget>
+                                <HintWidget DataSource="{UpgradableOnTopHintText}" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Command.HoverBegin="ExecuteBeginHint" Command.HoverEnd="ExecuteEndHint"/>
                             </Children>
-                        </ButtonIconOffsetWidget>
-                        <HintWidget DataSource="{UpgradableOnTopHintText}" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Command.HoverBegin="ExecuteBeginHint" Command.HoverEnd="ExecuteEndHint" IsDisabled="true" />
+                        </Widget>
+                        <Widget Id="PartyUpgradableOnTopButtonWidgetDisabled" WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren">
+                            <Children>
+                                <ButtonIconOffsetWidget DoNotPassEventsToChildren="true" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Brush="MapBar.Left.Button4" ButtonIcon="UpgradableOnTopTextIconDisabled" IsDisabled="true">
+                                    <Children>
+                                        <TextWidget Id="UpgradableOnTopTextIconDisabled" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="50" SuggestedHeight="45" HorizontalAlignment="Center" VerticalAlignment="Center" MarginTop="2" Brush="Party.Text.Toggle" Text="@UpgradableOnTopText"/>
+                                    </Children>
+                                </ButtonIconOffsetWidget>
+                                <HintWidget DataSource="{UpgradableOnTopDisabledHintText}" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Command.HoverBegin="ExecuteBeginHint" Command.HoverEnd="ExecuteEndHint"/>
+                            </Children>
+                        </Widget>
                     </Children>
                 </Widget>
             </Children>

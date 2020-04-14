@@ -14,9 +14,13 @@
         public const string THEN_BY_HINT_TEXT = "Select sort mode to further sort troops by after above sort mode";
         public const string SORT_ORDER_OPPOSITE_HINT_TEXT_SAME = "Set same sort order for Sort By and Then By";
         public const string SORT_ORDER_OPPOSITE_HINT_TEXT_OPPOSITE = "Set opposite sort order for Sort By and Then By";
+        public const string SORT_ORDER_OPPOSITE_HINT_TEXT_DISABLED = "Oppisite sort order toggle requires a Then By mode to be selected";
         public const string UPGRADABLE_ON_TOP_HINT_TEXT_ON = "Place upgradable troops normally";
         public const string UPGRADABLE_ON_TOP_HINT_TEXT_OFF = "Place upgradable troops on top";
+        public const string UPGRADABLE_ON_TOP_HINT_TEXT_DISABLED = "Upgradable troops on top requires upgradable troops";
         public const string UPGRADE_HINT_TEXT = "Upgrade all toops with single upgrade path";
+        public const string UPGRADE_HINT_TEXT_DISABLED = "Upgrade all toops requires upgradable troops";
         public const string RECRUIT_HINT_TEXT = "Recruit all recruitable prisoners (Hold control to override party size limit)";
+        public const string RECRUIT_HINT_TEXT_DISABLED = "Recruit all recruitable prisoners requires recruitable prisoners";
     }
 }

@@ -1,4 +1,6 @@
-﻿using TaleWorlds.CampaignSystem;
+﻿using System;
+using HarmonyLib;
+using TaleWorlds.CampaignSystem;
 using TaleWorlds.Core;
 using TaleWorlds.InputSystem;
 using TaleWorlds.MountAndBlade;
@@ -6,11 +8,19 @@ using UIExtenderLib;
 using YAPO.Global;
 using YAPO.Services;
 
+// ReSharper disable UnusedType.Global
+
 namespace YAPO {
     public class YapoSubModule : MBSubModuleBase {
         protected override void OnSubModuleLoad() {
             base.OnSubModuleLoad();
             UIExtender.Register();
+
+            try {
+                new Harmony("YAPO").PatchAll();
+            } catch (Exception exception) {
+                InformationManager.DisplayMessage(new InformationMessage("YAPO Patch Failed " + exception.Message));
+            }
         }
 
         protected override void OnGameStart(Game game, IGameStarter gameStarterObject) {
@@ -34,17 +44,23 @@ namespace YAPO {
                 }
             }
 
+            if (Input.IsKeyPressed(InputKey.U)) {
+                States.PartyVmMixin.ExecuteActionUpgrade();
+                States.PartyScreenWidget.Context.TwoDimensionContext.PlaySound("panels/twopanel_open");
+            } else if (Input.IsKeyPressed(InputKey.R)) {
+                States.PartyVmMixin.ExecuteActionRecruit();
+                States.PartyScreenWidget.Context.TwoDimensionContext.PlaySound("panels/twopanel_open");
+            }
+
             if (!Input.IsKeyDown(InputKey.LeftControl) || !Input.IsKeyDown(InputKey.LeftShift)) return;
             if (Input.IsKeyPressed(InputKey.A)) {
                 States.PartyVmMixin.ExecuteSortPartyAscending();
                 States.PartyVmMixin.ExecuteSortOtherAscending();
+                States.PartyScreenWidget.Context.TwoDimensionContext.PlaySound("panels/twopanel_open");
             } else if (Input.IsKeyPressed(InputKey.D)) {
                 States.PartyVmMixin.ExecuteSortPartyDescending();
                 States.PartyVmMixin.ExecuteSortOtherDescending();
-            } else if (Input.IsKeyPressed(InputKey.U)) {
-                States.PartyVmMixin.ExecuteActionUpgrade();
-            } else if (Input.IsKeyPressed(InputKey.R)) {
-                States.PartyVmMixin.ExecuteActionRecruit();
+                States.PartyScreenWidget.Context.TwoDimensionContext.PlaySound("panels/twopanel_open");
             }
         }
     }
