@@ -5,9 +5,9 @@ using TaleWorlds.CampaignSystem;
 using TaleWorlds.Core;
 using TaleWorlds.SaveSystem;
 
-namespace TroopManager {
+namespace TroopManager.Services {
     [SaveableClass(13337100)]
-    public class Sorter : MBObjectBase {
+    public class TroopSorterService : MBObjectBase {
         [SaveableProperty(10)]
         public SortMode CurrentSortMode { get; private set; }
 
@@ -35,6 +35,7 @@ namespace TroopManager {
             if (!UpgradableOnTop) return;
 
             List<TroopRosterElement> upgradableTroops = sortedTroops.Where(x => x.NumberReadyToUpgrade > 0).ToList();
+            upgradableTroops = upgradableTroops.OrderByDescending(x => x.Character.UpgradeRequiresItemFromCategory == null).ToList();
             sortedTroops = sortedTroops.Where(x => x.NumberReadyToUpgrade <= 0).ToList();
             sortedTroops.InsertRange(0, upgradableTroops);
         }
@@ -59,12 +60,13 @@ namespace TroopManager {
                 case SortMode.TYPE: return ApplySortDirection(SortByType(x, y));
                 case SortMode.GROUP: return ApplySortDirection(SortByGroup(x, y));
                 case SortMode.TIER: return ApplySortDirection(SortByTier(x, y));
+                case SortMode.CULTURE: return ApplySortDirection(SortByCulture(x, y));
                 case SortMode.NONE: return 0;
                 default: throw new ArgumentOutOfRangeException($"Can't sort on column {_sortMode}");
             }
         }
 
-        private static int SortAlphabetically(TroopRosterElement x, TroopRosterElement y) => string.Compare(x.Character.ToString(), y.Character.ToString(), StringComparison.Ordinal);
+        private static int SortAlphabetically(TroopRosterElement x, TroopRosterElement y) => string.Compare(x.Character.ToString(), y.Character.ToString(), StringComparison.InvariantCultureIgnoreCase);
 
         // Cavalry, Ranged Cavalry, Infantry, Ranged
         private static int SortByType(TroopRosterElement x, TroopRosterElement y) {
@@ -96,7 +98,13 @@ namespace TroopManager {
 
         // Tier
         private static int SortByTier(TroopRosterElement x, TroopRosterElement y) => x.Character.Tier < y.Character.Tier ? -1 : x.Character.Tier > y.Character.Tier ? 1 : SortAlphabetically(x, y);
-
+        
+        // Culture
+        private static int SortByCulture(TroopRosterElement x, TroopRosterElement y) {
+            int value = string.Compare(x.Character.Culture.Name.ToString(), y.Character.Culture.Name.ToString(), StringComparison.InvariantCultureIgnoreCase);
+            return value == 0 ? SortAlphabetically(x, y) : value;
+        }
+        
         private int ApplySortDirection(int result) => _sortDirection == SortDirection.ASCENDING ? result : result * -1;
     }
 
@@ -106,7 +114,8 @@ namespace TroopManager {
         ALPHABETICAL,
         TYPE,
         GROUP,
-        TIER
+        TIER,
+        CULTURE
     }
 
     [SaveableEnum(13337200)]

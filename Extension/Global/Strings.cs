@@ -1,4 +1,4 @@
-﻿namespace TroopManager {
+﻿namespace TroopManager.Global {
     public static class Strings {
         public const string ALPHABETICAL_TEXT_ASCENDING = "AZ";
         public const string ALPHABETICAL_TEXT_DESCENDING = "ZA";
@@ -21,5 +21,7 @@
         public const string TIER_HINT_TEXT_DESCENDING = "Sort troops by descending tier order";
         public const string UPGRADABLE_ON_TOP_HINT_TEXT_ON = "Place upgradable troops normally";
         public const string UPGRADABLE_ON_TOP_HINT_TEXT_OFF = "Place upgradable troops on top";
+        public const string UPGRADE_HINT_TEXT = "Upgrade all toops with single upgrade path";
+        public const string RECRUIT_HINT_TEXT = "Recruit all recruitable prisoners (Hold control to override party size limit)";
     }
 }

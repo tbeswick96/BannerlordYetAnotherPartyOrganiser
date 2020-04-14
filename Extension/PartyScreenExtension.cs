@@ -13,4 +13,10 @@ namespace TroopManager {
         public override int Position => PositionLast;
         public override string Name => "OtherTroopSortButtons";
     }
+    
+    [PrefabExtension("PartyScreen", "descendant::PartyScreenWidget[@Id='PartyScreen']/Children")]
+    public class TroopActionButtonsExtension : PrefabExtensionInsertPatch {
+        public override int Position => PositionLast;
+        public override string Name => "TroopActionButtons";
+    }
 }

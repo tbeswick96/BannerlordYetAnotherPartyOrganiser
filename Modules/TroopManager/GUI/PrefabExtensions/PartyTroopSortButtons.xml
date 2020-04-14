@@ -32,10 +32,10 @@
                 <ButtonIconOffsetWidget DoNotPassEventsToChildren="true" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Brush="MapBar.Left.Button4" ButtonIcon="GroupTextIcon" Command.Click="ExecuteSortGroupParty" PressedXOffset="0" PressedYOffset="1" UpdateChildrenStates="true">
                     <Children>
                         <TextWidget Id="GroupTextIcon" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="50" SuggestedHeight="45" HorizontalAlignment="Center" VerticalAlignment="Center" MarginTop="2" Brush="Party.Text.Toggle" Text="@SortGroupPartyText"/>
-                        <HintWidget DataSource="{SortGroupHintPartyText}" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Command.HoverBegin="ExecuteBeginHint" Command.HoverEnd="ExecuteEndHint" IsDisabled="true" />
+                        <HintWidget DataSource="{SortGroupPartyHintText}" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Command.HoverBegin="ExecuteBeginHint" Command.HoverEnd="ExecuteEndHint" IsDisabled="true" />
                     </Children>
                 </ButtonIconOffsetWidget>
-                <HintWidget DataSource="{SortGroupHintPartyText}" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Command.HoverBegin="ExecuteBeginHint" Command.HoverEnd="ExecuteEndHint" IsDisabled="true" />
+                <HintWidget DataSource="{SortGroupPartyHintText}" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Command.HoverBegin="ExecuteBeginHint" Command.HoverEnd="ExecuteEndHint" IsDisabled="true" />
             </Children>
         </Widget>
 

@@ -8,147 +8,169 @@ using TaleWorlds.CampaignSystem.ViewModelCollection;
 using TaleWorlds.Core;
 using TaleWorlds.Core.ViewModelCollection;
 using TaleWorlds.Library;
+using TroopManager.Global;
+using TroopManager.Services;
 using UIExtenderLib;
 using UIExtenderLib.ViewModel;
 
 namespace TroopManager {
     [ViewModelMixin, SuppressMessage("ReSharper", "UnusedMember.Global")]
     public class PartyVmMixin : BaseViewModelMixin<PartyVM> {
-        private readonly Sorter _sorterOther;
-        private readonly Sorter _sorterParty;
+        private readonly TroopSorterService _otherTroopSorterService;
+        private readonly TroopSorterService _partyTroopSorterService;
         private PartyScreenLogic _partyScreenLogic;
 
         public PartyVmMixin(PartyVM viewModel) : base(viewModel) {
-            _sorterParty = MBObjectManager.Instance.GetObject<Sorter>(x => x.SortSide == SortSide.PARTY);
-            if (_sorterParty == null) {
-                _sorterParty = MBObjectManager.Instance.CreateObject<Sorter>();
-                _sorterParty.SortSide = SortSide.PARTY;
+            _partyTroopSorterService = MBObjectManager.Instance.GetObject<TroopSorterService>(x => x.SortSide == SortSide.PARTY);
+            if (_partyTroopSorterService == null) {
+                _partyTroopSorterService = MBObjectManager.Instance.CreateObject<TroopSorterService>();
+                _partyTroopSorterService.SortSide = SortSide.PARTY;
             }
 
-            _sorterOther = MBObjectManager.Instance.GetObject<Sorter>(x => x.SortSide == SortSide.OTHER);
-            if (_sorterOther == null) {
-                _sorterOther = MBObjectManager.Instance.CreateObject<Sorter>();
-                _sorterParty.SortSide = SortSide.OTHER;
+            _otherTroopSorterService = MBObjectManager.Instance.GetObject<TroopSorterService>(x => x.SortSide == SortSide.OTHER);
+            if (_otherTroopSorterService == null) {
+                _otherTroopSorterService = MBObjectManager.Instance.CreateObject<TroopSorterService>();
+                _partyTroopSorterService.SortSide = SortSide.OTHER;
             }
         }
 
         // Party Buttons
         [DataSourceProperty]
-        public string SortAlphabeticalPartyText => ResolveText(_sorterParty, SortMode.ALPHABETICAL, Strings.ALPHABETICAL_TEXT_ASCENDING, Strings.ALPHABETICAL_TEXT_DESCENDING);
+        public string SortAlphabeticalPartyText => ResolveText(_partyTroopSorterService, SortMode.ALPHABETICAL, Strings.ALPHABETICAL_TEXT_ASCENDING, Strings.ALPHABETICAL_TEXT_DESCENDING);
 
         [DataSourceProperty]
-        public HintViewModel SortAlphabeticalPartyHintText => new HintViewModel(ResolveText(_sorterParty, SortMode.ALPHABETICAL, Strings.ALPHABETICAL_HINT_TEXT_ASCENDING, Strings.ALPHABETICAL_HINT_TEXT_DESCENDING));
+        public HintViewModel SortAlphabeticalPartyHintText => new HintViewModel(ResolveText(_partyTroopSorterService, SortMode.ALPHABETICAL, Strings.ALPHABETICAL_HINT_TEXT_ASCENDING, Strings.ALPHABETICAL_HINT_TEXT_DESCENDING));
 
         [DataSourceProperty]
-        public string SortTypePartyText => ResolveText(_sorterParty, SortMode.TYPE, Strings.TYPE_TEXT_ASCENDING, Strings.TYPE_TEXT_DESCENDING);
+        public string SortTypePartyText => ResolveText(_partyTroopSorterService, SortMode.TYPE, Strings.TYPE_TEXT_ASCENDING, Strings.TYPE_TEXT_DESCENDING);
 
         [DataSourceProperty]
-        public HintViewModel SortTypePartyHintText => new HintViewModel(ResolveText(_sorterParty, SortMode.TYPE, Strings.TYPE_HINT_TEXT_ASCENDING, Strings.TYPE_HINT_TEXT_DESCENDING));
+        public HintViewModel SortTypePartyHintText => new HintViewModel(ResolveText(_partyTroopSorterService, SortMode.TYPE, Strings.TYPE_HINT_TEXT_ASCENDING, Strings.TYPE_HINT_TEXT_DESCENDING));
 
         [DataSourceProperty]
-        public string SortGroupPartyText => ResolveText(_sorterParty, SortMode.GROUP, Strings.GROUP_TEXT_ASCENDING, Strings.GROUP_TEXT_DESCENDING);
+        public string SortGroupPartyText => ResolveText(_partyTroopSorterService, SortMode.GROUP, Strings.GROUP_TEXT_ASCENDING, Strings.GROUP_TEXT_DESCENDING);
 
         [DataSourceProperty]
-        public HintViewModel SortGroupPartyHintText => new HintViewModel(ResolveText(_sorterParty, SortMode.GROUP, Strings.GROUP_HINT_TEXT_ASCENDING, Strings.GROUP_HINT_TEXT_DESCENDING));
+        public HintViewModel SortGroupPartyHintText => new HintViewModel(ResolveText(_partyTroopSorterService, SortMode.GROUP, Strings.GROUP_HINT_TEXT_ASCENDING, Strings.GROUP_HINT_TEXT_DESCENDING));
 
         [DataSourceProperty]
-        public string SortTierPartyText => ResolveText(_sorterParty, SortMode.TIER, Strings.TIER_TEXT_ASCENDING, Strings.TIER_TEXT_DESCENDING);
+        public string SortTierPartyText => ResolveText(_partyTroopSorterService, SortMode.TIER, Strings.TIER_TEXT_ASCENDING, Strings.TIER_TEXT_DESCENDING);
 
         [DataSourceProperty]
-        public HintViewModel SortTierPartyHintText => new HintViewModel(ResolveText(_sorterParty, SortMode.TIER, Strings.TIER_HINT_TEXT_ASCENDING, Strings.TIER_HINT_TEXT_DESCENDING));
+        public HintViewModel SortTierPartyHintText => new HintViewModel(ResolveText(_partyTroopSorterService, SortMode.TIER, Strings.TIER_HINT_TEXT_ASCENDING, Strings.TIER_HINT_TEXT_DESCENDING));
 
         [DataSourceProperty]
-        public string UpgradableOnTopText => _sorterParty == null ? "NULL" : _sorterParty.UpgradableOnTop ? Strings.UPGRADABLE_ON_TOP_TEXT_ON : Strings.UPGRADABLE_ON_TOP_TEXT_OFF;
+        public string UpgradableOnTopText => _partyTroopSorterService == null ? "NULL" : _partyTroopSorterService.UpgradableOnTop ? Strings.UPGRADABLE_ON_TOP_TEXT_ON : Strings.UPGRADABLE_ON_TOP_TEXT_OFF;
 
         [DataSourceProperty]
-        public HintViewModel UpgradableOnTopHintText => new HintViewModel(_sorterParty == null ? "NULL" : _sorterParty.UpgradableOnTop ? Strings.UPGRADABLE_ON_TOP_HINT_TEXT_ON : Strings.UPGRADABLE_ON_TOP_HINT_TEXT_OFF);
+        public HintViewModel UpgradableOnTopHintText => new HintViewModel(_partyTroopSorterService == null ? "NULL" : _partyTroopSorterService.UpgradableOnTop ? Strings.UPGRADABLE_ON_TOP_HINT_TEXT_ON : Strings.UPGRADABLE_ON_TOP_HINT_TEXT_OFF);
 
         // Other buttons
         [DataSourceProperty]
-        public string SortAlphabeticalOtherText => ResolveText(_sorterOther, SortMode.ALPHABETICAL, Strings.ALPHABETICAL_TEXT_ASCENDING, Strings.ALPHABETICAL_TEXT_DESCENDING);
+        public string SortAlphabeticalOtherText => ResolveText(_otherTroopSorterService, SortMode.ALPHABETICAL, Strings.ALPHABETICAL_TEXT_ASCENDING, Strings.ALPHABETICAL_TEXT_DESCENDING);
 
         [DataSourceProperty]
-        public HintViewModel SortAlphabeticalOtherHintText => new HintViewModel(ResolveText(_sorterOther, SortMode.ALPHABETICAL, Strings.ALPHABETICAL_HINT_TEXT_ASCENDING, Strings.ALPHABETICAL_HINT_TEXT_DESCENDING));
+        public HintViewModel SortAlphabeticalOtherHintText => new HintViewModel(ResolveText(_otherTroopSorterService, SortMode.ALPHABETICAL, Strings.ALPHABETICAL_HINT_TEXT_ASCENDING, Strings.ALPHABETICAL_HINT_TEXT_DESCENDING));
 
         [DataSourceProperty]
-        public string SortTypeOtherText => ResolveText(_sorterOther, SortMode.TYPE, Strings.TYPE_TEXT_ASCENDING, Strings.TYPE_TEXT_DESCENDING);
+        public string SortTypeOtherText => ResolveText(_otherTroopSorterService, SortMode.TYPE, Strings.TYPE_TEXT_ASCENDING, Strings.TYPE_TEXT_DESCENDING);
 
         [DataSourceProperty]
-        public HintViewModel SortTypeOtherHintText => new HintViewModel(ResolveText(_sorterOther, SortMode.TYPE, Strings.TYPE_HINT_TEXT_ASCENDING, Strings.TYPE_HINT_TEXT_DESCENDING));
+        public HintViewModel SortTypeOtherHintText => new HintViewModel(ResolveText(_otherTroopSorterService, SortMode.TYPE, Strings.TYPE_HINT_TEXT_ASCENDING, Strings.TYPE_HINT_TEXT_DESCENDING));
 
         [DataSourceProperty]
-        public string SortGroupOtherText => ResolveText(_sorterOther, SortMode.GROUP, Strings.GROUP_TEXT_ASCENDING, Strings.GROUP_TEXT_DESCENDING);
+        public string SortGroupOtherText => ResolveText(_otherTroopSorterService, SortMode.GROUP, Strings.GROUP_TEXT_ASCENDING, Strings.GROUP_TEXT_DESCENDING);
 
         [DataSourceProperty]
-        public HintViewModel SortGroupOtherHintText => new HintViewModel(ResolveText(_sorterOther, SortMode.GROUP, Strings.GROUP_HINT_TEXT_ASCENDING, Strings.GROUP_HINT_TEXT_DESCENDING));
+        public HintViewModel SortGroupOtherHintText => new HintViewModel(ResolveText(_otherTroopSorterService, SortMode.GROUP, Strings.GROUP_HINT_TEXT_ASCENDING, Strings.GROUP_HINT_TEXT_DESCENDING));
 
         [DataSourceProperty]
-        public string SortTierOtherText => ResolveText(_sorterOther, SortMode.TIER, Strings.TIER_TEXT_ASCENDING, Strings.TIER_TEXT_DESCENDING);
+        public string SortTierOtherText => ResolveText(_otherTroopSorterService, SortMode.TIER, Strings.TIER_TEXT_ASCENDING, Strings.TIER_TEXT_DESCENDING);
 
         [DataSourceProperty]
-        public HintViewModel SortTierOtherHintText => new HintViewModel(ResolveText(_sorterOther, SortMode.TIER, Strings.TIER_HINT_TEXT_ASCENDING, Strings.TIER_HINT_TEXT_DESCENDING));
+        public HintViewModel SortTierOtherHintText => new HintViewModel(ResolveText(_otherTroopSorterService, SortMode.TIER, Strings.TIER_HINT_TEXT_ASCENDING, Strings.TIER_HINT_TEXT_DESCENDING));
+
+        // Action buttons
+        [DataSourceProperty]
+        public HintViewModel ActionUpgradeHintText => new HintViewModel(Strings.UPGRADE_HINT_TEXT);
+
+        [DataSourceProperty]
+        public HintViewModel ActionRecruitHintText => new HintViewModel(Strings.RECRUIT_HINT_TEXT);
 
         // Party Buttons
         [DataSourceMethod]
         public void ExecuteSortAlphabeticalParty() {
-            Helpers.DebugMessage("Party Alphabetical Sort Pressed");
+            Global.Helpers.DebugMessage("Party Alphabetical Sort Pressed");
             SortParty(SortMode.ALPHABETICAL);
         }
 
         [DataSourceMethod]
         public void ExecuteSortTypeParty() {
-            Helpers.DebugMessage("Party Type Sort Pressed");
+            Global.Helpers.DebugMessage("Party Type Sort Pressed");
             SortParty(SortMode.TYPE);
         }
 
         [DataSourceMethod]
         public void ExecuteSortGroupParty() {
-            Helpers.DebugMessage("Party Group Sort Pressed");
+            Global.Helpers.DebugMessage("Party Group Sort Pressed");
             SortParty(SortMode.GROUP);
         }
 
         [DataSourceMethod]
         public void ExecuteSortTierParty() {
-            Helpers.DebugMessage("Party Tier Sort Pressed");
+            Global.Helpers.DebugMessage("Party Tier Sort Pressed");
             SortParty(SortMode.TIER);
         }
 
         [DataSourceMethod]
         public void ExecuteUpgradableOnTop() {
-            Helpers.DebugMessage("Party Upgradable on top toggled");
-            _sorterParty.UpgradableOnTop = !_sorterParty.UpgradableOnTop;
-            SortParty(_sorterParty.CurrentSortMode, true);
+            Global.Helpers.DebugMessage("Party Upgradable on top toggled");
+            _partyTroopSorterService.UpgradableOnTop = !_partyTroopSorterService.UpgradableOnTop;
+            SortParty(_partyTroopSorterService.CurrentSortMode, true);
         }
 
         // Other buttons
         [DataSourceMethod]
         public void ExecuteSortAlphabeticalOther() {
-            Helpers.DebugMessage("Other Alphabetical Sort Pressed");
+            Global.Helpers.DebugMessage("Other Alphabetical Sort Pressed");
             SortOther(SortMode.ALPHABETICAL);
         }
 
         [DataSourceMethod]
         public void ExecuteSortTypeOther() {
-            Helpers.DebugMessage("Other Type Sort Pressed");
+            Global.Helpers.DebugMessage("Other Type Sort Pressed");
             SortOther(SortMode.TYPE);
         }
 
         [DataSourceMethod]
         public void ExecuteSortGroupOther() {
-            Helpers.DebugMessage("Other Group Sort Pressed");
+            Global.Helpers.DebugMessage("Other Group Sort Pressed");
             SortOther(SortMode.GROUP);
         }
 
         [DataSourceMethod]
         public void ExecuteSortTierOther() {
-            Helpers.DebugMessage("Other Tier Sort Pressed");
+            Global.Helpers.DebugMessage("Other Tier Sort Pressed");
             SortOther(SortMode.TIER);
         }
 
-        private static string ResolveText(Sorter sorter, SortMode targetSortMode, string ascendingText, string descendingText) {
-            if (sorter == null) return "NULL";
+        // Action buttons
+        [DataSourceMethod]
+        public void ExecuteActionUpgrade() {
+            Global.Helpers.DebugMessage("Action upgrade Pressed");
+            UpgradeTroops();
+        }
 
-            return sorter.CurrentSortMode == targetSortMode && sorter.SortDirection == SortDirection.ASCENDING ? descendingText : ascendingText;
+        [DataSourceMethod]
+        public void ExecuteActionRecruit() {
+            Global.Helpers.DebugMessage("Action recruit Pressed");
+            RecruitPrisoners();
+        }
+
+        private static string ResolveText(TroopSorterService troopSorterService, SortMode targetSortMode, string ascendingText, string descendingText) {
+            if (troopSorterService == null) return "NULL";
+
+            return troopSorterService.CurrentSortMode == targetSortMode && troopSorterService.SortDirection == SortDirection.ASCENDING ? descendingText : ascendingText;
         }
 
         public override void Refresh() {
@@ -164,21 +186,21 @@ namespace TroopManager {
 
         private void SortParty(SortMode sortMode, bool skipDirectionFlip = false) {
             GetPartyScreenLogic();
-            _sorterParty.UpdateSortingMode(sortMode, skipDirectionFlip);
-            SortRoster(_sorterParty, _partyScreenLogic.PrisonerRosters[1], _vm.MainPartyPrisoners, newPartyList => { _vm.MainPartyPrisoners = newPartyList; });
-            SortRoster(_sorterParty, _partyScreenLogic.MemberRosters[1], _vm.MainPartyTroops, newPartyList => { _vm.MainPartyTroops = newPartyList; });
+            _partyTroopSorterService.UpdateSortingMode(sortMode, skipDirectionFlip);
+            SortRoster(_partyTroopSorterService, _partyScreenLogic.PrisonerRosters[1], _vm.MainPartyPrisoners, newPartyList => { _vm.MainPartyPrisoners = newPartyList; });
+            SortRoster(_partyTroopSorterService, _partyScreenLogic.MemberRosters[1], _vm.MainPartyTroops, newPartyList => { _vm.MainPartyTroops = newPartyList; });
             UpdateView();
         }
 
         private void SortOther(SortMode sortMode, bool skipDirectionFlip = false) {
             GetPartyScreenLogic();
-            _sorterOther.UpdateSortingMode(sortMode, skipDirectionFlip);
-            SortRoster(_sorterOther, _partyScreenLogic.PrisonerRosters[0], _vm.OtherPartyPrisoners, newPartyList => { _vm.OtherPartyPrisoners = newPartyList; });
-            SortRoster(_sorterOther, _partyScreenLogic.MemberRosters[0], _vm.OtherPartyTroops, newPartyList => { _vm.OtherPartyTroops = newPartyList; });
+            _otherTroopSorterService.UpdateSortingMode(sortMode, skipDirectionFlip);
+            SortRoster(_otherTroopSorterService, _partyScreenLogic.PrisonerRosters[0], _vm.OtherPartyPrisoners, newPartyList => { _vm.OtherPartyPrisoners = newPartyList; });
+            SortRoster(_otherTroopSorterService, _partyScreenLogic.MemberRosters[0], _vm.OtherPartyTroops, newPartyList => { _vm.OtherPartyTroops = newPartyList; });
             UpdateView();
         }
 
-        private static void SortRoster(Sorter sorter, TroopRoster troopRoster, ICollection<PartyCharacterVM> partyList, Action<MBBindingList<PartyCharacterVM>> apply) {
+        private static void SortRoster(TroopSorterService troopSorterService, TroopRoster troopRoster, ICollection<PartyCharacterVM> partyList, Action<MBBindingList<PartyCharacterVM>> apply) {
             FieldInfo troopRosterDataField = troopRoster.GetType().GetField("data", BindingFlags.NonPublic | BindingFlags.Instance);
             TroopRosterElement[] originalTroops = (TroopRosterElement[]) troopRosterDataField?.GetValue(troopRoster);
             if (originalTroops == null) return;
@@ -188,7 +210,7 @@ namespace TroopManager {
             List<TroopRosterElement> heroTroops = originalTroopList.Where(x => x.Character.IsHero && !x.Character.IsPlayerCharacter).ToList();
             TroopRosterElement player = originalTroopList.FirstOrDefault(x => x.Character.IsPlayerCharacter);
 
-            sorter.Sort(ref sortedTroops, ref heroTroops);
+            troopSorterService.Sort(ref sortedTroops, ref heroTroops);
             if (heroTroops.Count > 0) sortedTroops.InsertRange(0, heroTroops);
             if (player.Character != null) sortedTroops.Insert(0, player);
             troopRosterDataField.SetValue(troopRoster, sortedTroops.ToArray());
@@ -201,6 +223,26 @@ namespace TroopManager {
             }
 
             apply(newTroopList);
+        }
+
+        private void UpgradeTroops() {
+            GetPartyScreenLogic();
+            (int upgradedTotal, int upgradedTypes, int multiPathSkipped) = TroopActionService.UpgradeTroops(_vm, _partyScreenLogic);
+            if (upgradedTotal == 0) return;
+
+            _vm.CurrentCharacter = _vm.MainPartyTroops[0];
+            RefreshInformation();
+            Global.Helpers.Message($"Upgraded {upgradedTotal} troops over {upgradedTypes} types. {multiPathSkipped} troop types with mulit-path upgrades were skipped");
+        }
+
+        private void RecruitPrisoners() {
+            GetPartyScreenLogic();
+            (int recruitedTotal, int recruitedTypes) = TroopActionService.RecruitPrisoners(_vm, _partyScreenLogic);
+            if (recruitedTotal == 0) return;
+            
+            _vm.CurrentCharacter = _vm.MainPartyTroops[0];
+            RefreshInformation();
+            Global.Helpers.Message($"Recruited {recruitedTotal} prisoners over {recruitedTypes} types");
         }
 
         private void UpdateView() {
@@ -222,6 +264,15 @@ namespace TroopManager {
             _vm.OnPropertyChanged(nameof(SortGroupOtherHintText));
             _vm.OnPropertyChanged(nameof(SortTierOtherText));
             _vm.OnPropertyChanged(nameof(SortTierOtherHintText));
+        }
+
+        private void RefreshInformation() {
+            MethodInfo refreshPrisonersRecruitable = _vm.GetType().BaseType?.GetMethod("RefreshPrisonersRecruitable", BindingFlags.NonPublic | BindingFlags.Instance);
+            refreshPrisonersRecruitable?.Invoke(_vm, new object[0]);
+            MethodInfo refreshTopInformation = _vm.GetType().BaseType?.GetMethod("RefreshTopInformation", BindingFlags.NonPublic | BindingFlags.Instance);
+            refreshTopInformation?.Invoke(_vm, new object[0]);
+            MethodInfo refreshPartyInformation = _vm.GetType().BaseType?.GetMethod("RefreshPartyInformation", BindingFlags.NonPublic | BindingFlags.Instance);
+            refreshPartyInformation?.Invoke(_vm, new object[0]);
         }
     }
 }

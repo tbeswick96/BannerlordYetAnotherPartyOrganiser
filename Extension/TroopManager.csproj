@@ -32,6 +32,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoPartyManager, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\AutoPartyManager\bin\Win64_Shipping_Client\AutoPartyManager.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="SortParty, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\SortParty\bin\Win64_Shipping_Client\SortParty.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
@@ -256,14 +264,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Helpers.cs" />
-    <Compile Include="Strings.cs" />
+    <Compile Include="Global\Helpers.cs" />
+    <Compile Include="Global\States.cs" />
+    <Compile Include="Global\Strings.cs" />
+    <Compile Include="Services\TroopActionService.cs" />
+    <Compile Include="Services\TroopSorterService.cs" />
     <Compile Include="TroopManagerSubModule.cs" />
     <Compile Include="PartyVmMixin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SavableSorterPropertiesTypeDefiner.cs" />
-    <Compile Include="Sorter.cs" />
-    <Compile Include="TroopSortButtonsExtension.cs" />
+    <Compile Include="TroopManagerSavableTypeDefiner.cs" />
+    <Compile Include="PartyScreenExtension.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
