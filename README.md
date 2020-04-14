@@ -8,6 +8,9 @@
   - Tier
   - Culture
   - Count
+- Two sorting modes can be selected through two drop downs
+  - Sorting is treated as a Sort By -> Then By
+  - Button to set opposite sorting direction between the Sort By -> Then By Modes, to allow more granular sorting rules
 - Button to place upgradable troops at the top of the list
 - Button to upgrade upgradable single-path troops
-- Button to recruit recruitable prisoners - sort order is repsected, party limit is respected but can be overtride by holding CTRL
+- Button to recruit recruitable prisoners - sort order is respected, party limit is respected but can be overridden by holding CTRL
