@@ -2,12 +2,12 @@
 using TaleWorlds.Core;
 using TaleWorlds.InputSystem;
 using TaleWorlds.MountAndBlade;
-using TroopManager.Global;
-using TroopManager.Services;
 using UIExtenderLib;
+using YAPO.Global;
+using YAPO.Services;
 
-namespace TroopManager {
-    public class TroopManagerSubModule : MBSubModuleBase {
+namespace YAPO {
+    public class YapoSubModule : MBSubModuleBase {
         protected override void OnSubModuleLoad() {
             base.OnSubModuleLoad();
             UIExtender.Register();

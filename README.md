@@ -1,9 +1,13 @@
-# Mount &amp; Blade II: Bannerlord - Troop Manager Mod
+# Mount &amp; Blade II: Bannerlord - Yet Another Party Organiser (YAPO)
 
-- Adds buttons to party screen to allow sorting of party troops
+- Adds sorting to party screen to enable sorting of troops
 - Sorting modes:
   - Alphabetical (Name)
   - Type (Infantry, Ranged, Cavalry etc)
   - Group (Formation group)
   - Tier
-- Button to sort upgradable troops at the top of the list
+  - Culture
+  - Count
+- Button to place upgradable troops at the top of the list
+- Button to upgrade upgradable single-path troops
+- Button to recruit recruitable prisoners - sort order is repsected, party limit is respected but can be overtride by holding CTRL

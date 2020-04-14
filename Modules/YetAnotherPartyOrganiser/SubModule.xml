@@ -1,6 +1,6 @@
 <Module>
-    <Name value="Troop Manager"/>
-    <Id value="TroopManager"/>
+    <Name value="Yet Another Party Organiser"/>
+    <Id value="YetAnotherPartyOrganiser"/>
     <Version value="v1.0.0"/>
     <SingleplayerModule value="true"/>
     <MultiplayerModule value="false"/>
@@ -15,9 +15,9 @@
     </DependedModules>
     <SubModules>
         <SubModule>
-            <Name value="TroopManager"/>
-            <DLLName value="TroopManager.dll"/>
-            <SubModuleClassType value="TroopManager.TroopManagerSubModule"/>
+            <Name value="YetAnotherPartyOrganiser"/>
+            <DLLName value="YAPO.dll"/>
+            <SubModuleClassType value="YAPO.YapoSubModule"/>
             <Tags>
                 <Tag key="DedicatedServerType" value="none" />
                 <Tag key="IsNoRenderModeElement" value="false" />
