@@ -139,7 +139,7 @@
         <ListPanel WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" LayoutImp.LayoutMethod="HorizontalLeftToRight">
             <Children>
                 <!-- Sort Order -->
-                <Widget Id="PartySortOrderOppositeButton" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="76" SuggestedHeight="52" HorizontalAlignment="Right" VerticalAlignment="Top" MarginTop="4" UpdateChildrenStates="true">
+                <Widget Id="PartySortOrderOppositeButton" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="76" SuggestedHeight="52" HorizontalAlignment="Right" VerticalAlignment="Top" MarginTop="2" UpdateChildrenStates="true">
                     <Children>
                         <ButtonIconOffsetWidget DoNotPassEventsToChildren="true" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Brush="MapBar.Left.Button4" ButtonIcon="PartySortOrderOppositeTextIcon" Command.Click="ExecutePartySortOrderOpposite" PressedXOffset="0" PressedYOffset="1" UpdateChildrenStates="true">
                             <Children>
@@ -152,7 +152,7 @@
                 </Widget>
                 
                 <!-- Upgradable troops on top -->
-                <Widget Id="UpgradableOnTopButton" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="76" SuggestedHeight="52" HorizontalAlignment="Right" VerticalAlignment="Top" MarginTop="4" MarginLeft="4" UpdateChildrenStates="true">
+                <Widget Id="UpgradableOnTopButton" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="76" SuggestedHeight="52" HorizontalAlignment="Right" VerticalAlignment="Top" MarginTop="2" MarginLeft="4" UpdateChildrenStates="true">
                     <Children>
                         <ButtonIconOffsetWidget DoNotPassEventsToChildren="true" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Brush="MapBar.Left.Button4" ButtonIcon="UpgradableOnTopTextIcon" Command.Click="ExecuteUpgradableOnTop" PressedXOffset="0" PressedYOffset="1" UpdateChildrenStates="true">
                             <Children>

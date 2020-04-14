@@ -20,7 +20,7 @@ namespace YAPO {
         }
 
         protected override void OnApplicationTick(float dt) {
-            if (Campaign.Current == null || Campaign.Current.CurrentMenuContext != null && (!Campaign.Current.CurrentMenuContext.GameMenu.IsWaitActive || Campaign.Current.TimeControlModeLock)) {
+            if (States.PartyVmMixin == null || Campaign.Current == null || Campaign.Current.CurrentMenuContext != null && (!Campaign.Current.CurrentMenuContext.GameMenu.IsWaitActive || Campaign.Current.TimeControlModeLock)) {
                 return;
             }
 
@@ -32,6 +32,19 @@ namespace YAPO {
                 if (States.HotkeyControl) {
                     States.HotkeyControl = false;
                 }
+            }
+
+            if (!Input.IsKeyDown(InputKey.LeftControl) || !Input.IsKeyDown(InputKey.LeftShift)) return;
+            if (Input.IsKeyPressed(InputKey.A)) {
+                States.PartyVmMixin.ExecuteSortPartyAscending();
+                States.PartyVmMixin.ExecuteSortOtherAscending();
+            } else if (Input.IsKeyPressed(InputKey.D)) {
+                States.PartyVmMixin.ExecuteSortPartyDescending();
+                States.PartyVmMixin.ExecuteSortOtherDescending();
+            } else if (Input.IsKeyPressed(InputKey.U)) {
+                States.PartyVmMixin.ExecuteActionUpgrade();
+            } else if (Input.IsKeyPressed(InputKey.R)) {
+                States.PartyVmMixin.ExecuteActionRecruit();
             }
         }
     }

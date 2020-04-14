@@ -26,6 +26,7 @@ namespace YAPO {
         private MBBindingList<SortByModeOptionVm> _otherThenByModeOptionVms;
 
         public PartyVmMixin(PartyVM viewModel) : base(viewModel) {
+            States.PartyVmMixin = this;
             _partyTroopSorterService = MBObjectManager.Instance.GetObject<TroopSorterService>(x => x.SortSide == SortSide.PARTY);
             if (_partyTroopSorterService == null) {
                 _partyTroopSorterService = MBObjectManager.Instance.CreateObject<TroopSorterService>();
@@ -330,6 +331,10 @@ namespace YAPO {
 
         public override void Refresh() {
             UpdateView();
+        }
+
+        public override void Destroy() {
+            States.PartyVmMixin = null;
         }
 
         private void GetPartyScreenLogic() {
