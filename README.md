@@ -1,6 +1,8 @@
 # Mount &amp; Blade II: Bannerlord - Yet Another Party Organiser (YAPO)
 
-## Another party organisation mod to add to your ever expanding collection!
+[Nexus Link](https://www.nexusmods.com/mountandblade2bannerlord/mods/539)
+
+### Another party organisation mod to add to your ever expanding collection!
 
 _**Disclaimer**: Yes I know a lot of these mods have been released in the space of a few days. All us mod devs had the same ideas and have implemented similar solutions in different ways. Over the course of the next few weeks it's likely some of these mods will either lose support from their dev(s), or be merged into one feature-complete mod that everyone can use. Other mod devs see note at bottom about this._
 
