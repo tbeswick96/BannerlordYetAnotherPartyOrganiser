@@ -7,6 +7,7 @@
 _**Disclaimer**: Yes I know a lot of these mods have been released in the space of a few days. All us mod devs had the same ideas and have implemented similar solutions in different ways. Over the course of the next few weeks it's likely some of these mods will either lose support from their dev(s), or be merged into one feature-complete mod that everyone can use. Other mod devs see note at bottom about this._
 
 **Important - Save Game Compatibility**
+
 - This mod makes use of the engine saving mechanic to store your sorting configuration.
 - This allows your sorting configuration to persist between game sessions.
 - As a result, if you remove this mod having saved your game with this mod loaded, it's likely your save will not load.
