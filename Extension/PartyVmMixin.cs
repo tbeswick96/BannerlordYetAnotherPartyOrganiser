@@ -71,6 +71,16 @@ namespace YAPO {
 
         public override void Refresh() {
             RefreshView();
+
+            GetPartyScreenLogic();
+            if (_partyScreenLogic == null) return;
+            
+            // Fix for Party prisoner roster being empty when it shouldn't be, causing crashes
+            FieldInfo troopRosterDataField = _partyScreenLogic.PrisonerRosters[1].GetType().GetField("data", BindingFlags.NonPublic | BindingFlags.Instance);
+            TroopRosterElement[] originalTroops = (TroopRosterElement[]) troopRosterDataField?.GetValue(_partyScreenLogic.PrisonerRosters[1]);
+            if (originalTroops != null && originalTroops.Length == 0) {
+                troopRosterDataField.SetValue(_partyScreenLogic.PrisonerRosters[1], new TroopRosterElement[4]);
+            }
         }
 
         public override void Destroy() {

@@ -18,7 +18,7 @@ namespace YAPO.Services {
             int upgradedTotal = 0;
             int upgradedTypes = 0;
             int multiPathSkipped = 0;
-            Dictionary<PartyCharacterVM, PartyScreenLogic.PartyCommand> commands = new Dictionary<PartyCharacterVM, PartyScreenLogic.PartyCommand>();
+            List<Tuple<PartyCharacterVM, PartyScreenLogic.PartyCommand>> commands = new List<Tuple<PartyCharacterVM, PartyScreenLogic.PartyCommand>>();
             foreach (PartyCharacterVM troops in upgradablePrisoners) {
                 if (troops.IsUpgrade2Exists) {
                     multiPathSkipped++;
@@ -31,7 +31,7 @@ namespace YAPO.Services {
 
                 PartyScreenLogic.PartyCommand upgradeCommand = new PartyScreenLogic.PartyCommand();
                 upgradeCommand.FillForUpgradeTroop(troops.Side, troops.Type, troops.Character, troopsToUpgrade, PartyScreenLogic.PartyCommand.UpgradeTargetType.UpgradeTarget1);
-                commands.Add(troops, upgradeCommand);
+                commands.Add(new Tuple<PartyCharacterVM, PartyScreenLogic.PartyCommand>(troops, upgradeCommand));
             }
 
             if (upgradedTotal == 0) {
@@ -45,15 +45,21 @@ namespace YAPO.Services {
                 return (0, 0, 0);
             }
 
-            foreach (KeyValuePair<PartyCharacterVM, PartyScreenLogic.PartyCommand> command in commands) {
-                partyVm.CurrentCharacter = command.Key;
-                upgradeTroop.Invoke(partyScreenLogic, new object[] {command.Value});
+            foreach ((PartyCharacterVM partyCharacterVm, PartyScreenLogic.PartyCommand command) in commands) {
+                partyVm.CurrentCharacter = partyCharacterVm;
+                upgradeTroop.Invoke(partyScreenLogic, new object[] {command});
             }
 
             return (upgradedTotal, upgradedTypes, multiPathSkipped);
         }
 
         public static (int, int) RecruitPrisoners(PartyVM partyVm, PartyScreenLogic partyScreenLogic) {
+            List<PartyCharacterVM> recruitablePrisoners = partyVm.MainPartyPrisoners.Where(x => !x.IsHero && x.NumOfRecruitablePrisoners > 0).ToList();
+            if (!recruitablePrisoners.Any()) {
+                Global.Helpers.Message("No prisoners available to recruit");
+                return (0, 0);
+            }
+            
             int partySpace = partyScreenLogic.RightOwnerParty.PartySizeLimit - partyScreenLogic.MemberRosters[1].TotalManCount;
             if (partySpace <= 0) {
                 if (States.HotkeyControl) {
@@ -64,16 +70,10 @@ namespace YAPO.Services {
                 }
             }
 
-            List<PartyCharacterVM> recruitablePrisoners = partyVm.MainPartyPrisoners.Where(x => !x.IsHero && x.NumOfRecruitablePrisoners > 0).ToList();
-            if (!recruitablePrisoners.Any()) {
-                Global.Helpers.Message("No prisoners available to recruit");
-                return (0, 0);
-            }
-
             int recruitedTypes = 0;
             int recruitedTotal = 0;
-            Dictionary<PartyCharacterVM, PartyScreenLogic.PartyCommand> commands = new Dictionary<PartyCharacterVM, PartyScreenLogic.PartyCommand>();
-            while (partySpace != 0 || States.HotkeyControl) {
+            List<Tuple<PartyCharacterVM, PartyScreenLogic.PartyCommand>> commands = new List<Tuple<PartyCharacterVM, PartyScreenLogic.PartyCommand>>();
+            while (recruitablePrisoners.Count > 0 && (partySpace != 0 || States.HotkeyControl)) {
                 PartyCharacterVM prisoners = recruitablePrisoners.First();
                 int prisonerCount = prisoners.NumOfRecruitablePrisoners;
                 int prisonersToRecruit = Math.Min(prisonerCount, partySpace);
@@ -83,7 +83,9 @@ namespace YAPO.Services {
 
                 PartyScreenLogic.PartyCommand recruitCommand = new PartyScreenLogic.PartyCommand();
                 recruitCommand.FillForRecruitTroop(prisoners.Side, prisoners.Type, prisoners.Character, prisonersToRecruit);
-                commands.Add(prisoners, recruitCommand);
+                commands.Add(new Tuple<PartyCharacterVM, PartyScreenLogic.PartyCommand>(prisoners, recruitCommand));
+                
+                recruitablePrisoners.RemoveAt(0);
             }
 
             if (commands.Count == 0) {
@@ -97,9 +99,9 @@ namespace YAPO.Services {
                 return (0, 0);
             }
 
-            foreach (KeyValuePair<PartyCharacterVM, PartyScreenLogic.PartyCommand> command in commands) {
-                partyVm.CurrentCharacter = command.Key;
-                recruitPrisoner.Invoke(partyScreenLogic, new object[] {command.Value});
+            foreach ((PartyCharacterVM partyCharacterVm, PartyScreenLogic.PartyCommand command) in commands) {
+                partyVm.CurrentCharacter = partyCharacterVm;
+                recruitPrisoner.Invoke(partyScreenLogic, new object[] {command});
             }
 
             return (recruitedTotal, recruitedTypes);
