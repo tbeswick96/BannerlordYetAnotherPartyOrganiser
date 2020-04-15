@@ -11,7 +11,7 @@ _**Disclaimer**: Yes I know a lot of these mods have been released in the space 
 - Therefore please, BACKUP YOUR SAVES before installing this mod (or any mod, for that matter)
 - I might look into mitigating this in the future if it turns out to be a problem (e.g. instead use a config.xml file, however I was trying to avoid that)
 
-**Requires UIExtenderLib - Mod will not run without it!**
+**Requires [UIExtenderLib](https://github.com/shdwp/UIExtenderLib) - Mod will not run without it!**
 
 ## Features
 
