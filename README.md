@@ -39,6 +39,6 @@ Adds sorting functionality to party screen to enable sorting of troops
 
 ## Notes
 
-- This mod makes use of the engine saving mechanic to store your sorting configuration. This allows your configuration to persist between gamne sessions.
+- This mod makes use of the engine saving mechanic to store your sorting configuration. This allows your configuration to persist between game sessions.
 - As a result, if you remove the mod, it's likely your save will not load. Therefore please, backup your saves before using this mod
 - I might look into mitigating this in the future (potentially move to a config.xml file, however I was trying to avoid that)
