@@ -57,5 +57,6 @@ _**Disclaimer**: Yes I know a lot of these mods have been released in the space 
 ---
 
 _Notes to other mod devs who have made similar mods_
+
 As mentioned at the top, it's likely all our mods will be merged into a single (or hopefully at least only 2 or 3 at most) feature-complete mod. Personally I encourage this as long as it is/they are open source. This mod is open source, please feel free to explore my implementations. They're not perfect of course, however I discourage simple copy and pasting code into your own mod. It'd be better for us all to collaborate. I'm happy to get the ball rolling on this if there's a few of us up for it!
 If you wish to, feel free to contact me regarding any of this, or if you want to rip my mod from my cold dead hands and take it over as your own.
