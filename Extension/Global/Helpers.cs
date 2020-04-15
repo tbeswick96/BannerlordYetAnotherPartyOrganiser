@@ -14,16 +14,16 @@ namespace YAPO.Global {
         }
 
         public static string AsString(this SortMode sortByOption) {
-            return sortByOption switch {
-                SortMode.ALPHABETICAL => "Name",
-                SortMode.TYPE => "Type",
-                SortMode.GROUP => "Group",
-                SortMode.TIER => "Tier",
-                SortMode.CULTURE => "Culture",
-                SortMode.NONE => "Nothing",
-                SortMode.COUNT => "Count",
-                _ => throw new ArgumentOutOfRangeException(nameof(sortByOption), sortByOption, null)
-            };
+            switch (sortByOption) {
+                case SortMode.ALPHABETICAL: return "Name";
+                case SortMode.TYPE: return "Type";
+                case SortMode.GROUP: return "Group";
+                case SortMode.TIER: return "Tier";
+                case SortMode.CULTURE: return "Culture";
+                case SortMode.NONE: return "Nothing";
+                case SortMode.COUNT: return "Count";
+                default: throw new ArgumentOutOfRangeException(nameof(sortByOption), sortByOption, null);
+            }
         }
     }
 }

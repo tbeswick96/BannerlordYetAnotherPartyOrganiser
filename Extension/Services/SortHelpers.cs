@@ -9,29 +9,29 @@ namespace YAPO.Services {
         public static SortDirection InvertDirection(this SortDirection sortDirection) => sortDirection == SortDirection.ASCENDING ? SortDirection.DESCENDING : SortDirection.ASCENDING;
         
         public static IOrderedEnumerable<TroopRosterElement> SortBy(this IEnumerable<TroopRosterElement> troops, SortMode sortMode, SortDirection sortDirection) {
-            return sortMode switch {
-                SortMode.NONE => troops.OrderBy(x => x),
-                SortMode.ALPHABETICAL => sortDirection == SortDirection.ASCENDING ? troops.OrderBy(SortAlphabetically) : troops.OrderByDescending(SortAlphabetically),
-                SortMode.TYPE => sortDirection == SortDirection.ASCENDING ? troops.OrderBy(x => x, new TroopTypeComparer()) : troops.OrderByDescending(x => x, new TroopTypeComparer()),
-                SortMode.GROUP => sortDirection == SortDirection.ASCENDING ? troops.OrderBy(SortByGroup) : troops.OrderByDescending(SortByGroup),
-                SortMode.TIER => sortDirection == SortDirection.ASCENDING ? troops.OrderBy(SortByTier) : troops.OrderByDescending(SortByTier),
-                SortMode.CULTURE => sortDirection == SortDirection.ASCENDING ? troops.OrderBy(SortByCulture) : troops.OrderByDescending(SortByCulture),
-                SortMode.COUNT => sortDirection == SortDirection.ASCENDING ? troops.OrderBy(SortByCount) : troops.OrderByDescending(SortByCount),
-                _ => throw new ArgumentOutOfRangeException(nameof(sortMode))
-            };
+            switch (sortMode) {
+                case SortMode.NONE: return troops.OrderBy(x => x);
+                case SortMode.ALPHABETICAL: return sortDirection == SortDirection.ASCENDING ? troops.OrderBy(SortAlphabetically) : troops.OrderByDescending(SortAlphabetically);
+                case SortMode.TYPE: return sortDirection == SortDirection.ASCENDING ? troops.OrderBy(x => x, new TroopTypeComparer()) : troops.OrderByDescending(x => x, new TroopTypeComparer());
+                case SortMode.GROUP: return sortDirection == SortDirection.ASCENDING ? troops.OrderBy(SortByGroup) : troops.OrderByDescending(SortByGroup);
+                case SortMode.TIER: return sortDirection == SortDirection.ASCENDING ? troops.OrderBy(SortByTier) : troops.OrderByDescending(SortByTier);
+                case SortMode.CULTURE: return sortDirection == SortDirection.ASCENDING ? troops.OrderBy(SortByCulture) : troops.OrderByDescending(SortByCulture);
+                case SortMode.COUNT: return sortDirection == SortDirection.ASCENDING ? troops.OrderBy(SortByCount) : troops.OrderByDescending(SortByCount);
+                default: throw new ArgumentOutOfRangeException(nameof(sortMode));
+            }
         }
 
         public static IEnumerable<TroopRosterElement> ThenSortBy(this IOrderedEnumerable<TroopRosterElement> troops, SortMode sortMode, SortDirection sortDirection) {
-            return sortMode switch {
-                SortMode.NONE => troops.ThenBy(x => x),
-                SortMode.ALPHABETICAL => sortDirection == SortDirection.ASCENDING ? troops.ThenBy(SortAlphabetically) : troops.ThenByDescending(SortAlphabetically),
-                SortMode.TYPE => sortDirection == SortDirection.ASCENDING ? troops.ThenBy(x => x, new TroopTypeComparer()) : troops.ThenByDescending(x => x, new TroopTypeComparer()),
-                SortMode.GROUP => sortDirection == SortDirection.ASCENDING ? troops.ThenBy(SortByGroup) : troops.ThenByDescending(SortByGroup),
-                SortMode.TIER => sortDirection == SortDirection.ASCENDING ? troops.ThenBy(SortByTier) : troops.ThenByDescending(SortByTier),
-                SortMode.CULTURE => sortDirection == SortDirection.ASCENDING ? troops.ThenBy(SortByCulture) : troops.ThenByDescending(SortByCulture),
-                SortMode.COUNT => sortDirection == SortDirection.ASCENDING ? troops.ThenBy(SortByCount) : troops.ThenByDescending(SortByCount),
-                _ => throw new ArgumentOutOfRangeException(nameof(sortMode))
-            };
+            switch (sortMode) {
+                case SortMode.NONE: return troops.ThenBy(x => x);
+                case SortMode.ALPHABETICAL: return sortDirection == SortDirection.ASCENDING ? troops.ThenBy(SortAlphabetically) : troops.ThenByDescending(SortAlphabetically);
+                case SortMode.TYPE: return sortDirection == SortDirection.ASCENDING ? troops.ThenBy(x => x, new TroopTypeComparer()) : troops.ThenByDescending(x => x, new TroopTypeComparer());
+                case SortMode.GROUP: return sortDirection == SortDirection.ASCENDING ? troops.ThenBy(SortByGroup) : troops.ThenByDescending(SortByGroup);
+                case SortMode.TIER: return sortDirection == SortDirection.ASCENDING ? troops.ThenBy(SortByTier) : troops.ThenByDescending(SortByTier);
+                case SortMode.CULTURE: return sortDirection == SortDirection.ASCENDING ? troops.ThenBy(SortByCulture) : troops.ThenByDescending(SortByCulture);
+                case SortMode.COUNT: return sortDirection == SortDirection.ASCENDING ? troops.ThenBy(SortByCount) : troops.ThenByDescending(SortByCount);
+                default: throw new ArgumentOutOfRangeException(nameof(sortMode));
+            }
         }
 
         // Name
