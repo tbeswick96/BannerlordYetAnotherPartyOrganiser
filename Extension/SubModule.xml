@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <Module>
     <Name value="Yet Another Party Organiser"/>
     <Id value="YetAnotherPartyOrganiser"/>
@@ -16,7 +17,7 @@
     <SubModules>
         <SubModule>
             <Name value="YetAnotherPartyOrganiser"/>
-            <DLLName value="YAPO.dll"/>
+            <DLLName value="YetAnotherPartyOrganiser.dll"/>
             <SubModuleClassType value="YAPO.YapoSubModule"/>
             <Tags>
                 <Tag key="DedicatedServerType" value="none" />

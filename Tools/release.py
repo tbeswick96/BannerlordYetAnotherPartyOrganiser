@@ -188,12 +188,12 @@ def compile_extension(extensionPath, outputPath):
         print_blue("\nCompiling extension in {}".format(extensionPath))
         os.chdir(extensionPath)
         print()
-        ret = subprocess.call(["msbuild", "{}.sln".format(moduleName), "/m", "/p:Configuration=Release", "/p:OutputPath={}".format(outputPath)])
+        ret = subprocess.call(["msbuild.exe", "{}.sln".format(moduleName), "/m", "/p:Configuration=Release", "/p:OutputPath={}".format(outputPath)])
         if ret == 1:
             print_error("\nFailed to compile extension")
             return 1
     except:
-        print_error("Failed to compile extenions")
+        print_error("Failed to compile extension")
         raise
     finally:
         os.chdir(originalDir)
@@ -207,7 +207,6 @@ def main(argv):
 """)
 
     root = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
-    modulesPath = os.path.join(root, "Modules")
     releasePath = os.path.join(root, "Release")
     extensionPath = os.path.join(root, "Extension")
 
@@ -220,11 +219,8 @@ def main(argv):
     if (os.path.exists(os.path.join(root, "{}.zip".format(moduleName)))):
         os.remove(os.path.join(root, "{}.zip".format(moduleName)))
 
-    # Copy module files to release dir
-    shutil.copytree(modulesPath, os.path.join(releasePath, "Modules"))
-
     # Build extension
-    ret = compile_extension(extensionPath, os.path.join(releasePath, "Modules", moduleName, "bin/Win64_Shipping_Client"))
+    ret = compile_extension(extensionPath, os.path.join(releasePath, "Modules", moduleName))
     if ret == 1:
         raise Exception()
 

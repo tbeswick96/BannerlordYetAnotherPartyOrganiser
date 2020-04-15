@@ -63,3 +63,40 @@ _Notes to other mod devs who have made similar mods_
 
 As mentioned at the top, it's likely all our mods will be merged into a single (or hopefully at least only 2 or 3 at most) feature-complete mod. Personally I encourage this as long as it is/they are open source. This mod is open source, please feel free to explore my implementations. They're not perfect of course, however I discourage simple copy and pasting code into your own mod. It'd be better for us all to collaborate. I'm happy to get the ball rolling on this if there's a few of us up for it!
 If you wish to, feel free to contact me regarding any of this, or if you want to rip my mod from my cold dead hands and take it over as your own.
+
+## Contributing
+
+If you want to contribute to this project please read the following to make it easier for all of us.
+
+### Installation
+
+- Fork the repository
+- Clone the forked repository
+- Navigate to the repository on disk
+- Navigate to the `Extension` folder
+- Create a new file called `YetAnotherPartyOrganiser.csproj.user`
+- Paste the following into this new file
+`````
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <GameFolder>DRIVE:\SteamLibrary\steamapps\common\Mount &amp; Blade II Bannerlord</GameFolder>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <StartAction>Program</StartAction>
+    <StartProgram>$(GameFolder)\bin\Win64_Shipping_Client\Bannerlord.exe</StartProgram>
+    <StartWorkingDirectory>$(GameFolder)\bin\Win64_Shipping_Client\</StartWorkingDirectory>
+    <StartArguments>/singleplayer _MODULES_%2aNative%2aSandBox%2aSandBoxCore%2aStoryMode%2aCustomBattle%2aDeveloperConsole%2a0UIExtenderLibModule%2aYetAnotherPartyOrganiser%2a_MODULES_</StartArguments>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <StartAction>Program</StartAction>
+    <StartProgram>$(GameFolder)\bin\Win64_Shipping_Client\Bannerlord.exe</StartProgram>
+    <StartWorkingDirectory>$(GameFolder)\bin\Win64_Shipping_Client\</StartWorkingDirectory>
+    <StartArguments>/singleplayer _MODULES_%2aNative%2aSandBox%2aSandBoxCore%2aStoryMode%2aCustomBattle%2aDeveloperConsole%2a0UIExtenderLibModule%2aYetAnotherPartyOrganiser%2a_MODULES_</StartArguments>
+  </PropertyGroup>
+</Project>
+`````
+- Modify the `<GameFolder>` tag so it actually points to your installation of Bannerlord
+- Open the `YetAnotherPartyOrganiser.csproj` file with a text editor
+- Find the `<GameFolder>` tag there and modify it as well
+
