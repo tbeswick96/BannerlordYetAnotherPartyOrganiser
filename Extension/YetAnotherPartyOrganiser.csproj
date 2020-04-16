@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <Import Project="$(SolutionDir)\YetAnotherPartyOrganiser.props" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -11,7 +12,10 @@
     <AssemblyName>YetAnotherPartyOrganiser</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <GameFolder>B:\Steam\steamapps\common\Mount &amp; Blade II Bannerlord</GameFolder>
+    <StartAction>Program</StartAction>
+    <StartProgram>$(GameFolder)\bin\Win64_Shipping_Client\Bannerlord.exe</StartProgram>
+    <StartWorkingDirectory>$(GameFolder)\bin\Win64_Shipping_Client\</StartWorkingDirectory>
+    <StartArguments>/singleplayer _MODULES_%2aNative%2aSandBox%2aSandBoxCore%2aStoryMode%2aCustomBattle%2aDeveloperConsole%2aModLib%2a0UIExtenderLibModule%2aYetAnotherPartyOrganiser%2a_MODULES_</StartArguments>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>x64</PlatformTarget>
@@ -37,217 +41,220 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="0Harmony, Version=2.0.0.0, Culture=neutral, PublicKeyToken=null">
+    <Reference Include="0Harmony">
       <HintPath>lib\0Harmony.dll</HintPath>
     </Reference>
-    <Reference Include="UIExtenderLib, Version=1.0.5.0, Culture=neutral, PublicKeyToken=null">
+    <Reference Include="UIExtenderLib">
       <HintPath>$(GameFolder)\Modules\0UIExtenderLibModule\bin\Win64_Shipping_Client\UIExtenderLib.dll</HintPath>
     </Reference>
-    <Reference Include="System.Numerics.Vectors, Version=4.1.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <Reference Include="ModLib">
+      <HintPath>$(GameFolder)\Modules\ModLib\bin\Win64_Shipping_Client\ModLib.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics.Vectors">
       <HintPath>$(GameFolder)\bin\Win64_Shipping_Client\System.Numerics.Vectors.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="SandBox, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+    <Reference Include="SandBox">
       <HintPath>$(GameFolder)\Modules\SandBox\bin\Win64_Shipping_Client\SandBox.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="SandBox.GauntletUI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+    <Reference Include="SandBox.GauntletUI">
       <HintPath>$(GameFolder)\Modules\SandBox\bin\Win64_Shipping_Client\SandBox.GauntletUI.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="SandBox.View, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+    <Reference Include="SandBox.View">
       <HintPath>$(GameFolder)\Modules\SandBox\bin\Win64_Shipping_Client\SandBox.View.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="SandBox.ViewModelCollection, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+    <Reference Include="SandBox.ViewModelCollection">
       <HintPath>$(GameFolder)\Modules\SandBox\bin\Win64_Shipping_Client\SandBox.ViewModelCollection.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="StoryMode, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+    <Reference Include="StoryMode">
       <HintPath>$(GameFolder)\Modules\StoryMode\bin\Win64_Shipping_Client\StoryMode.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="StoryMode.GauntletUI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+    <Reference Include="StoryMode.GauntletUI">
       <HintPath>$(GameFolder)\Modules\StoryMode\bin\Win64_Shipping_Client\StoryMode.GauntletUI.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="StoryMode.View, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+    <Reference Include="StoryMode.View">
       <HintPath>$(GameFolder)\Modules\StoryMode\bin\Win64_Shipping_Client\StoryMode.View.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="StoryMode.ViewModelCollection, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+    <Reference Include="StoryMode.ViewModelCollection">
       <HintPath>$(GameFolder)\Modules\StoryMode\bin\Win64_Shipping_Client\StoryMode.ViewModelCollection.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="TaleWorlds.BattlEye.Client, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+    <Reference Include="TaleWorlds.BattlEye.Client">
       <HintPath>$(GameFolder)\bin\Win64_Shipping_Client\TaleWorlds.BattlEye.Client.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="TaleWorlds.CampaignSystem, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+    <Reference Include="TaleWorlds.CampaignSystem">
       <HintPath>$(GameFolder)\bin\Win64_Shipping_Client\TaleWorlds.CampaignSystem.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="TaleWorlds.CampaignSystem.ViewModelCollection, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+    <Reference Include="TaleWorlds.CampaignSystem.ViewModelCollection">
       <HintPath>$(GameFolder)\bin\Win64_Shipping_Client\TaleWorlds.CampaignSystem.ViewModelCollection.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="TaleWorlds.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+    <Reference Include="TaleWorlds.Core, Version=1.0.0.0">
       <HintPath>$(GameFolder)\bin\Win64_Shipping_Client\TaleWorlds.Core.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="TaleWorlds.Core.ViewModelCollection, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+    <Reference Include="TaleWorlds.Core.ViewModelCollection">
       <HintPath>$(GameFolder)\bin\Win64_Shipping_Client\TaleWorlds.Core.ViewModelCollection.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="TaleWorlds.Diamond, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+    <Reference Include="TaleWorlds.Diamond">
       <HintPath>$(GameFolder)\bin\Win64_Shipping_Client\TaleWorlds.Diamond.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="TaleWorlds.Diamond.AccessProvider.Epic, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+    <Reference Include="TaleWorlds.Diamond.AccessProvider.Epic">
       <HintPath>$(GameFolder)\bin\Win64_Shipping_Client\TaleWorlds.Diamond.AccessProvider.Epic.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="TaleWorlds.Diamond.AccessProvider.Steam, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+    <Reference Include="TaleWorlds.Diamond.AccessProvider.Steam">
       <HintPath>$(GameFolder)\bin\Win64_Shipping_Client\TaleWorlds.Diamond.AccessProvider.Steam.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="TaleWorlds.Diamond.AccessProvider.Test, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+    <Reference Include="TaleWorlds.Diamond.AccessProvider.Test">
       <HintPath>$(GameFolder)\bin\Win64_Shipping_Client\TaleWorlds.Diamond.AccessProvider.Test.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="TaleWorlds.DotNet, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+    <Reference Include="TaleWorlds.DotNet">
       <HintPath>$(GameFolder)\bin\Win64_Shipping_Client\TaleWorlds.DotNet.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="TaleWorlds.DotNet.AutoGenerated, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+    <Reference Include="TaleWorlds.DotNet.AutoGenerated">
       <HintPath>$(GameFolder)\bin\Win64_Shipping_Client\TaleWorlds.DotNet.AutoGenerated.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="TaleWorlds.Engine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+    <Reference Include="TaleWorlds.Engine">
       <HintPath>$(GameFolder)\bin\Win64_Shipping_Client\TaleWorlds.Engine.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="TaleWorlds.Engine.AutoGenerated, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+    <Reference Include="TaleWorlds.Engine.AutoGenerated">
       <HintPath>$(GameFolder)\bin\Win64_Shipping_Client\TaleWorlds.Engine.AutoGenerated.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="TaleWorlds.Engine.GauntletUI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+    <Reference Include="TaleWorlds.Engine.GauntletUI">
       <HintPath>$(GameFolder)\bin\Win64_Shipping_Client\TaleWorlds.Engine.GauntletUI.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="TaleWorlds.GauntletUI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+    <Reference Include="TaleWorlds.GauntletUI">
       <HintPath>$(GameFolder)\bin\Win64_Shipping_Client\TaleWorlds.GauntletUI.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="TaleWorlds.GauntletUI.Data, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+    <Reference Include="TaleWorlds.GauntletUI.Data">
       <HintPath>$(GameFolder)\bin\Win64_Shipping_Client\TaleWorlds.GauntletUI.Data.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="TaleWorlds.GauntletUI.ExtraWidgets, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+    <Reference Include="TaleWorlds.GauntletUI.ExtraWidgets">
       <HintPath>$(GameFolder)\bin\Win64_Shipping_Client\TaleWorlds.GauntletUI.ExtraWidgets.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="TaleWorlds.GauntletUI.PrefabSystem, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+    <Reference Include="TaleWorlds.GauntletUI.PrefabSystem">
       <HintPath>$(GameFolder)\bin\Win64_Shipping_Client\TaleWorlds.GauntletUI.PrefabSystem.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="TaleWorlds.GauntletUI.TooltipExtensions, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+    <Reference Include="TaleWorlds.GauntletUI.TooltipExtensions">
       <HintPath>$(GameFolder)\bin\Win64_Shipping_Client\TaleWorlds.GauntletUI.TooltipExtensions.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="TaleWorlds.InputSystem, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+    <Reference Include="TaleWorlds.InputSystem">
       <HintPath>$(GameFolder)\bin\Win64_Shipping_Client\TaleWorlds.InputSystem.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="TaleWorlds.Library, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+    <Reference Include="TaleWorlds.Library">
       <HintPath>$(GameFolder)\bin\Win64_Shipping_Client\TaleWorlds.Library.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="TaleWorlds.Localization, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+    <Reference Include="TaleWorlds.Localization">
       <HintPath>$(GameFolder)\bin\Win64_Shipping_Client\TaleWorlds.Localization.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="TaleWorlds.MountAndBlade, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+    <Reference Include="TaleWorlds.MountAndBlade">
       <HintPath>$(GameFolder)\bin\Win64_Shipping_Client\TaleWorlds.MountAndBlade.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="TaleWorlds.MountAndBlade.AutoGenerated, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+    <Reference Include="TaleWorlds.MountAndBlade.AutoGenerated">
       <HintPath>$(GameFolder)\bin\Win64_Shipping_Client\TaleWorlds.MountAndBlade.AutoGenerated.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="TaleWorlds.MountAndBlade.CustomBattle, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+    <Reference Include="TaleWorlds.MountAndBlade.CustomBattle">
       <HintPath>$(GameFolder)\Modules\CustomBattle\bin\Win64_Shipping_Client\TaleWorlds.MountAndBlade.CustomBattle.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="TaleWorlds.MountAndBlade.Diamond, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+    <Reference Include="TaleWorlds.MountAndBlade.Diamond">
       <HintPath>$(GameFolder)\bin\Win64_Shipping_Client\TaleWorlds.MountAndBlade.Diamond.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="TaleWorlds.MountAndBlade.GauntletUI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+    <Reference Include="TaleWorlds.MountAndBlade.GauntletUI">
       <HintPath>$(GameFolder)\Modules\Native\bin\Win64_Shipping_Client\TaleWorlds.MountAndBlade.GauntletUI.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="TaleWorlds.MountAndBlade.GauntletUI.Widgets, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+    <Reference Include="TaleWorlds.MountAndBlade.GauntletUI.Widgets">
       <HintPath>$(GameFolder)\bin\Win64_Shipping_Client\TaleWorlds.MountAndBlade.GauntletUI.Widgets.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="TaleWorlds.MountAndBlade.Helpers, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+    <Reference Include="TaleWorlds.MountAndBlade.Helpers">
       <HintPath>$(GameFolder)\bin\Win64_Shipping_Client\TaleWorlds.MountAndBlade.Helpers.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="TaleWorlds.MountAndBlade.View, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+    <Reference Include="TaleWorlds.MountAndBlade.View">
       <HintPath>$(GameFolder)\Modules\Native\bin\Win64_Shipping_Client\TaleWorlds.MountAndBlade.View.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="TaleWorlds.MountAndBlade.ViewModelCollection, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+    <Reference Include="TaleWorlds.MountAndBlade.ViewModelCollection">
       <HintPath>$(GameFolder)\bin\Win64_Shipping_Client\TaleWorlds.MountAndBlade.ViewModelCollection.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="TaleWorlds.NavigationSystem, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+    <Reference Include="TaleWorlds.NavigationSystem">
       <HintPath>$(GameFolder)\bin\Win64_Shipping_Client\TaleWorlds.NavigationSystem.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="TaleWorlds.Network, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+    <Reference Include="TaleWorlds.Network">
       <HintPath>$(GameFolder)\bin\Win64_Shipping_Client\TaleWorlds.Network.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="TaleWorlds.PlatformService, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+    <Reference Include="TaleWorlds.PlatformService">
       <HintPath>$(GameFolder)\bin\Win64_Shipping_Client\TaleWorlds.PlatformService.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="TaleWorlds.PlatformService.Epic, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+    <Reference Include="TaleWorlds.PlatformService.Epic">
       <HintPath>$(GameFolder)\bin\Win64_Shipping_Client\TaleWorlds.PlatformService.Epic.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="TaleWorlds.PlatformService.Steam, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+    <Reference Include="TaleWorlds.PlatformService.Steam">
       <HintPath>$(GameFolder)\bin\Win64_Shipping_Client\TaleWorlds.PlatformService.Steam.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="TaleWorlds.PlayerServices, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+    <Reference Include="TaleWorlds.PlayerServices">
       <HintPath>$(GameFolder)\bin\Win64_Shipping_Client\TaleWorlds.PlayerServices.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="TaleWorlds.PSAI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+    <Reference Include="TaleWorlds.PSAI">
       <HintPath>$(GameFolder)\bin\Win64_Shipping_Client\TaleWorlds.PSAI.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="TaleWorlds.SaveSystem, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+    <Reference Include="TaleWorlds.SaveSystem">
       <HintPath>$(GameFolder)\bin\Win64_Shipping_Client\TaleWorlds.SaveSystem.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="TaleWorlds.Starter.DotNetCore, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+    <Reference Include="TaleWorlds.Starter.DotNetCore">
       <HintPath>$(GameFolder)\bin\Win64_Shipping_Client\TaleWorlds.Starter.DotNetCore.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="TaleWorlds.Starter.Library, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+    <Reference Include="TaleWorlds.Starter.Library">
       <HintPath>$(GameFolder)\bin\Win64_Shipping_Client\TaleWorlds.Starter.Library.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="TaleWorlds.TwoDimension, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+    <Reference Include="TaleWorlds.TwoDimension">
       <HintPath>$(GameFolder)\bin\Win64_Shipping_Client\TaleWorlds.TwoDimension.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="TaleWorlds.TwoDimension.Standalone, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+    <Reference Include="TaleWorlds.TwoDimension.Standalone">
       <HintPath>$(GameFolder)\bin\Win64_Shipping_Client\TaleWorlds.TwoDimension.Standalone.dll</HintPath>
       <Private>False</Private>
     </Reference>
@@ -260,6 +267,7 @@
     <Compile Include="Services\SortHelpers.cs" />
     <Compile Include="Services\TroopActionService.cs" />
     <Compile Include="Services\TroopSorterService.cs" />
+    <Compile Include="Settings.cs" />
     <Compile Include="SortByModeOptionVM.cs" />
     <Compile Include="UI\PartyScreenWidgetExtensions.cs" />
     <Compile Include="YapoSubModule.cs" />
@@ -288,6 +296,7 @@
 move "$(TargetDir)$(ProjectName).*" "$(TargetDir)bin\Win64_Shipping_Client\"
 move "$(TargetDir)0Harmony.*" "$(TargetDir)bin\Win64_Shipping_Client\"
 move "$(TargetDir)UIExtenderLib.*" "$(TargetDir)bin\Win64_Shipping_Client\"
+move "$(TargetDir)ModLib.*" "$(TargetDir)bin\Win64_Shipping_Client\"
 </PostBuildEvent>
   </PropertyGroup>
 </Project>

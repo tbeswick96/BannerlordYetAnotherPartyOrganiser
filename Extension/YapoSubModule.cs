@@ -1,5 +1,7 @@
 ﻿using System;
 using HarmonyLib;
+using ModLib;
+using ModLib.Debugging;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.Core;
 using TaleWorlds.InputSystem;
@@ -17,14 +19,18 @@ namespace YAPO
         protected override void OnSubModuleLoad()
         {
             base.OnSubModuleLoad();
-            UIExtender.Register();
 
             try
             {
+                FileDatabase.Initialise(Strings.MODULE_FOLDER_NAME);
+                Settings settings = FileDatabase.Get<Settings>(Settings.InstanceId) ?? new Settings();
+                SettingsDatabase.RegisterSettings(settings);
+                
+                UIExtender.Register();
                 new Harmony("YAPO").PatchAll();
             } catch (Exception exception)
             {
-                InformationManager.DisplayMessage(new InformationMessage("YAPO Patch Failed " + exception.Message));
+                ModDebug.ShowError("Failed to load YetAnotherPartyOrganiser", "OnSubModuleLoad exception", exception);
             }
         }
 
@@ -42,6 +48,7 @@ namespace YAPO
                 return;
             }
 
+            // TODO: This is messy af, must be a cleaner way of doing hotkeys
             if (Input.IsKeyDown(InputKey.LeftControl) || Input.IsKeyDown(InputKey.RightControl))
             {
                 if (!States.HotkeyControl)

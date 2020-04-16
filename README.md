@@ -6,15 +6,15 @@
 
 _**Disclaimer**: Yes I know a lot of these mods have been released in the space of a few days. All us mod devs had the same ideas and have implemented similar solutions in different ways. Over the course of the next few weeks it's likely some of these mods will either lose support from their dev(s), or be merged into one feature-complete mod that everyone can use. Other mod devs see note at bottom about this._
 
-**Important - Save Game Compatibility**
+## Dependencies
 
-- This mod makes use of the engine saving mechanic to store your sorting configuration.
-- This allows your sorting configuration to persist between game sessions.
-- As a result, if you remove this mod having saved your game with this mod loaded, it's likely your save will not load.
-- Therefore please, BACKUP YOUR SAVES before installing this mod (or any mod, for that matter)
-- I might look into mitigating this in the future if it turns out to be a problem (e.g. instead use a config.xml file, however I was trying to avoid that)
+The following mods are required for this mod to work. Make sure they are enabled and listed above this mod within the launcher for it to function correctly.
 
-**Requires [UIExtenderLib](https://github.com/shdwp/UIExtenderLib) - Mod will not run without it!**
+| Dependency | Notes |
+|--|--|
+[UIExtenderLib](https://www.nexusmods.com/mountandblade2bannerlord/mods/323) | Required
+[ModLib](https://www.nexusmods.com/mountandblade2bannerlord/mods/592) | Required
+[Save Missing Module Fix](https://www.nexusmods.com/mountandblade2bannerlord/mods/282) | Optional - Recommended to ensure saves can be loaded if you unload Yet Another party Organiser having saved a game with it enabled
 
 ## Features
 
@@ -48,10 +48,15 @@ _**Disclaimer**: Yes I know a lot of these mods have been released in the space 
 - U - Upgrade Troops
 - R - Recruit Prisoners
 
+### Options
+
+Options can be found via the main menu option: `Mod Options -> Yet Another Party Organiser`
+
+- **Enable Auto Sorting** | _Default: On_ - Sorts troops and prisoners upon opening the party screen
+
 ### Planned Features
 
-- Anything that fits within the scope of party organisation that anyone may suggest! Feel free to request features in the posts section!
-- Options (waiting for Mod Options lib from Community Patches)
+- Anything that fits within the scope of party organisation that anyone may suggest! Feel free to create feature requests!
 - Configurable group sort order (sort cavalry after archers for example)
 - Configurable upgrade rules
 - Handling of multi-path upgradable troops
@@ -66,7 +71,7 @@ If you wish to, feel free to contact me regarding any of this, or if you want to
 
 ## Contributing
 
-If you want to contribute to this project please read the following to make it easier for all of us.
+If you wish to contribute to this project please read the following to get your local development environment setup correctly.
 
 ### Installation
 
@@ -74,29 +79,5 @@ If you want to contribute to this project please read the following to make it e
 - Clone the forked repository
 - Navigate to the repository on disk
 - Navigate to the `Extension` folder
-- Create a new file called `YetAnotherPartyOrganiser.csproj.user`
-- Paste the following into this new file
-`````
-<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <PropertyGroup>
-    <GameFolder>DRIVE:\SteamLibrary\steamapps\common\Mount &amp; Blade II Bannerlord</GameFolder>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
-    <StartAction>Program</StartAction>
-    <StartProgram>$(GameFolder)\bin\Win64_Shipping_Client\Bannerlord.exe</StartProgram>
-    <StartWorkingDirectory>$(GameFolder)\bin\Win64_Shipping_Client\</StartWorkingDirectory>
-    <StartArguments>/singleplayer _MODULES_%2aNative%2aSandBox%2aSandBoxCore%2aStoryMode%2aCustomBattle%2aDeveloperConsole%2a0UIExtenderLibModule%2aYetAnotherPartyOrganiser%2a_MODULES_</StartArguments>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
-    <StartAction>Program</StartAction>
-    <StartProgram>$(GameFolder)\bin\Win64_Shipping_Client\Bannerlord.exe</StartProgram>
-    <StartWorkingDirectory>$(GameFolder)\bin\Win64_Shipping_Client\</StartWorkingDirectory>
-    <StartArguments>/singleplayer _MODULES_%2aNative%2aSandBox%2aSandBoxCore%2aStoryMode%2aCustomBattle%2aDeveloperConsole%2a0UIExtenderLibModule%2aYetAnotherPartyOrganiser%2a_MODULES_</StartArguments>
-  </PropertyGroup>
-</Project>
-`````
+- Open the `YetAnotherPartyOrganiser.props` file with a text editor
 - Modify the `<GameFolder>` tag so it actually points to your installation of Bannerlord
-- Open the `YetAnotherPartyOrganiser.csproj` file with a text editor
-- Find the `<GameFolder>` tag there and modify it as well
-
