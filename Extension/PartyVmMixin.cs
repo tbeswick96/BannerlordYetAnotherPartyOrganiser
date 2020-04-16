@@ -99,7 +99,7 @@ namespace YAPO {
         private static void SortRoster(TroopSorterService troopSorterService, TroopRoster troopRoster, ICollection<PartyCharacterVM> partyList, Action<MBBindingList<PartyCharacterVM>> apply) {
             FieldInfo troopRosterDataField = troopRoster.GetType().GetField("data", BindingFlags.NonPublic | BindingFlags.Instance);
             TroopRosterElement[] originalTroops = (TroopRosterElement[]) troopRosterDataField?.GetValue(troopRoster);
-            if (originalTroops == null) return;
+            if (originalTroops == null || originalTroops.All(x => x.Character == null)) return;
 
             List<TroopRosterElement> originalTroopList = originalTroops.Where(x => x.Character != null).ToList();
             List<TroopRosterElement> sortedTroops = originalTroopList.Where(x => !x.Character.IsHero).ToList();
