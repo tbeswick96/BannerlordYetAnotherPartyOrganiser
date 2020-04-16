@@ -1,5 +1,7 @@
 ﻿using System;
 using HarmonyLib;
+using ModLib;
+using ModLib.Debugging;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.Core;
 using TaleWorlds.InputSystem;
@@ -11,15 +13,25 @@ using YAPO.Services;
 // ReSharper disable UnusedType.Global
 
 namespace YAPO {
-    public class YapoSubModule : MBSubModuleBase {
+    public class YapoSubModule : MBSubModuleBase
+    {
         protected override void OnSubModuleLoad() {
             base.OnSubModuleLoad();
-            UIExtender.Register();
+            try
+            {
+                FileDatabase.Initialise(Strings.MODULE_FOLDER_NAME);
+                Settings settings = FileDatabase.Get<Settings>(Settings.InstanceId);
+                if (settings == null)
+                {
+                    settings = new Settings();
+                }
+                SettingsDatabase.RegisterSettings(settings);
+                UIExtender.Register();
 
-            try {
                 new Harmony("YAPO").PatchAll();
             } catch (Exception exception) {
-                InformationManager.DisplayMessage(new InformationMessage("YAPO Patch Failed " + exception.Message));
+                ModDebug.ShowError("Failed to load YetAnotherPartyOrganiser",
+                    "OnSubModuleLoad exception", exception);
             }
         }
 
@@ -30,7 +42,11 @@ namespace YAPO {
         }
 
         protected override void OnApplicationTick(float dt) {
-            if (States.PartyVmMixin == null || Campaign.Current == null || Campaign.Current.CurrentMenuContext != null && (!Campaign.Current.CurrentMenuContext.GameMenu.IsWaitActive || Campaign.Current.TimeControlModeLock)) {
+            if (States.PartyVmMixin == null
+                || Campaign.Current == null
+                || Campaign.Current.CurrentMenuContext != null
+                && (!Campaign.Current.CurrentMenuContext.GameMenu.IsWaitActive
+                    || Campaign.Current.TimeControlModeLock)) {
                 return;
             }
 
