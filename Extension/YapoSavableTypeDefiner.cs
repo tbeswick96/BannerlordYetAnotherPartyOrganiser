@@ -2,27 +2,34 @@
 using TaleWorlds.Core;
 using TaleWorlds.SaveSystem;
 using YAPO.Services;
+
 // ReSharper disable UnusedType.Global
 
-namespace YAPO {
-    public class YapoSavableTypeDefiner : SaveableTypeDefiner {
+namespace YAPO
+{
+    public class YapoSavableTypeDefiner : SaveableTypeDefiner
+    {
         public YapoSavableTypeDefiner() : base(13337000) { }
 
-        protected override void DefineClassTypes() {
+        protected override void DefineClassTypes()
+        {
             AddClassDefinition(typeof(TroopSorterService), 1);
         }
 
-        protected override void DefineContainerDefinitions() {
+        protected override void DefineContainerDefinitions()
+        {
             ConstructContainerDefinition(typeof(List<TroopSorterService>));
             ConstructContainerDefinition(typeof(Dictionary<string, TroopSorterService>));
             ConstructContainerDefinition(typeof(Dictionary<MBGUID, TroopSorterService>));
         }
 
-        protected override void DefineGenericClassDefinitions() {
+        protected override void DefineGenericClassDefinitions()
+        {
             ConstructGenericClassDefinition(typeof(MBObjectManager.ObjectTypeRecord<TroopSorterService>));
         }
 
-        protected override void DefineEnumTypes() {
+        protected override void DefineEnumTypes()
+        {
             AddEnumDefinition(typeof(SortMode), 2);
             AddEnumDefinition(typeof(SortDirection), 3);
             AddEnumDefinition(typeof(SortSide), 4);
@@ -30,7 +37,8 @@ namespace YAPO {
     }
 
     [SaveableEnum(13337150)]
-    public enum SortMode {
+    public enum SortMode
+    {
         NONE,
         ALPHABETICAL,
         TYPE,
@@ -41,13 +49,15 @@ namespace YAPO {
     }
 
     [SaveableEnum(13337200)]
-    public enum SortDirection {
+    public enum SortDirection
+    {
         ASCENDING,
         DESCENDING
     }
 
     [SaveableEnum(13337250)]
-    public enum SortSide {
+    public enum SortSide
+    {
         OTHER,
         PARTY
     }

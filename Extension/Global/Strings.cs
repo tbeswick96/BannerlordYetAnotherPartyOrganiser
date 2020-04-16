@@ -1,6 +1,8 @@
-﻿namespace YAPO.Global {
+﻿namespace YAPO.Global
+{
     // TODO: How to localise this?
-    public static class Strings {
+    public static class Strings
+    {
         public const string SORT_TEXT_ASCENDING = "/\\";
         public const string SORT_TEXT_DESCENDING = "\\/";
         public const string SORT_ORDER_OPPOSITE_TEXT_SAME = "SO";

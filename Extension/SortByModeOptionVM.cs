@@ -5,11 +5,14 @@ using YAPO.Global;
 // ReSharper disable UnusedType.Global
 // ReSharper disable UnusedMember.Global
 
-namespace YAPO {
-    public class SortByModeOptionVm : ViewModel {
+namespace YAPO
+{
+    public class SortByModeOptionVm : ViewModel
+    {
         private readonly PartyVmMixin _parentVm;
 
-        public SortByModeOptionVm(PartyVmMixin parentVm, SortMode value) {
+        public SortByModeOptionVm(PartyVmMixin parentVm, SortMode value)
+        {
             _parentVm = parentVm;
             Value = value;
             Label = value.AsString();
@@ -20,19 +23,23 @@ namespace YAPO {
         [DataSourceProperty]
         public string Label { get; set; }
 
-        public void ExecuteSelectPartySortBy() {
+        public void ExecuteSelectPartySortBy()
+        {
             _parentVm.CurrentPartySortByMode = Value;
         }
 
-        public void ExecuteSelectPartyThenBy() {
+        public void ExecuteSelectPartyThenBy()
+        {
             _parentVm.CurrentPartyThenByMode = Value;
         }
 
-        public void ExecuteSelectOtherSortBy() {
+        public void ExecuteSelectOtherSortBy()
+        {
             _parentVm.CurrentOtherSortByMode = Value;
         }
 
-        public void ExecuteSelectOtherThenBy() {
+        public void ExecuteSelectOtherThenBy()
+        {
             _parentVm.CurrentOtherThenByMode = Value;
         }
     }

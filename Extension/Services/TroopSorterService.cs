@@ -4,9 +4,11 @@ using TaleWorlds.CampaignSystem;
 using TaleWorlds.Core;
 using TaleWorlds.SaveSystem;
 
-namespace YAPO.Services {
+namespace YAPO.Services
+{
     [SaveableClass(13337100)]
-    public class TroopSorterService : MBObjectBase {
+    public class TroopSorterService : MBObjectBase
+    {
         [SaveableProperty(20)]
         public SortDirection SortDirection { get; private set; }
 
@@ -25,11 +27,13 @@ namespace YAPO.Services {
         [SaveableProperty(60)]
         public SortMode CurrentThenByMode { get; set; }
 
-        public void UpdateSortingDirection(SortDirection sortDirection) {
+        public void UpdateSortingDirection(SortDirection sortDirection)
+        {
             SortDirection = sortDirection;
         }
 
-        public void Sort(ref List<TroopRosterElement> sortedTroops, ref List<TroopRosterElement> heroTroops) {
+        public void Sort(ref List<TroopRosterElement> sortedTroops, ref List<TroopRosterElement> heroTroops)
+        {
             sortedTroops = CurrentThenByMode == SortMode.NONE || CurrentThenByMode == CurrentSortByMode ? sortedTroops.SortBy(CurrentSortByMode, SortDirection).ToList() : sortedTroops.SortBy(CurrentSortByMode, SortDirection).ThenSortBy(CurrentThenByMode, SortOrderOpposite ? SortDirection.InvertDirection() : SortDirection).ToList();
             heroTroops = CurrentThenByMode == SortMode.NONE || CurrentThenByMode == CurrentSortByMode ? heroTroops.SortBy(CurrentSortByMode, SortDirection).ToList() : heroTroops.SortBy(CurrentSortByMode, SortDirection).ThenSortBy(CurrentThenByMode, SortOrderOpposite ? SortDirection.InvertDirection() : SortDirection).ToList();
 

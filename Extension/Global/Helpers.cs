@@ -2,19 +2,25 @@
 using System.Diagnostics;
 using TaleWorlds.Core;
 
-namespace YAPO.Global {
-    public static class Helpers {
+namespace YAPO.Global
+{
+    public static class Helpers
+    {
         [Conditional("DEBUG")]
-        public static void DebugMessage(string message) {
+        public static void DebugMessage(string message)
+        {
             Message(message);
         }
 
-        public static void Message(string message) {
+        public static void Message(string message)
+        {
             InformationManager.DisplayMessage(new InformationMessage(message));
         }
 
-        public static string AsString(this SortMode sortByOption) {
-            switch (sortByOption) {
+        public static string AsString(this SortMode sortByOption)
+        {
+            switch (sortByOption)
+            {
                 case SortMode.ALPHABETICAL: return "Name";
                 case SortMode.TYPE: return "Type";
                 case SortMode.GROUP: return "Group";
