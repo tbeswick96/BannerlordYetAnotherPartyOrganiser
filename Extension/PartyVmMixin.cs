@@ -17,7 +17,7 @@ using YAPO.Services;
 namespace YAPO {
     [ViewModelMixin, SuppressMessage("ReSharper", "UnusedMember.Global")]
     public class PartyVmMixin : BaseViewModelMixin<PartyVM> {
-        private bool firstRefreshDone = false;
+        private bool _firstRefreshDone;
         private readonly TroopSorterService _otherTroopSorterService;
         private readonly TroopSorterService _partyTroopSorterService;
         private MBBindingList<SortByModeOptionVm> _otherSortByModeOptionVms = new MBBindingList<SortByModeOptionVm>();
@@ -33,9 +33,9 @@ namespace YAPO {
             _otherTroopSorterService = InitialiseTroopSorterService(SortSide.OTHER);
 
             InitialiseOptionVmList(_partySortByModeOptionVms);
-            InitialiseOptionVmList(_partyThenByModeOptionVms, true);
+            InitialiseOptionVmList(_partyThenByModeOptionVms);
             InitialiseOptionVmList(_otherSortByModeOptionVms);
-            InitialiseOptionVmList(_otherThenByModeOptionVms, true);
+            InitialiseOptionVmList(_otherThenByModeOptionVms);
 
             InitialiseOptionDropdowns();
         }
@@ -49,18 +49,18 @@ namespace YAPO {
             return troopSorterService;
         }
 
-        private void InitialiseOptionVmList(ICollection<SortByModeOptionVm> optionVms, bool thenBy = false) {
-            foreach (SortMode sortMode in ((SortMode[]) Enum.GetValues(typeof(SortMode))).Where(x => !thenBy && x != SortMode.NONE)) {
+        private void InitialiseOptionVmList(ICollection<SortByModeOptionVm> optionVms) {
+            foreach (SortMode sortMode in ((SortMode[]) Enum.GetValues(typeof(SortMode)))) {
                 optionVms.Add(new SortByModeOptionVm(this, sortMode));
             }
         }
 
         private void InitialiseOptionDropdowns() {
-            CurrentPartySortByMode = _partyTroopSorterService.CurrentSortByMode == SortMode.NONE ? SortMode.ALPHABETICAL : _partyTroopSorterService.CurrentSortByMode;
+            CurrentPartySortByMode = _partyTroopSorterService.CurrentSortByMode;
             CurrentPartySortByModeText = CurrentPartySortByMode.AsString();
             CurrentPartyThenByMode = _partyTroopSorterService.CurrentThenByMode;
             CurrentPartyThenByModeText = CurrentPartyThenByMode.AsString();
-            CurrentOtherSortByMode = _otherTroopSorterService.CurrentSortByMode == SortMode.NONE ? SortMode.ALPHABETICAL : _otherTroopSorterService.CurrentSortByMode;
+            CurrentOtherSortByMode = _otherTroopSorterService.CurrentSortByMode;
             CurrentOtherSortByModeText = CurrentOtherSortByMode.AsString();
             CurrentOtherThenByMode = _otherTroopSorterService.CurrentThenByMode;
             CurrentOtherThenByModeText = CurrentOtherThenByMode.AsString();
@@ -75,12 +75,14 @@ namespace YAPO {
         }
 
         public void FirstRefresh() {
-            if (States.PartyVmMixin != this || firstRefreshDone) return;
+            if (States.PartyVmMixin != this || _firstRefreshDone) return;
 
-            // SortParty(_partyTroopSorterService.SortDirection);
-            // SortOther(_partyTroopSorterService.SortDirection);
-            
-            firstRefreshDone = true;
+            if (Settings.Instance.AutoSortEnabled) {
+                SortParty(_partyTroopSorterService.SortDirection);
+                SortOther(_partyTroopSorterService.SortDirection);
+            }
+
+            _firstRefreshDone = true;
             Global.Helpers.DebugMessage("First Refresh");
         }
 
@@ -96,6 +98,8 @@ namespace YAPO {
         }
 
         private void SortParty(SortDirection sortDirection, bool skipDirectionUpdate = false) {
+            if (_partyTroopSorterService.CurrentSortByMode == SortMode.NONE) return;
+            
             GetPartyScreenLogic();
             if (!skipDirectionUpdate) _partyTroopSorterService.UpdateSortingDirection(sortDirection);
             SortRoster(_partyTroopSorterService, _partyScreenLogic.PrisonerRosters[1], _vm.MainPartyPrisoners, newPartyList => { _vm.MainPartyPrisoners = newPartyList; });
@@ -104,6 +108,8 @@ namespace YAPO {
         }
 
         private void SortOther(SortDirection sortDirection, bool skipDirectionUpdate = false) {
+            if (_otherTroopSorterService.CurrentSortByMode == SortMode.NONE) return;
+            
             GetPartyScreenLogic();
             if (!skipDirectionUpdate) _otherTroopSorterService.UpdateSortingDirection(sortDirection);
             SortRoster(_otherTroopSorterService, _partyScreenLogic.PrisonerRosters[0], _vm.OtherPartyPrisoners, newPartyList => { _vm.OtherPartyPrisoners = newPartyList; });
