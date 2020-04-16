@@ -1,0 +1,55 @@
+<ListPanel WidthSizePolicy="Fixed" HeightSizePolicy="CoverChildren" SuggestedWidth="160" HorizontalAlignment="Right" VerticalAlignment="Top" MarginRight="2" MarginTop="40" LayoutImp.LayoutMethod="HorizontalLeftToRight">
+    <Children>
+        <!-- Upgrade -->
+        <Widget Id="ActionUpgradeButton" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="76" SuggestedHeight="52" HorizontalAlignment="Right" VerticalAlignment="Top" UpdateChildrenStates="true">
+            <Children>
+                <Widget Id="ActionUpgradeButtonWidget" WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren">
+                    <Children>
+                        <ButtonIconOffsetWidget DoNotPassEventsToChildren="true" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Brush="MapBar.Left.Button4" ButtonIcon="UpgradeTextIcon" Command.Click="ExecuteActionUpgrade" PressedXOffset="0" PressedYOffset="1" UpdateChildrenStates="true" HoveredCursorState="RightClickLink">
+                            <Children>
+                                <Widget Id="UpgradeTextIcon" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="40" SuggestedHeight="32" HorizontalAlignment="Center" VerticalAlignment="Center" Brush="Party.TroopTuple.UpgradeIcon.Background"/>
+                            </Children>
+                        </ButtonIconOffsetWidget>
+                        <HintWidget DataSource="{ActionUpgradeHintText}" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Command.HoverBegin="ExecuteBeginHint" Command.HoverEnd="ExecuteEndHint"/>
+                    </Children>
+                </Widget>
+                <Widget Id="ActionUpgradeButtonWidgetDisabled" WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren">
+                    <Children>
+                        <ButtonIconOffsetWidget DoNotPassEventsToChildren="true" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Brush="MapBar.Left.Button4" ButtonIcon="UpgradeTextIconDisabled" IsDisabled="true">
+                            <Children>
+                                <Widget Id="UpgradeTextIconDisabled" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="40" SuggestedHeight="32" HorizontalAlignment="Center" VerticalAlignment="Center" Brush="Party.TroopTuple.UpgradeIcon.Background"/>
+                            </Children>
+                        </ButtonIconOffsetWidget>
+                        <HintWidget DataSource="{ActionUpgradeDisabledHintText}" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Command.HoverBegin="ExecuteBeginHint" Command.HoverEnd="ExecuteEndHint"/>
+                    </Children>
+                </Widget>
+            </Children>
+        </Widget>
+
+        <!-- Recruit Prisoners -->
+        <Widget Id="ActionRecruitButton" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="76" SuggestedHeight="52" HorizontalAlignment="Right" MarginLeft="4" VerticalAlignment="Top" UpdateChildrenStates="true">
+            <Children>
+                <Widget Id="ActionRecruitButtonWidget" WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren">
+                    <Children>
+                        <ButtonIconOffsetWidget DoNotPassEventsToChildren="true" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Brush="MapBar.Left.Button4" ButtonIcon="RecruitTextIcon" Command.Click="ExecuteActionRecruit" PressedXOffset="0" PressedYOffset="1" UpdateChildrenStates="true" HoveredCursorState="RightClickLink">
+                            <Children>
+                                <Widget Id="RecruitTextIcon" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="40" SuggestedHeight="32" HorizontalAlignment="Center" VerticalAlignment="Center" Sprite="PartyScreen\recruit_prisoner"/>
+                            </Children>
+                        </ButtonIconOffsetWidget>
+                        <HintWidget DataSource="{ActionRecruitHintText}" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Command.HoverBegin="ExecuteBeginHint" Command.HoverEnd="ExecuteEndHint"/>
+                    </Children>
+                </Widget>
+                <Widget Id="ActionRecruitButtonWidgetDisabled" WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren">
+                    <Children>
+                        <ButtonIconOffsetWidget DoNotPassEventsToChildren="true" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Brush="MapBar.Left.Button4" ButtonIcon="RecruitTextIconDisabled" IsDisabled="true">
+                            <Children>
+                                <Widget Id="RecruitTextIconDisabled" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="40" SuggestedHeight="32" HorizontalAlignment="Center" VerticalAlignment="Center" Sprite="PartyScreen\recruit_prisoner"/>
+                            </Children>
+                        </ButtonIconOffsetWidget>
+                        <HintWidget DataSource="{ActionRecruitDisabledHintText}" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Command.HoverBegin="ExecuteBeginHint" Command.HoverEnd="ExecuteEndHint"/>
+                    </Children>
+                </Widget>
+            </Children>
+        </Widget>
+    </Children>
+</ListPanel>
