@@ -1,13 +1,15 @@
-﻿namespace YAPO.Global {
+﻿namespace YAPO.Global
+{
     // TODO: How to localise this?
-    public static class Strings {
+    public static class Strings
+    {
         public const string MODULE_NAME = "Yet Another Party Organiser";
         public const string MODULE_FOLDER_NAME = "YetAnotherPartyOrganiser";
 
         public const string SETTINGS_GENERAL_GROUP_NAME = "General";
         public const string SETTINGS_ENABLE_AUTO_SORT_NAME = "Enable Auto Sorting";
-        public const string SETTINGS_ENABLE_AUTO_SORT_TOOLTIP = "When set enables sorting troops and prisoners upon opening the party screen."; 
-        
+        public const string SETTINGS_ENABLE_AUTO_SORT_TOOLTIP = "When set enables sorting troops and prisoners upon opening the party screen.";
+
         public const string SORT_TEXT_ASCENDING = "/\\";
         public const string SORT_TEXT_DESCENDING = "\\/";
         public const string SORT_ORDER_OPPOSITE_TEXT_SAME = "SO";
