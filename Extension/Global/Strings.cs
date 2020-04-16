@@ -5,7 +5,7 @@
         public const string MODULE_FOLDER_NAME = "YetAnotherPartyOrganiser";
 
         public const string SETTINGS_GENERAL_GROUP_NAME = "General";
-        public const string SETTINGS_ENABLE_AUTO_SORT_NAME = "Enable auto sorting";
+        public const string SETTINGS_ENABLE_AUTO_SORT_NAME = "Enable Auto Sorting";
         public const string SETTINGS_ENABLE_AUTO_SORT_TOOLTIP = "When set enables sorting troops and prisoners upon opening the party screen."; 
         
         public const string SORT_TEXT_ASCENDING = "/\\";
