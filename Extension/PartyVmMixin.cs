@@ -17,6 +17,7 @@ using YAPO.Services;
 namespace YAPO {
     [ViewModelMixin, SuppressMessage("ReSharper", "UnusedMember.Global")]
     public class PartyVmMixin : BaseViewModelMixin<PartyVM> {
+        private bool firstRefreshDone = false;
         private readonly TroopSorterService _otherTroopSorterService;
         private readonly TroopSorterService _partyTroopSorterService;
         private MBBindingList<SortByModeOptionVm> _otherSortByModeOptionVms = new MBBindingList<SortByModeOptionVm>();
@@ -66,7 +67,21 @@ namespace YAPO {
         }
 
         public override void Refresh() {
+            if (States.PartyVmMixin != this) return;
+            
             RefreshView();
+            
+            Global.Helpers.DebugMessage("Refresh view");
+        }
+
+        public void FirstRefresh() {
+            if (States.PartyVmMixin != this || firstRefreshDone) return;
+
+            // SortParty(_partyTroopSorterService.SortDirection);
+            // SortOther(_partyTroopSorterService.SortDirection);
+            
+            firstRefreshDone = true;
+            Global.Helpers.DebugMessage("First Refresh");
         }
 
         public override void Destroy() {

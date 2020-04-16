@@ -12,14 +12,13 @@ namespace YAPO.Patches {
         public static class PartyScreenWidgetConstructorCallsite {
             public static void Postfix(PartyScreenWidget __instance) {
                 States.PartyScreenWidget = __instance;
-                States.PartyVmMixin?.Refresh();
             }
         }
         
         [HarmonyPatch(typeof(PartyScreenWidget), "OnConnectedToRoot")]
         public static class PartyScreenWidgetOnConnectedToRootCallsite {
             public static void Postfix() {
-                States.PartyVmMixin?.Refresh();
+                States.PartyVmMixin?.FirstRefresh();
             }
         }
     }
