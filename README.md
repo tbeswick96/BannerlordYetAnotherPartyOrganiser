@@ -50,13 +50,13 @@ The following mods are required for this mod to work. Make sure they are enabled
 
 ### Options
 
-Options can be found via the `Mod Options -> Yet Another Party Organiser` menu option
+Options can be found via the main menu option: `Mod Options -> Yet Another Party Organiser`
 
 - **Enable Auto Sorting** | _Default: On_ - Sorts troops and prisoners upon opening the party screen
 
 ### Planned Features
 
-- Anything that fits within the scope of party organisation that anyone may suggest! Feel free to request features in the posts section!
+- Anything that fits within the scope of party organisation that anyone may suggest! Feel free to create feature requests!
 - Configurable group sort order (sort cavalry after archers for example)
 - Configurable upgrade rules
 - Handling of multi-path upgradable troops
