@@ -9,8 +9,8 @@ using YAPO.Global;
 namespace YAPO.Services {
     public static class TroopActionService {
         public static (int, int, int) UpgradeTroops(PartyVM partyVm, PartyScreenLogic partyScreenLogic) {
-            List<PartyCharacterVM> upgradablePrisoners = partyVm.MainPartyTroops.Where(x => !x.IsHero && x.IsUpgrade1Available && x.NumOfTarget1UpgradesAvailable > 0 || x.IsUpgrade2Available && x.NumOfTarget2UpgradesAvailable > 0).ToList();
-            if (!upgradablePrisoners.Any()) {
+            List<PartyCharacterVM> upgradableTroops = partyVm.MainPartyTroops.Where(x => !x.IsHero && x.IsTroopUpgradable && x.IsUpgrade1Available && x.NumOfTarget1UpgradesAvailable > 0 || x.IsUpgrade2Available && x.NumOfTarget2UpgradesAvailable > 0).ToList();
+            if (!upgradableTroops.Any()) {
                 Global.Helpers.Message("No troops available to upgrade");
                 return (0, 0, 0);
             }
@@ -19,7 +19,7 @@ namespace YAPO.Services {
             int upgradedTypes = 0;
             int multiPathSkipped = 0;
             List<Tuple<PartyCharacterVM, PartyScreenLogic.PartyCommand>> commands = new List<Tuple<PartyCharacterVM, PartyScreenLogic.PartyCommand>>();
-            foreach (PartyCharacterVM troops in upgradablePrisoners) {
+            foreach (PartyCharacterVM troops in upgradableTroops) {
                 if (troops.IsUpgrade2Exists) {
                     multiPathSkipped++;
                     continue;
@@ -54,7 +54,7 @@ namespace YAPO.Services {
         }
 
         public static (int, int) RecruitPrisoners(PartyVM partyVm, PartyScreenLogic partyScreenLogic) {
-            List<PartyCharacterVM> recruitablePrisoners = partyVm.MainPartyPrisoners.Where(x => !x.IsHero && x.NumOfRecruitablePrisoners > 0).ToList();
+            List<PartyCharacterVM> recruitablePrisoners = partyVm.MainPartyPrisoners.Where(x => !x.IsHero && x.IsTroopRecruitable && x.NumOfRecruitablePrisoners > 0).ToList();
             if (!recruitablePrisoners.Any()) {
                 Global.Helpers.Message("No prisoners available to recruit");
                 return (0, 0);
