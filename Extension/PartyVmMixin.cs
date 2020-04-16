@@ -235,8 +235,8 @@ namespace YAPO
             Widget partyUpgradableOnTopButtonWidgetDisabled = allChildren.FirstOrDefault(x => x.Id == "PartyUpgradableOnTopButtonWidgetDisabled");
             if (partyUpgradableOnTopButtonWidget != null && partyUpgradableOnTopButtonWidgetDisabled != null)
             {
-                partyUpgradableOnTopButtonWidget.IsHidden = !_vm.MainPartyTroops.Any(x => x.IsTroopUpgradable);
-                partyUpgradableOnTopButtonWidgetDisabled.IsHidden = _vm.MainPartyTroops.Any(x => x.IsTroopUpgradable);
+                partyUpgradableOnTopButtonWidget.IsHidden = !_vm.MainPartyTroops.Any(x => !x.IsHero && x.IsUpgrade1Available && x.NumOfTarget1UpgradesAvailable > 0 || x.IsUpgrade2Available && x.NumOfTarget2UpgradesAvailable > 0);
+                partyUpgradableOnTopButtonWidgetDisabled.IsHidden = _vm.MainPartyTroops.Any(x => !x.IsHero && x.IsUpgrade1Available && x.NumOfTarget1UpgradesAvailable > 0 || x.IsUpgrade2Available && x.NumOfTarget2UpgradesAvailable > 0);
             }
 
             Widget otherSortOrderOppositeButtonWidget = allChildren.FirstOrDefault(x => x.Id == "OtherSortOrderOppositeButtonWidget");
