@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
+using MountAndBlade.CampaignBehaviors;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.ViewModelCollection;
 using YAPO.Global;
@@ -78,24 +78,38 @@ namespace YAPO.Services
                 }
             }
 
+            var playerSelectedCharacter = partyVm.CurrentCharacter.Character;
+
             int recruitedTypes = 0;
             int recruitedTotal = 0;
             List<Tuple<PartyCharacterVM, PartyScreenLogic.PartyCommand>> commands = new List<Tuple<PartyCharacterVM, PartyScreenLogic.PartyCommand>>();
-            while (recruitablePrisoners.Count > 0 && (partySpace > 0 || States.HotkeyControl))
+            foreach (var prisoners in recruitablePrisoners.OrderByDescending(vm => vm.Character.Tier))
             {
-                PartyCharacterVM prisoners = recruitablePrisoners.First();
+                if (recruitablePrisoners.Count == 0 || (partySpace == 0 && !States.HotkeyControl))
+                    break;
+
                 int prisonerCount = prisoners.NumOfRecruitablePrisoners;
                 int prisonersToRecruit = States.HotkeyControl ? prisonerCount : Math.Min(prisonerCount, partySpace);
+                int numOfRemainingRecruitablePrisoners = prisonerCount - prisonersToRecruit;
                 recruitedTypes++;
                 recruitedTotal += prisonersToRecruit;
                 partySpace -= prisonersToRecruit;
+
+                partyVm.CurrentCharacter.Character = prisoners.Character;
+
+                Campaign.Current.GetCampaignBehavior<IRecruitPrisonersCampaignBehavior>()
+                    .SetRecruitableNumber(partyVm.CurrentCharacter.Character, numOfRemainingRecruitablePrisoners + 1);
 
                 PartyScreenLogic.PartyCommand recruitCommand = new PartyScreenLogic.PartyCommand();
                 recruitCommand.FillForRecruitTroop(prisoners.Side, prisoners.Type, prisoners.Character, prisonersToRecruit);
                 commands.Add(new Tuple<PartyCharacterVM, PartyScreenLogic.PartyCommand>(prisoners, recruitCommand));
 
+                partyVm.CurrentCharacter.UpdateRecruitable();
+
                 recruitablePrisoners.RemoveAt(0);
             }
+
+            partyVm.CurrentCharacter.Character = playerSelectedCharacter;
 
             if (commands.Count == 0)
             {
