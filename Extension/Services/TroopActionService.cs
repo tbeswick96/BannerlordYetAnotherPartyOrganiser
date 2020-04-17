@@ -78,15 +78,14 @@ namespace YAPO.Services
                 }
             }
 
-            var playerSelectedCharacter = partyVm.CurrentCharacter.Character;
+            CharacterObject playerSelectedCharacter = partyVm.CurrentCharacter.Character;
 
             int recruitedTypes = 0;
             int recruitedTotal = 0;
             List<Tuple<PartyCharacterVM, PartyScreenLogic.PartyCommand>> commands = new List<Tuple<PartyCharacterVM, PartyScreenLogic.PartyCommand>>();
-            foreach (var prisoners in recruitablePrisoners.OrderByDescending(vm => vm.Character.Tier))
+            foreach (var prisoners in recruitablePrisoners)
             {
-                if (recruitablePrisoners.Count == 0 || (partySpace == 0 && !States.HotkeyControl))
-                    break;
+                if (partySpace == 0 && !States.HotkeyControl) break;
 
                 int prisonerCount = prisoners.NumOfRecruitablePrisoners;
                 int prisonersToRecruit = States.HotkeyControl ? prisonerCount : Math.Min(prisonerCount, partySpace);
@@ -105,8 +104,6 @@ namespace YAPO.Services
                 commands.Add(new Tuple<PartyCharacterVM, PartyScreenLogic.PartyCommand>(prisoners, recruitCommand));
 
                 partyVm.CurrentCharacter.UpdateRecruitable();
-
-                recruitablePrisoners.RemoveAt(0);
             }
 
             partyVm.CurrentCharacter.Character = playerSelectedCharacter;
