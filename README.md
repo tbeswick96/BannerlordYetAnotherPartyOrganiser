@@ -4,17 +4,25 @@
 
 ### Another party organisation mod to add to your ever expanding collection!
 
-_**Disclaimer**: Yes I know a lot of these mods have been released in the space of a few days. All us mod devs had the same ideas and have implemented similar solutions in different ways. Over the course of the next few weeks it's likely some of these mods will either lose support from their dev(s), or be merged into one feature-complete mod that everyone can use. Other mod devs see note at bottom about this._
+_**Disclaimer**:
+Yes, we know a lot of these mods have been released in the space of a few days.
+Many had similar ideas and implemented them in different ways.
+Over the course of the next few weeks it's likely some of these mods will either lose support from their dev(s), or be merged into one or few feature-complete mods that everyone uses.
+We encourage the latter, as long as the resulting mods are open sourced._
+
+_This mod is open source, so please feel free to explore it.
+It isn't perfect but we are working on it.
+If you want to help don't hesitate to get into contact and have a look at our [contribution guide](https://github.com/tbeswick96/BannerlordYetAnotherPartyOrganiser/wiki/Contributing)._
 
 ## Dependencies
 
-The following mods are required for this mod to work. Make sure they are enabled and listed above this mod within the launcher for it to function correctly.
+| Dependency | Mandatory | Notes |
+|------------|:---------:|-------|
+| [UIExtenderLib](https://www.nexusmods.com/mountandblade2bannerlord/mods/323) | ✓ | Used to safely extend the game UI |
+| [ModLib](https://www.nexusmods.com/mountandblade2bannerlord/mods/592) | ✓ | Used to provide settings and other goodies |
+| [Save Missing Module Fix](https://www.nexusmods.com/mountandblade2bannerlord/mods/282) | ✗ | Recommended as it ensures saves can be loaded when you unload this mod having saved a game with it enabled |
 
-| Dependency | Notes |
-|--|--|
-[UIExtenderLib](https://www.nexusmods.com/mountandblade2bannerlord/mods/323) | Required
-[ModLib](https://www.nexusmods.com/mountandblade2bannerlord/mods/592) | Required
-[Save Missing Module Fix](https://www.nexusmods.com/mountandblade2bannerlord/mods/282) | Optional - Recommended to ensure saves can be loaded if you unload Yet Another party Organiser having saved a game with it enabled
+Make sure that the dependent mods are enabled and listed above this mod within to launcher.
 
 ## Features
 
@@ -50,9 +58,12 @@ The following mods are required for this mod to work. Make sure they are enabled
 
 ### Options
 
-Options can be found via the main menu option: `Mod Options -> Yet Another Party Organiser`
+Options can be found via the main menu option:
+`Mod Options -> Yet Another Party Organiser`
 
-- **Enable Auto Sorting** | _Default: On_ - Sorts troops and prisoners upon opening the party screen
+| Option | Default | Description |
+|--------|---------|-------------|
+| Enable Auto Sorting | On | Sorts troops and prisoners upon opening the party screen |
 
 ### Planned Features
 
@@ -61,23 +72,3 @@ Options can be found via the main menu option: `Mod Options -> Yet Another Party
 - Configurable upgrade rules
 - Handling of multi-path upgradable troops
 - Configurable main party prisoner and other party troops/prisoner (after battle) recruitment rules
-
----
-
-_Notes to other mod devs who have made similar mods_
-
-As mentioned at the top, it's likely all our mods will be merged into a single (or hopefully at least only 2 or 3 at most) feature-complete mod. Personally I encourage this as long as it is/they are open source. This mod is open source, please feel free to explore my implementations. They're not perfect of course, however I discourage simple copy and pasting code into your own mod. It'd be better for us all to collaborate. I'm happy to get the ball rolling on this if there's a few of us up for it!
-If you wish to, feel free to contact me regarding any of this, or if you want to rip my mod from my cold dead hands and take it over as your own.
-
-## Contributing
-
-If you wish to contribute to this project please read the following to get your local development environment setup correctly.
-
-### Installation
-
-- Fork the repository
-- Clone the forked repository
-- Navigate to the repository on disk
-- Navigate to the `Extension` folder
-- Open the `YetAnotherPartyOrganiser.props` file with a text editor
-- Modify the `<GameFolder>` tag so it actually points to your installation of Bannerlord
