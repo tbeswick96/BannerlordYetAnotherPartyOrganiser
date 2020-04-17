@@ -46,17 +46,10 @@ namespace YAPO.Services
                 return (0, 0, 0);
             }
 
-            MethodInfo upgradeTroop = partyScreenLogic.GetType().GetMethod("UpgradeTroop", BindingFlags.NonPublic | BindingFlags.Instance);
-            if (upgradeTroop == null)
-            {
-                Global.Helpers.DebugMessage("Could not find UpgradeTroop method in PartyScreenLogic");
-                return (0, 0, 0);
-            }
-
             foreach ((PartyCharacterVM partyCharacterVm, PartyScreenLogic.PartyCommand command) in commands)
             {
                 partyVm.CurrentCharacter = partyCharacterVm;
-                upgradeTroop.Invoke(partyScreenLogic, new object[] {command});
+                partyScreenLogic.AddCommand(command);
             }
 
             return (upgradedTotal, upgradedTypes, multiPathSkipped);
@@ -72,7 +65,8 @@ namespace YAPO.Services
             }
 
             int partySpace = partyScreenLogic.RightOwnerParty.PartySizeLimit - partyScreenLogic.MemberRosters[1].TotalManCount;
-            if (partySpace <= 0)
+            partySpace = partySpace < 0 ? 0 : partySpace;
+            if (partySpace == 0)
             {
                 if (States.HotkeyControl)
                 {
@@ -87,11 +81,11 @@ namespace YAPO.Services
             int recruitedTypes = 0;
             int recruitedTotal = 0;
             List<Tuple<PartyCharacterVM, PartyScreenLogic.PartyCommand>> commands = new List<Tuple<PartyCharacterVM, PartyScreenLogic.PartyCommand>>();
-            while (recruitablePrisoners.Count > 0 && (partySpace != 0 || States.HotkeyControl))
+            while (recruitablePrisoners.Count > 0 && (partySpace > 0 || States.HotkeyControl))
             {
                 PartyCharacterVM prisoners = recruitablePrisoners.First();
                 int prisonerCount = prisoners.NumOfRecruitablePrisoners;
-                int prisonersToRecruit = Math.Min(prisonerCount, partySpace);
+                int prisonersToRecruit = States.HotkeyControl ? prisonerCount : Math.Min(prisonerCount, partySpace);
                 recruitedTypes++;
                 recruitedTotal += prisonersToRecruit;
                 partySpace -= prisonersToRecruit;
@@ -109,17 +103,10 @@ namespace YAPO.Services
                 return (0, 0);
             }
 
-            MethodInfo recruitPrisoner = partyScreenLogic.GetType().GetMethod("RecruitPrisoner", BindingFlags.NonPublic | BindingFlags.Instance);
-            if (recruitPrisoner == null)
-            {
-                Global.Helpers.DebugMessage("Could not find RecruitPrisoner method in PartyScreenLogic");
-                return (0, 0);
-            }
-
             foreach ((PartyCharacterVM partyCharacterVm, PartyScreenLogic.PartyCommand command) in commands)
             {
                 partyVm.CurrentCharacter = partyCharacterVm;
-                recruitPrisoner.Invoke(partyScreenLogic, new object[] {command});
+                partyScreenLogic.AddCommand(command);
             }
 
             return (recruitedTotal, recruitedTypes);
