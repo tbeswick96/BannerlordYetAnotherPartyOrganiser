@@ -92,6 +92,8 @@ namespace YAPO
                 SortOther(_partyTroopSorterService.SortDirection);
             }
 
+            Refresh();
+
             _firstRefreshDone = true;
             Global.Helpers.DebugMessage("First Refresh");
         }
@@ -222,46 +224,22 @@ namespace YAPO
             if (States.PartyScreenWidget == null) return;
 
             List<Widget> allChildren = States.PartyScreenWidget.AllChildren.ToList();
+            RefreshPartyScreenWidgetState(allChildren, "PartySortOrderOppositeButtonWidget", () => CurrentPartyThenByMode != SortMode.NONE);
+            RefreshPartyScreenWidgetState(allChildren, "PartyUpgradableOnTopButtonWidget", () => _vm.MainPartyTroops.Any(x => x.IsTroopUpgradable));
+            RefreshPartyScreenWidgetState(allChildren, "OtherSortOrderOppositeButtonWidget", () => CurrentOtherThenByMode != SortMode.NONE);
+            RefreshPartyScreenWidgetState(allChildren, "ActionUpgradeButtonWidget", () => _vm.MainPartyTroops.Any(x => x.IsTroopUpgradable));
+            RefreshPartyScreenWidgetState(allChildren, "ActionRecruitButtonWidget", () => _vm.MainPartyPrisoners.Any(x => x.IsTroopRecruitable));
+        }
 
-            Widget partySortOrderOppositeButtonWidget = allChildren.FirstOrDefault(x => x.Id == "PartySortOrderOppositeButtonWidget");
-            Widget partySortOrderOppositeButtonWidgetDisabled = allChildren.FirstOrDefault(x => x.Id == "PartySortOrderOppositeButtonWidgetDisabled");
-            if (partySortOrderOppositeButtonWidget != null && partySortOrderOppositeButtonWidgetDisabled != null)
-            {
-                partySortOrderOppositeButtonWidget.IsHidden = CurrentPartyThenByMode == SortMode.NONE;
-                partySortOrderOppositeButtonWidgetDisabled.IsHidden = CurrentPartyThenByMode != SortMode.NONE;
-            }
+        private static void RefreshPartyScreenWidgetState(IReadOnlyCollection<Widget> allWidgets, string widgetName, Func<bool> statePredicate)
+        {
+            Widget widget = allWidgets.FirstOrDefault(x => x.Id == widgetName);
+            Widget widgetDisabled = allWidgets.FirstOrDefault(x => x.Id == $"{widgetName}Disabled");
+            if (widget == null || widgetDisabled == null) return;
 
-            Widget partyUpgradableOnTopButtonWidget = allChildren.FirstOrDefault(x => x.Id == "PartyUpgradableOnTopButtonWidget");
-            Widget partyUpgradableOnTopButtonWidgetDisabled = allChildren.FirstOrDefault(x => x.Id == "PartyUpgradableOnTopButtonWidgetDisabled");
-            if (partyUpgradableOnTopButtonWidget != null && partyUpgradableOnTopButtonWidgetDisabled != null)
-            {
-                partyUpgradableOnTopButtonWidget.IsHidden = !_vm.MainPartyTroops.Any(x => !x.IsHero && x.IsUpgrade1Available && x.NumOfTarget1UpgradesAvailable > 0 || x.IsUpgrade2Available && x.NumOfTarget2UpgradesAvailable > 0);
-                partyUpgradableOnTopButtonWidgetDisabled.IsHidden = _vm.MainPartyTroops.Any(x => !x.IsHero && x.IsUpgrade1Available && x.NumOfTarget1UpgradesAvailable > 0 || x.IsUpgrade2Available && x.NumOfTarget2UpgradesAvailable > 0);
-            }
-
-            Widget otherSortOrderOppositeButtonWidget = allChildren.FirstOrDefault(x => x.Id == "OtherSortOrderOppositeButtonWidget");
-            Widget otherSortOrderOppositeButtonWidgetDisabled = allChildren.FirstOrDefault(x => x.Id == "OtherSortOrderOppositeButtonWidgetDisabled");
-            if (otherSortOrderOppositeButtonWidget != null && otherSortOrderOppositeButtonWidgetDisabled != null)
-            {
-                otherSortOrderOppositeButtonWidget.IsHidden = CurrentOtherThenByMode == SortMode.NONE;
-                otherSortOrderOppositeButtonWidgetDisabled.IsHidden = CurrentOtherThenByMode != SortMode.NONE;
-            }
-
-            Widget actionUpgradeButtonWidget = allChildren.FirstOrDefault(x => x.Id == "ActionUpgradeButtonWidget");
-            Widget actionUpgradeButtonWidgetDisabled = allChildren.FirstOrDefault(x => x.Id == "ActionUpgradeButtonWidgetDisabled");
-            if (actionUpgradeButtonWidget != null && actionUpgradeButtonWidgetDisabled != null)
-            {
-                actionUpgradeButtonWidget.IsHidden = !_vm.MainPartyTroops.Any(x => x.IsTroopUpgradable);
-                actionUpgradeButtonWidgetDisabled.IsHidden = _vm.MainPartyTroops.Any(x => x.IsTroopUpgradable);
-            }
-
-            Widget actionRecruitButtonWidget = allChildren.FirstOrDefault(x => x.Id == "ActionRecruitButtonWidget");
-            Widget actionRecruitButtonWidgetDisabled = allChildren.FirstOrDefault(x => x.Id == "ActionRecruitButtonWidgetDisabled");
-            if (actionRecruitButtonWidget != null && actionRecruitButtonWidgetDisabled != null)
-            {
-                actionRecruitButtonWidget.IsHidden = !_vm.MainPartyPrisoners.Any(x => x.IsTroopRecruitable);
-                actionRecruitButtonWidgetDisabled.IsHidden = _vm.MainPartyPrisoners.Any(x => x.IsTroopRecruitable);
-            }
+            bool state = statePredicate();
+            widget.IsHidden = !state;
+            widgetDisabled.IsHidden = state;
         }
 
         private void RefreshPartyVmInformation()
