@@ -10,6 +10,12 @@
         public const string SETTINGS_ENABLE_AUTO_SORT_NAME = "Enable Auto Sorting";
         public const string SETTINGS_ENABLE_AUTO_SORT_TOOLTIP = "When set enables sorting troops and prisoners upon opening the party screen.";
 
+        public const string SETTINGS_UPGRADE_GROUP_NAME = "Upgrade";
+        public const string SETTINGS_PREFER_SHIELD_NAME = "Prefer infantry with shields";
+        public const string SETTINGS_PREFER_SHIELD_TOOLTIP= "Prefer infantry with shields when upgrading to infantry troopclasses.";
+        public const string SETTINGS_RANGED_PREFERENCE_NAME = "Prefer ranged with specific weapons";
+        public const string SETTINGS_RANGED_PREFERENCE_TOOLTIP = "Prefer specific ranged weapons when upgrading to ranged troopclasses. (0 for no preference, 1 for Bows, 2 for crossbows)";
+
         public const string SORT_TEXT_ASCENDING = "/\\";
         public const string SORT_TEXT_DESCENDING = "\\/";
         public const string SORT_ORDER_OPPOSITE_TEXT_SAME = "SO";

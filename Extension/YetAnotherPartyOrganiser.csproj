@@ -264,9 +264,18 @@
     <Compile Include="Global\States.cs" />
     <Compile Include="Global\Strings.cs" />
     <Compile Include="Patches\PartyScreenWidgetPatches.cs" />
+    <Compile Include="MultipathUpgrade\Model\PreferredTroopsByCulture.cs" />
+    <Compile Include="MultipathUpgrade\Enum\RangedPreference.cs" />
+    <Compile Include="MultipathUpgrade\Model\CharacterClass.cs" />
+    <Compile Include="MultipathUpgrade\Services\CharacterClassCreator.cs" />
+    <Compile Include="MultipathUpgrade\Enum\CharacterClassType.cs" />
+    <Compile Include="MultipathUpgrade\Enum\EquipmentProperties.cs" />
+    <Compile Include="MultipathUpgrade\MultipathUpgradeLogic.cs" />
     <Compile Include="Services\SortHelpers.cs" />
     <Compile Include="Services\TroopActionService.cs" />
     <Compile Include="Services\TroopSorterService.cs" />
+    <Compile Include="MultipathUpgrade\Model\UpgradeCandidate.cs" />
+    <Compile Include="MultipathUpgrade\Services\UpgradeTreeCrawler.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="SortByModeOptionVM.cs" />
     <Compile Include="UI\PartyScreenWidgetExtensions.cs" />
@@ -290,6 +299,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>mkdir "$(TargetDir)bin\Win64_Shipping_Client\"
