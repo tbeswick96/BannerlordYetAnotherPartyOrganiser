@@ -12,8 +12,7 @@ namespace YAPO.Fixes.Formations.Patches
         {
             public static void Postfix()
             {
-                FixedFormationsBehaviour.Instance.FormationClasses ??=
-                    new Dictionary<BasicCharacterObject, FormationClass>();
+                FixedFormationsBehaviour.Instance.FormationClasses = FixedFormationsBehaviour.Instance.FormationClasses ?? new Dictionary<BasicCharacterObject, FormationClass>();
                 FixedFormationsBehaviour.Instance.GameStarted = true;
             }
         }
