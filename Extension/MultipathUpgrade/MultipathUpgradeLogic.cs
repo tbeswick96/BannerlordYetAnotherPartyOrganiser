@@ -18,7 +18,7 @@ namespace YAPO.MultipathUpgrade
 
             if (upgradeIndexByBandit > -1)
             {
-                upgradeTarget = MapIndexToUpgradeTargetType(upgradeIndexByBandit);
+                upgradeTarget = (PartyScreenLogic.PartyCommand.UpgradeTargetType)upgradeIndexByBandit;
                 return true;
             }
 
@@ -26,33 +26,12 @@ namespace YAPO.MultipathUpgrade
 
             if (upgradeIndexByCultureStrength > -1)
             {
-                upgradeTarget = MapIndexToUpgradeTargetType(upgradeIndexByCultureStrength);
+                upgradeTarget = (PartyScreenLogic.PartyCommand.UpgradeTargetType)upgradeIndexByCultureStrength;
                 return true;
             }
 
             upgradeTarget = PartyScreenLogic.PartyCommand.UpgradeTargetType.UpgradeTarget6;
             return false;
-        }
-
-        public static PartyScreenLogic.PartyCommand.UpgradeTargetType MapIndexToUpgradeTargetType(int index)
-        {
-            switch (index)
-            {
-                case 0:
-                    return PartyScreenLogic.PartyCommand.UpgradeTargetType.UpgradeTarget1;
-                case 1:
-                    return PartyScreenLogic.PartyCommand.UpgradeTargetType.UpgradeTarget2;
-                case 2:
-                    return PartyScreenLogic.PartyCommand.UpgradeTargetType.UpgradeTarget3;
-                case 3:
-                    return PartyScreenLogic.PartyCommand.UpgradeTargetType.UpgradeTarget4;
-                case 4:
-                    return PartyScreenLogic.PartyCommand.UpgradeTargetType.UpgradeTarget5;
-                case 5:
-                    return PartyScreenLogic.PartyCommand.UpgradeTargetType.UpgradeTarget6;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
         }
 
         public static int GetUpgradePathIndexByIsBandit(PartyCharacterVM troops)
@@ -71,12 +50,14 @@ namespace YAPO.MultipathUpgrade
 
             for (int i = 0; i < troops.Character.UpgradeTargets.Length; i++)
             {
-                UpgradeCandidate upgradeCandidate = new UpgradeCandidate();
-                upgradeCandidate.UpgradeTargetIndex = i;
-                upgradeCandidate.UpgradeClassTipsWhichAreSpecialties = UpgradeTreeCrawler
-                    .GetUpgradeTreeTips(troops.Character.UpgradeTargets[i]).Where(cl =>
-                        GetPreferredClassTypesByCulture(troops.Character.Culture.GetName().ToString())
-                            .Any(c => c == cl.ClassType)).ToList();
+                UpgradeCandidate upgradeCandidate = new UpgradeCandidate
+                {
+                    UpgradeTargetIndex = i,
+                    UpgradeClassTipsWhichAreSpecialties = UpgradeTreeCrawler
+                        .GetUpgradeTreeTips(troops.Character.UpgradeTargets[i]).Where(cl =>
+                            GetPreferredClassTypesByCulture(troops.Character.Culture.GetName().ToString())
+                                .Any(c => c == cl.ClassType)).ToList()
+                };
 
                 candidates.Add(upgradeCandidate);
             }
@@ -86,7 +67,7 @@ namespace YAPO.MultipathUpgrade
             {
                 return -1;
             }
-
+             
             //if one candidate has any specialty in its tips ==> candidate gets the upgrade
             if (candidates.Count(candidate => candidate.UpgradeClassTipsWhichAreSpecialties.Count > 0) == 1)
             {
@@ -176,13 +157,7 @@ namespace YAPO.MultipathUpgrade
                 }
             }
 
-            if (superCandidates.Count == 1)
-            {
-                return superCandidates[0];
-            }
-
-            return null;
+            return superCandidates.Count == 1 ? superCandidates[0] : null;
         }
-
     }
 }

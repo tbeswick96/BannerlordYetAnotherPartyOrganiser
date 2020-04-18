@@ -29,13 +29,10 @@ namespace YAPO.Services
                 PartyScreenLogic.PartyCommand.UpgradeTargetType upgradeTargetType =
                     PartyScreenLogic.PartyCommand.UpgradeTargetType.UpgradeTarget1;
 
-                if (troops.IsUpgrade2Exists)
+                if (troops.IsUpgrade2Exists && !MultipathUpgradeLogic.TryGetUpgradePath(troops, out upgradeTargetType))
                 {
-                    if (!MultipathUpgradeLogic.TryGetUpgradePath(troops, out upgradeTargetType))
-                    {
-                        multiPathSkipped++;
-                        continue;
-                    }
+                    multiPathSkipped++;
+                    continue;
                 }
 
                 int troopsToUpgrade = troops.NumOfUpgradeableTroops;

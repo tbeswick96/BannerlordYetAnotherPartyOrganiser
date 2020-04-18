@@ -25,12 +25,15 @@ namespace YAPO
         [XmlElement, SettingProperty(Strings.SETTINGS_ENABLE_AUTO_SORT_NAME, Strings.SETTINGS_ENABLE_AUTO_SORT_TOOLTIP), SettingPropertyGroup(Strings.SETTINGS_GENERAL_GROUP_NAME)]
         public bool AutoSortEnabled { get; set; } = true;
 
+        #endregion
+
+        #region UpgradeSettings
+
         [XmlElement, SettingProperty(Strings.SETTINGS_RANGED_PREFERENCE_NAME, 0, 2, Strings.SETTINGS_RANGED_PREFERENCE_TOOLTIP), SettingPropertyGroup(Strings.SETTINGS_UPGRADE_GROUP_NAME)]
         public int RangedPreference { get; set; }
         [XmlElement, SettingProperty(Strings.SETTINGS_PREFER_SHIELD_NAME, Strings.SETTINGS_PREFER_SHIELD_TOOLTIP), SettingPropertyGroup(Strings.SETTINGS_UPGRADE_GROUP_NAME)]
         public bool PreferShield { get; set; } = true;
 
-        //TODO put this in a list of booleans per culture
         public List<PreferredTroopsByCulture> PreferredTroopsByCulture = new List<PreferredTroopsByCulture>
         {
             new PreferredTroopsByCulture()
@@ -63,6 +66,7 @@ namespace YAPO
                 TroopClasses = new List<CharacterClassType> { CharacterClassType.INFANTRY, CharacterClassType.RANGED }
             }
         };
+
         #endregion
     }
 }
