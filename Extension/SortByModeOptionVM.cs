@@ -1,5 +1,6 @@
 ﻿using TaleWorlds.Library;
 using YAPO.Global;
+using YAPO.Mixins;
 
 // ReSharper disable InconsistentNaming
 // ReSharper disable UnusedType.Global

@@ -83,7 +83,7 @@ namespace YAPO.Services
             int recruitedTypes = 0;
             int recruitedTotal = 0;
             List<Tuple<PartyCharacterVM, PartyScreenLogic.PartyCommand>> commands = new List<Tuple<PartyCharacterVM, PartyScreenLogic.PartyCommand>>();
-            foreach (var prisoners in recruitablePrisoners)
+            foreach (PartyCharacterVM prisoners in recruitablePrisoners)
             {
                 if (partySpace == 0 && !States.HotkeyControl) break;
 

@@ -25,7 +25,7 @@ namespace YAPO
                 FileDatabase.Initialise(Strings.MODULE_FOLDER_NAME);
                 Settings settings = FileDatabase.Get<Settings>(Settings.InstanceId) ?? new Settings();
                 SettingsDatabase.RegisterSettings(settings);
-                
+
                 UIExtender.Register();
                 new Harmony("YAPO").PatchAll();
             } catch (Exception exception)
@@ -43,7 +43,8 @@ namespace YAPO
 
         protected override void OnApplicationTick(float dt)
         {
-            if (States.PartyVmMixin == null || Campaign.Current == null || Campaign.Current.CurrentMenuContext != null && (!Campaign.Current.CurrentMenuContext.GameMenu.IsWaitActive || Campaign.Current.TimeControlModeLock))
+            if (States.PartyVmMixin == null || Campaign.Current == null ||
+                Campaign.Current.CurrentMenuContext != null && (!Campaign.Current.CurrentMenuContext.GameMenu.IsWaitActive || Campaign.Current.TimeControlModeLock))
             {
                 return;
             }
