@@ -11,6 +11,7 @@
     <RootNamespace>YAPO</RootNamespace>
     <AssemblyName>YetAnotherPartyOrganiser</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <LangVersion>8</LangVersion>
     <FileAlignment>512</FileAlignment>
     <StartAction>Program</StartAction>
     <StartProgram>$(GameFolder)\bin\Win64_Shipping_Client\Bannerlord.exe</StartProgram>
@@ -260,6 +261,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Fixes\Formations\FixedFormationsBehaviour.cs" />
+    <Compile Include="Fixes\Formations\FixedFormationsSaveableTypeDefiner.cs" />
+    <Compile Include="Fixes\Formations\Patches\BasicCharacterObjectPatches.cs" />
+    <Compile Include="Fixes\Formations\Patches\CampaignPatches.cs" />
+    <Compile Include="Fixes\Formations\Patches\LoadContextPatches.cs" />
     <Compile Include="Global\Helpers.cs" />
     <Compile Include="Global\States.cs" />
     <Compile Include="Global\Strings.cs" />
@@ -284,6 +290,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="GUI\PrefabExtensions\TroopActionButtons.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ModuleData\FormationStrings.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="SubModule.xml">

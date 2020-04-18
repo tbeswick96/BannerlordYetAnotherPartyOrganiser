@@ -6,6 +6,8 @@
         public const string MODULE_NAME = "Yet Another Party Organiser";
         public const string MODULE_FOLDER_NAME = "YetAnotherPartyOrganiser";
 
+        public const string MODULE_DATA_FORMATION_STRINGS = "ModuleData/FormationStrings.xml";
+
         public const string SETTINGS_GENERAL_GROUP_NAME = "General";
         public const string SETTINGS_ENABLE_AUTO_SORT_NAME = "Enable Auto Sorting";
         public const string SETTINGS_ENABLE_AUTO_SORT_TOOLTIP = "When set enables sorting troops and prisoners upon opening the party screen.";
