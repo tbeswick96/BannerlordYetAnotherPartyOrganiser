@@ -12,10 +12,7 @@ namespace YAPO.Fixes.Formations
 
         public bool GameStarted { get; set; }
 
-        public override void RegisterEvents()
-        {
-            // Nothing to register
-        }
+        public override void RegisterEvents() { }
 
         public override void SyncData(IDataStore dataStore)
         {

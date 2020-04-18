@@ -31,9 +31,9 @@ namespace YAPO
                 UIExtender.Register();
                 new Harmony("YAPO").PatchAll();
             }
-            catch (Exception e)
+            catch (Exception exception)
             {
-                ModDebug.ShowError("Failed to load YetAnotherPartyOrganiser", "OnSubModuleLoad exception", e);
+                ModDebug.ShowError("Failed to load YetAnotherPartyOrganiser", "OnSubModuleLoad exception", exception);
             }
         }
 
@@ -47,9 +47,9 @@ namespace YAPO
                 MBObjectManager.Instance.RegisterType<TroopSorterService>("Sorter", "Sorters");
                 AddBehaviours(gameStarterObject as CampaignGameStarter);
             }
-            catch (Exception e)
+            catch (Exception exception)
             {
-                ModDebug.ShowError("Something went wrong while starting a game", "OnGameStart exception", e);
+                ModDebug.ShowError("Something went wrong while starting a game", "OnGameStart exception", exception);
             }
         }
 

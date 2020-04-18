@@ -6,10 +6,7 @@ namespace YAPO.Fixes.Formations
 {
     public class FixedFormationsSaveableTypeDefiner : SaveableTypeDefiner
     {
-        public FixedFormationsSaveableTypeDefiner() : base(13537200)
-        {
-            // Nothing to do
-        }
+        public FixedFormationsSaveableTypeDefiner() : base(13537200) { }
 
         protected override void DefineEnumTypes()
         {
