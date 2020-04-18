@@ -3,7 +3,6 @@ using ModLib.Attributes;
 using System.Collections.Generic;
 using System.Xml.Serialization;
 using YAPO.Global;
-using YAPO.MultipathUpgrade;
 using YAPO.MultipathUpgrade.Enum;
 using YAPO.MultipathUpgrade.Model;
 
@@ -11,7 +10,7 @@ namespace YAPO
 {
     public class Settings : SettingsBase
     {
-        public const string InstanceId = Strings.MODULE_FOLDER_NAME;
+        public const string InstanceId = Strings.MODULE_FOLDER_NAME + "Settings";
 
         public override string ModName { get; } = Strings.MODULE_NAME;
         public override string ModuleFolderName { get; } = Strings.MODULE_FOLDER_NAME;
@@ -31,6 +30,7 @@ namespace YAPO
         [XmlElement, SettingProperty(Strings.SETTINGS_PREFER_SHIELD_NAME, Strings.SETTINGS_PREFER_SHIELD_TOOLTIP), SettingPropertyGroup(Strings.SETTINGS_UPGRADE_GROUP_NAME)]
         public bool PreferShield { get; set; } = true;
 
+        //TODO put this in a list of booleans per culture
         public List<PreferredTroopsByCulture> PreferredTroopsByCulture = new List<PreferredTroopsByCulture>
         {
             new PreferredTroopsByCulture()

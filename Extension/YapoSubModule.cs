@@ -25,7 +25,6 @@ namespace YAPO
                 FileDatabase.Initialise(Strings.MODULE_FOLDER_NAME);
                 Settings settings = FileDatabase.Get<Settings>(Settings.InstanceId) ?? new Settings();
                 SettingsDatabase.RegisterSettings(settings);
-                FileDatabase.SaveToFile(Strings.MODULE_FOLDER_NAME, settings);
 
                 UIExtender.Register();
                 new Harmony("YAPO").PatchAll();

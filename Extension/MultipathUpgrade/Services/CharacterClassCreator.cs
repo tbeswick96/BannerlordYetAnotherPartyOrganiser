@@ -16,7 +16,9 @@ namespace YAPO.MultipathUpgrade.Services
         {
             var characterByDefaultFormationGroup = GetCharacterClassTypeByDefaultFormationGroup(character);
             if (characterByDefaultFormationGroup != CharacterClassType.UNKNOWN)
+            {
                 return characterByDefaultFormationGroup;
+            }
 
             if (character.IsInfantry)
             {
@@ -29,6 +31,7 @@ namespace YAPO.MultipathUpgrade.Services
                 {
                     return CharacterClassType.HORSE_ARCHER;
                 }
+
                 return CharacterClassType.RANGED;
             }
 
@@ -52,9 +55,10 @@ namespace YAPO.MultipathUpgrade.Services
                     return CharacterClassType.CAVALRY;
                 case 3:
                     return CharacterClassType.HORSE_ARCHER;
-            }
+                default:
+                    return CharacterClassType.UNKNOWN;
+            }   
 
-            return CharacterClassType.UNKNOWN;
         }
 
         private static EquipmentProperties SetEquipmentProperties(CharacterObject character)

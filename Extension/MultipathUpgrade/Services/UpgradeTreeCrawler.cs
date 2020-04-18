@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using TaleWorlds.CampaignSystem;
+using TaleWorlds.Core;
 using YAPO.MultipathUpgrade.Model;
 
 namespace YAPO.MultipathUpgrade.Services
@@ -32,7 +33,7 @@ namespace YAPO.MultipathUpgrade.Services
                 }
             }
 
-            if (!_characterClasses.Any())
+            if (_characterClasses.IsEmpty())
             {
                 _characterClasses.Add(CharacterClassCreator.CreateCharacterClass(characterObject));
             }
