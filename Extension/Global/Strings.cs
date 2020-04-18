@@ -10,8 +10,13 @@
 
         public const string SETTINGS_GENERAL_GROUP_NAME = "General";
         public const string SETTINGS_ENABLE_AUTO_SORT_NAME = "Enable Auto Sorting";
-        public const string SETTINGS_ENABLE_AUTO_SORT_TOOLTIP = "When set enables sorting troops and prisoners upon opening the party screen.";
+        public const string SETTINGS_ENABLE_AUTO_SORT_TOOLTIP = "When enabled troops and prisoners are sorted upon opening the party screen.";
 
+        public const string SETTINGS_FIXES_GROUP_NAME = "Fixes";
+        public const string SETTINGS_ENABLE_FORMATION_PERSISTENCE_NAME = "Enable formation persistence fix";
+        public const string SETTINGS_ENABLE_FORMATION_PERSISTENCE_TOOLTIP =
+            "When enabled assigned formations will be correctly stored with each save game.";
+       
         public const string SORT_TEXT_ASCENDING = "/\\";
         public const string SORT_TEXT_DESCENDING = "\\/";
         public const string SORT_ORDER_OPPOSITE_TEXT_SAME = "SO";

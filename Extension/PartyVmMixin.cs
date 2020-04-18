@@ -86,7 +86,7 @@ namespace YAPO
         {
             if (States.PartyVmMixin != this || _firstRefreshDone) return;
 
-            if (Settings.Instance.AutoSortEnabled)
+            if (YapoSettings.Instance.IsAutoSortEnabled)
             {
                 SortParty(_partyTroopSorterService.SortDirection);
                 SortOther(_partyTroopSorterService.SortDirection);

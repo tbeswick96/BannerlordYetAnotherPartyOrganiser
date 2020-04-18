@@ -25,7 +25,7 @@ namespace YAPO
             try
             {
                 FileDatabase.Initialise(Strings.MODULE_FOLDER_NAME);
-                Settings settings = FileDatabase.Get<Settings>(Settings.InstanceId) ?? new Settings();
+                YapoSettings settings = FileDatabase.Get<YapoSettings>(YapoSettings.InstanceId) ?? new YapoSettings();
                 SettingsDatabase.RegisterSettings(settings);
 
                 UIExtender.Register();
@@ -57,9 +57,12 @@ namespace YAPO
         {
             if (campaignGameStarter == null) return;
 
-            campaignGameStarter.AddBehavior(FixedFormationsBehaviour.Instance);
-            campaignGameStarter.LoadGameTexts(
-                $"{BasePath.Name}/Modules/{Strings.MODULE_FOLDER_NAME}/{Strings.MODULE_DATA_FORMATION_STRINGS}");
+            if (YapoSettings.Instance.IsFormationPersistenceFixEnabled)
+            {
+                campaignGameStarter.AddBehavior(FixedFormationsBehaviour.Instance);
+                campaignGameStarter.LoadGameTexts(
+                    $"{BasePath.Name}/Modules/{Strings.MODULE_FOLDER_NAME}/{Strings.MODULE_DATA_FORMATION_STRINGS}");
+            }
         }
 
         protected override void OnApplicationTick(float dt)
