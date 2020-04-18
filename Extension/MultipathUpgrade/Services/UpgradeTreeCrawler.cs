@@ -8,13 +8,13 @@ namespace YAPO.MultipathUpgrade.Services
 {
     public static class UpgradeTreeCrawler
     {
-        private static List<CharacterClass> _characterClasses;
+        private static List<CharacterClass> characterClasses;
 
-        public static List<CharacterClass> GetUpgradeTreeTips(CharacterObject characterObject)
+        public static IEnumerable<CharacterClass> GetUpgradeTreeTips(CharacterObject characterObject)
         {
-            _characterClasses = new List<CharacterClass>();
+            characterClasses = new List<CharacterClass>();
             ProcessTree(characterObject);
-            return _characterClasses;
+            return characterClasses;
         }
 
         private static void ProcessTree(CharacterObject characterObject)
@@ -29,13 +29,13 @@ namespace YAPO.MultipathUpgrade.Services
                         continue;
                     }
 
-                    _characterClasses.Add(CharacterClassCreator.CreateCharacterClass(upgradeTarget));
+                    characterClasses.Add(CharacterClassCreator.CreateCharacterClass(upgradeTarget));
                 }
             }
 
-            if (_characterClasses.IsEmpty())
+            if (characterClasses.IsEmpty())
             {
-                _characterClasses.Add(CharacterClassCreator.CreateCharacterClass(characterObject));
+                characterClasses.Add(CharacterClassCreator.CreateCharacterClass(characterObject));
             }
         }
     }

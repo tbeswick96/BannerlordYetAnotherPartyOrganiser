@@ -7,14 +7,11 @@ namespace YAPO.MultipathUpgrade.Services
 {
     public static class CharacterClassCreator
     {
-        public static CharacterClass CreateCharacterClass(CharacterObject character)
-        {
-            return new CharacterClass(DetermineCharacterClassType(character), SetEquipmentProperties(character));
-        }
+        public static CharacterClass CreateCharacterClass(CharacterObject character) => new CharacterClass(DetermineCharacterClassType(character), SetEquipmentProperties(character));
 
         private static CharacterClassType DetermineCharacterClassType(CharacterObject character)
         {
-            var characterByDefaultFormationGroup = GetCharacterClassTypeByDefaultFormationGroup(character);
+            CharacterClassType characterByDefaultFormationGroup = GetCharacterClassTypeByDefaultFormationGroup(character);
             if (characterByDefaultFormationGroup != CharacterClassType.UNKNOWN)
             {
                 return characterByDefaultFormationGroup;
@@ -27,38 +24,22 @@ namespace YAPO.MultipathUpgrade.Services
 
             if (character.IsArcher)
             {
-                if (character.IsMounted)
-                {
-                    return CharacterClassType.HORSE_ARCHER;
-                }
-
-                return CharacterClassType.RANGED;
+                return character.IsMounted ? CharacterClassType.HORSE_ARCHER : CharacterClassType.RANGED;
             }
 
-            if (character.IsMounted)
-            {
-                return CharacterClassType.CAVALRY;
-            }
-
-            return CharacterClassType.UNKNOWN;
+            return character.IsMounted ? CharacterClassType.CAVALRY : CharacterClassType.UNKNOWN;
         }
 
-        private static CharacterClassType GetCharacterClassTypeByDefaultFormationGroup(CharacterObject character)
+        private static CharacterClassType GetCharacterClassTypeByDefaultFormationGroup(BasicCharacterObject character)
         {
-            switch (character.DefaultFormationGroup)
+            return character.DefaultFormationGroup switch
             {
-                case 0:
-                    return CharacterClassType.INFANTRY;
-                case 1:
-                    return CharacterClassType.RANGED;
-                case 2:
-                    return CharacterClassType.CAVALRY;
-                case 3:
-                    return CharacterClassType.HORSE_ARCHER;
-                default:
-                    return CharacterClassType.UNKNOWN;
-            }   
-
+                0 => CharacterClassType.INFANTRY,
+                1 => CharacterClassType.RANGED,
+                2 => CharacterClassType.CAVALRY,
+                3 => CharacterClassType.HORSE_ARCHER,
+                _ => CharacterClassType.UNKNOWN
+            };
         }
 
         private static EquipmentProperties SetEquipmentProperties(CharacterObject character)
@@ -80,7 +61,7 @@ namespace YAPO.MultipathUpgrade.Services
             return properties;
         }
 
-        public static bool HasItemType(CharacterObject character, ItemObject.ItemTypeEnum itemType)
+        private static bool HasItemType(BasicCharacterObject character, ItemObject.ItemTypeEnum itemType)
         {
             for (EquipmentIndex equipmentIndex = EquipmentIndex.WeaponItemBeginSlot; equipmentIndex < EquipmentIndex.NumAllWeaponSlots; equipmentIndex++)
             {

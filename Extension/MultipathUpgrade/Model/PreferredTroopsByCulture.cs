@@ -8,6 +8,7 @@ namespace YAPO.MultipathUpgrade.Model
     {
         [XmlAttribute("Culture")]
         public string CultureIdentifier { get; set; }
+        
         [XmlElement("TroopClass")]
         public List<CharacterClassType> TroopClasses = new List<CharacterClassType>();
     }
