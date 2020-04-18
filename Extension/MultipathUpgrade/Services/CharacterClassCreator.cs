@@ -32,14 +32,14 @@ namespace YAPO.MultipathUpgrade.Services
 
         private static CharacterClassType GetCharacterClassTypeByDefaultFormationGroup(BasicCharacterObject character)
         {
-            return character.DefaultFormationGroup switch
+            switch (character.DefaultFormationGroup)
             {
-                0 => CharacterClassType.INFANTRY,
-                1 => CharacterClassType.RANGED,
-                2 => CharacterClassType.CAVALRY,
-                3 => CharacterClassType.HORSE_ARCHER,
-                _ => CharacterClassType.UNKNOWN
-            };
+                case 0: return CharacterClassType.INFANTRY;
+                case 1: return CharacterClassType.RANGED;
+                case 2: return CharacterClassType.CAVALRY;
+                case 3: return CharacterClassType.HORSE_ARCHER;
+                default: return CharacterClassType.UNKNOWN;
+            }
         }
 
         private static EquipmentProperties SetEquipmentProperties(CharacterObject character)
