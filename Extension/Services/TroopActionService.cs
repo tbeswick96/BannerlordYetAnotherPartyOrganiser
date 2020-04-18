@@ -5,6 +5,7 @@ using MountAndBlade.CampaignBehaviors;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.ViewModelCollection;
 using YAPO.Global;
+using YAPO.MultipathUpgrade;
 
 namespace YAPO.Services
 {
@@ -25,7 +26,10 @@ namespace YAPO.Services
             List<Tuple<PartyCharacterVM, PartyScreenLogic.PartyCommand>> commands = new List<Tuple<PartyCharacterVM, PartyScreenLogic.PartyCommand>>();
             foreach (PartyCharacterVM troops in upgradableTroops)
             {
-                if (troops.IsUpgrade2Exists)
+                PartyScreenLogic.PartyCommand.UpgradeTargetType upgradeTargetType =
+                    PartyScreenLogic.PartyCommand.UpgradeTargetType.UpgradeTarget1;
+
+                if (troops.IsUpgrade2Exists && !MultipathUpgradeLogic.TryGetUpgradePath(troops, out upgradeTargetType))
                 {
                     multiPathSkipped++;
                     continue;
@@ -36,13 +40,13 @@ namespace YAPO.Services
                 upgradedTotal += troopsToUpgrade;
 
                 PartyScreenLogic.PartyCommand upgradeCommand = new PartyScreenLogic.PartyCommand();
-                upgradeCommand.FillForUpgradeTroop(troops.Side, troops.Type, troops.Character, troopsToUpgrade, PartyScreenLogic.PartyCommand.UpgradeTargetType.UpgradeTarget1);
+                upgradeCommand.FillForUpgradeTroop(troops.Side, troops.Type, troops.Character, troopsToUpgrade, upgradeTargetType);
                 commands.Add(new Tuple<PartyCharacterVM, PartyScreenLogic.PartyCommand>(troops, upgradeCommand));
             }
 
             if (upgradedTotal == 0)
             {
-                Global.Helpers.Message(multiPathSkipped > 0 ? $"No troops upgraded. {multiPathSkipped} troop types with mulit-path upgrades were skipped" : "No troops upgraded");
+                Global.Helpers.Message(multiPathSkipped > 0 ? $"No troops upgraded. {multiPathSkipped} troop types with multi-path upgrades were skipped" : "No troops upgraded");
                 return (0, 0, 0);
             }
 
