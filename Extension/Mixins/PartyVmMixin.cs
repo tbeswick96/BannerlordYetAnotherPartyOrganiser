@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.ViewModelCollection;
 using TaleWorlds.Core;
-using TaleWorlds.Core.ViewModelCollection;
 using TaleWorlds.GauntletUI;
 using TaleWorlds.Library;
 using UIExtenderLib;
@@ -15,10 +13,12 @@ using YAPO.Global;
 using YAPO.GUI;
 using YAPO.Services;
 
+// ReSharper disable ClassNeverInstantiated.Global
+
 namespace YAPO.Mixins
 {
-    [ViewModelMixin, SuppressMessage("ReSharper", "UnusedMember.Global")]
-    public class PartyVmMixin : BaseViewModelMixin<PartyVM>
+    [ViewModelMixin]
+    public partial class PartyVmMixin : BaseViewModelMixin<PartyVM>
     {
         private readonly TroopSorterService _otherTroopSorterService;
         private readonly TroopSorterService _partyTroopSorterService;
@@ -132,8 +132,11 @@ namespace YAPO.Mixins
 
             GetPartyScreenLogic();
             if (!skipDirectionUpdate) _partyTroopSorterService.UpdateSortingDirection(sortDirection);
-            SortRoster(_partyTroopSorterService, _partyScreenLogic.PrisonerRosters[1], _vm.MainPartyPrisoners, newPartyList => { _vm.MainPartyPrisoners = newPartyList; });
-            SortRoster(_partyTroopSorterService, _partyScreenLogic.MemberRosters[1], _vm.MainPartyTroops, newPartyList => { _vm.MainPartyTroops = newPartyList; });
+            IEnumerable<TroopRosterElement> sortedPrisoners = SortRoster(_partyTroopSorterService, _partyScreenLogic.PrisonerRosters[1]);
+            IEnumerable<TroopRosterElement> sortedTroops = SortRoster(_partyTroopSorterService, _partyScreenLogic.MemberRosters[1]);
+
+            RefreshPartyTroopsView(_vm.MainPartyPrisoners, sortedPrisoners, newTroops => { _vm.MainPartyPrisoners = newTroops; });
+            RefreshPartyTroopsView(_vm.MainPartyTroops, sortedTroops, newTroops => { _vm.MainPartyTroops = newTroops; });
             RefreshView();
         }
 
@@ -143,16 +146,19 @@ namespace YAPO.Mixins
 
             GetPartyScreenLogic();
             if (!skipDirectionUpdate) _otherTroopSorterService.UpdateSortingDirection(sortDirection);
-            SortRoster(_otherTroopSorterService, _partyScreenLogic.PrisonerRosters[0], _vm.OtherPartyPrisoners, newPartyList => { _vm.OtherPartyPrisoners = newPartyList; });
-            SortRoster(_otherTroopSorterService, _partyScreenLogic.MemberRosters[0], _vm.OtherPartyTroops, newPartyList => { _vm.OtherPartyTroops = newPartyList; });
+            IEnumerable<TroopRosterElement> sortedPrisoners = SortRoster(_otherTroopSorterService, _partyScreenLogic.MemberRosters[0]);
+            IEnumerable<TroopRosterElement> sortedTroops = SortRoster(_otherTroopSorterService, _partyScreenLogic.PrisonerRosters[0]);
+
+            RefreshPartyTroopsView(_vm.OtherPartyPrisoners, sortedPrisoners, newTroops => { _vm.OtherPartyPrisoners = newTroops; });
+            RefreshPartyTroopsView(_vm.OtherPartyTroops, sortedTroops, newTroops => { _vm.OtherPartyTroops = newTroops; });
             RefreshView();
         }
 
-        private static void SortRoster(TroopSorterService troopSorterService, TroopRoster troopRoster, ICollection<PartyCharacterVM> partyList, Action<MBBindingList<PartyCharacterVM>> apply)
+        private static IEnumerable<TroopRosterElement> SortRoster(TroopSorterService troopSorterService, TroopRoster troopRoster)
         {
             FieldInfo troopRosterDataField = troopRoster.GetType().GetField("data", BindingFlags.NonPublic | BindingFlags.Instance);
             TroopRosterElement[] originalTroops = (TroopRosterElement[]) troopRosterDataField?.GetValue(troopRoster);
-            if (originalTroops == null || originalTroops.All(x => x.Character == null)) return;
+            if (originalTroops == null || originalTroops.All(x => x.Character == null)) throw new Exception("Could not find 'data' value in troopRoster");
 
             List<TroopRosterElement> originalTroopList = originalTroops.Where(x => x.Character != null).ToList();
             List<TroopRosterElement> sortedTroops = originalTroopList.Where(x => !x.Character.IsHero).ToList();
@@ -164,6 +170,11 @@ namespace YAPO.Mixins
             if (player.Character != null) sortedTroops.Insert(0, player);
             troopRosterDataField.SetValue(troopRoster, sortedTroops.ToArray());
 
+            return sortedTroops;
+        }
+
+        private static void RefreshPartyTroopsView(ICollection<PartyCharacterVM> partyList, IEnumerable<TroopRosterElement> sortedTroops, Action<MBBindingList<PartyCharacterVM>> apply)
+        {
             List<PartyCharacterVM> tempTroopList = partyList.ToList();
             MBBindingList<PartyCharacterVM> newTroopList = new MBBindingList<PartyCharacterVM>();
             partyList.Clear();
@@ -178,7 +189,7 @@ namespace YAPO.Mixins
         private void UpgradeTroops()
         {
             GetPartyScreenLogic();
-            States.MassActionInProgress = true;  
+            States.MassActionInProgress = true;
             (int upgradedTotal, int upgradedTypes, int multiPathSkipped) = TroopActionService.UpgradeTroops(_vm, _partyScreenLogic);
             if (upgradedTotal == 0) return;
 
@@ -243,305 +254,5 @@ namespace YAPO.Mixins
             MethodInfo refreshPartyInformation = _vm.GetType().BaseType?.GetMethod("RefreshPartyInformation", BindingFlags.NonPublic | BindingFlags.Instance);
             refreshPartyInformation?.Invoke(_vm, new object[0]);
         }
-
-        // ReSharper disable MemberCanBePrivate.Global
-        // ReSharper disable UnusedAutoPropertyAccessor.Global
-
-        #region Command - Other Sort Option Buttons
-
-        [DataSourceMethod]
-        public void ExecuteOtherSortOrderOpposite()
-        {
-            Global.Helpers.DebugMessage("Other sort order oppiste toggled");
-            _otherTroopSorterService.SortOrderOpposite = !_otherTroopSorterService.SortOrderOpposite;
-            SortInPlace(SortSide.OTHER);
-        }
-
-        #endregion
-
-        #region Text - Party Sort Option Buttons
-
-        [DataSourceProperty]
-        public string PartySortOrderOppositeText => _partyTroopSorterService == null ? "NULL" : _partyTroopSorterService.SortOrderOpposite ? Strings.SORT_ORDER_OPPOSITE_TEXT_SAME : Strings.SORT_ORDER_OPPOSITE_TEXT_OPPOSITE;
-
-        [DataSourceProperty]
-        public HintViewModel PartySortOrderOppositeHintText => new HintViewModel(_partyTroopSorterService == null ? "NULL" : _partyTroopSorterService.SortOrderOpposite ? Strings.SORT_ORDER_OPPOSITE_HINT_TEXT_SAME : Strings.SORT_ORDER_OPPOSITE_HINT_TEXT_OPPOSITE);
-
-        [DataSourceProperty]
-        public string UpgradableOnTopText => _partyTroopSorterService == null ? "NULL" : _partyTroopSorterService.UpgradableOnTop ? Strings.UPGRADABLE_ON_TOP_TEXT_ON : Strings.UPGRADABLE_ON_TOP_TEXT_OFF;
-
-        [DataSourceProperty]
-        public HintViewModel UpgradableOnTopHintText => new HintViewModel(_partyTroopSorterService == null ? "NULL" : _partyTroopSorterService.UpgradableOnTop ? Strings.UPGRADABLE_ON_TOP_HINT_TEXT_ON : Strings.UPGRADABLE_ON_TOP_HINT_TEXT_OFF);
-
-        #endregion
-
-        #region Text - Other Sort Option Buttons
-
-        [DataSourceProperty]
-        public string OtherSortOrderOppositeText => _otherTroopSorterService == null ? "NULL" : _otherTroopSorterService.SortOrderOpposite ? Strings.SORT_ORDER_OPPOSITE_TEXT_SAME : Strings.SORT_ORDER_OPPOSITE_TEXT_OPPOSITE;
-
-        [DataSourceProperty]
-        public HintViewModel OtherSortOrderOppositeHintText => new HintViewModel(_otherTroopSorterService == null ? "NULL" : _otherTroopSorterService.SortOrderOpposite ? Strings.SORT_ORDER_OPPOSITE_HINT_TEXT_SAME : Strings.SORT_ORDER_OPPOSITE_HINT_TEXT_OPPOSITE);
-
-        #endregion
-
-        #region Data - Party Sort Dropdowns
-
-        [DataSourceProperty]
-        public MBBindingList<SortByModeOptionVm> PartySortByModeOptionVms
-        {
-            get => _partySortByModeOptionVms;
-            set
-            {
-                if (value == _partySortByModeOptionVms)
-                {
-                    return;
-                }
-
-                _partySortByModeOptionVms = value;
-                _vm.OnPropertyChanged(nameof(PartySortByModeOptionVms));
-                RefreshView();
-            }
-        }
-
-        [DataSourceProperty]
-        public string CurrentPartySortByModeText { get; set; }
-
-        public SortMode CurrentPartySortByMode
-        {
-            get => _partyTroopSorterService.CurrentSortByMode;
-            set
-            {
-                if (value == _partyTroopSorterService.CurrentSortByMode)
-                {
-                    return;
-                }
-
-                SortMode currentSortByMode = CurrentPartySortByMode;
-                _partyTroopSorterService.CurrentSortByMode = value;
-                CurrentPartySortByModeText = value.AsString();
-                _vm.OnPropertyChanged(nameof(CurrentPartySortByModeText));
-
-                if (CurrentPartyThenByMode == value)
-                {
-                    CurrentPartyThenByMode = currentSortByMode;
-                }
-
-                RefreshView();
-            }
-        }
-
-        [DataSourceProperty]
-        public MBBindingList<SortByModeOptionVm> PartyThenByModeOptionVms
-        {
-            get => _partyThenByModeOptionVms;
-            set
-            {
-                if (value == _partyThenByModeOptionVms)
-                {
-                    return;
-                }
-
-                _partyThenByModeOptionVms = value;
-                _vm.OnPropertyChanged(nameof(PartyThenByModeOptionVms));
-                RefreshView();
-            }
-        }
-
-        [DataSourceProperty]
-        public string CurrentPartyThenByModeText { get; set; }
-
-        public SortMode CurrentPartyThenByMode
-        {
-            get => _partyTroopSorterService.CurrentThenByMode;
-            set
-            {
-                if (value == _partyTroopSorterService.CurrentThenByMode)
-                {
-                    return;
-                }
-
-                if (CurrentPartySortByMode == value)
-                {
-                    value = CurrentPartyThenByMode;
-                    Global.Helpers.Message("Then By should be different from Sort By");
-                }
-
-                _partyTroopSorterService.CurrentThenByMode = value;
-                CurrentPartyThenByModeText = value.AsString();
-                _vm.OnPropertyChanged(nameof(CurrentPartyThenByModeText));
-                RefreshView();
-            }
-        }
-
-        #endregion
-
-        #region Data - Other Sort Dropdowns
-
-        [DataSourceProperty]
-        public MBBindingList<SortByModeOptionVm> OtherSortByModeOptionVms
-        {
-            get => _otherSortByModeOptionVms;
-            set
-            {
-                if (value == _otherSortByModeOptionVms)
-                {
-                    return;
-                }
-
-                _otherSortByModeOptionVms = value;
-                _vm.OnPropertyChanged(nameof(OtherSortByModeOptionVms));
-                RefreshView();
-            }
-        }
-
-        [DataSourceProperty]
-        public string CurrentOtherSortByModeText { get; set; }
-
-        public SortMode CurrentOtherSortByMode
-        {
-            get => _otherTroopSorterService.CurrentSortByMode;
-            set
-            {
-                if (value == _otherTroopSorterService.CurrentSortByMode)
-                {
-                    return;
-                }
-
-                SortMode currentSortByMode = CurrentOtherSortByMode;
-                _otherTroopSorterService.CurrentSortByMode = value;
-                CurrentOtherSortByModeText = value.AsString();
-                _vm.OnPropertyChanged(nameof(CurrentOtherSortByModeText));
-
-                if (CurrentOtherThenByMode == value)
-                {
-                    CurrentOtherThenByMode = currentSortByMode;
-                }
-
-                RefreshView();
-            }
-        }
-
-        [DataSourceProperty]
-        public MBBindingList<SortByModeOptionVm> OtherThenByModeOptionVms
-        {
-            get => _otherThenByModeOptionVms;
-            set
-            {
-                if (value == _otherThenByModeOptionVms)
-                {
-                    return;
-                }
-
-                _otherThenByModeOptionVms = value;
-                _vm.OnPropertyChanged(nameof(OtherThenByModeOptionVms));
-                RefreshView();
-            }
-        }
-
-        [DataSourceProperty]
-        public string CurrentOtherThenByModeText { get; set; }
-
-        public SortMode CurrentOtherThenByMode
-        {
-            get => _otherTroopSorterService.CurrentThenByMode;
-            set
-            {
-                if (value == _otherTroopSorterService.CurrentThenByMode)
-                {
-                    return;
-                }
-
-                if (CurrentOtherSortByMode == value)
-                {
-                    value = SortMode.NONE;
-                    Global.Helpers.Message("Then By should be different from Sort By");
-                }
-
-                _otherTroopSorterService.CurrentThenByMode = value;
-                CurrentOtherThenByModeText = value.AsString();
-                _vm.OnPropertyChanged(nameof(CurrentOtherThenByModeText));
-                RefreshView();
-            }
-        }
-
-        #endregion
-
-        #region Command - Party Sort Buttons
-
-        [DataSourceMethod]
-        public void ExecuteSortPartyAscending()
-        {
-            Global.Helpers.DebugMessage("Party Sort Ascending Pressed");
-            SortParty(SortDirection.ASCENDING);
-        }
-
-        [DataSourceMethod]
-        public void ExecuteSortPartyDescending()
-        {
-            Global.Helpers.DebugMessage("Party Sort Descending Pressed");
-            SortParty(SortDirection.DESCENDING);
-        }
-
-        #endregion
-
-        #region Command - Party Sort Option Buttons
-
-        [DataSourceMethod]
-        public void ExecutePartySortOrderOpposite()
-        {
-            Global.Helpers.DebugMessage("Party sort order oppiste toggled");
-            _partyTroopSorterService.SortOrderOpposite = !_partyTroopSorterService.SortOrderOpposite;
-            SortInPlace(SortSide.PARTY);
-        }
-
-        [DataSourceMethod]
-        public void ExecuteUpgradableOnTop()
-        {
-            Global.Helpers.DebugMessage("Party Upgradable on top toggled");
-            _partyTroopSorterService.UpgradableOnTop = !_partyTroopSorterService.UpgradableOnTop;
-            SortInPlace(SortSide.PARTY);
-        }
-
-        #endregion
-
-        #region Command - Other Sort Buttons
-
-        [DataSourceMethod]
-        public void ExecuteSortOtherAscending()
-        {
-            Global.Helpers.DebugMessage("Other Sort Ascending Pressed");
-            SortOther(SortDirection.ASCENDING);
-        }
-
-        [DataSourceMethod]
-        public void ExecuteSortOtherDescending()
-        {
-            Global.Helpers.DebugMessage("Other Sort Descending Pressed");
-            SortOther(SortDirection.DESCENDING);
-        }
-
-        #endregion
-
-        #region Command - Action Buttons
-
-        [DataSourceMethod]
-        public void ExecuteActionUpgrade()
-        {
-            Global.Helpers.DebugMessage("Action upgrade Pressed");
-            UpgradeTroops();
-        }
-
-        [DataSourceMethod]
-        public void ExecuteActionRecruit()
-        {
-            Global.Helpers.DebugMessage("Action recruit Pressed");
-            RecruitPrisoners();
-        }
-
-        #endregion
-
-        // ReSharper restore UnusedAutoPropertyAccessor.Global
-        // ReSharper restore MemberCanBePrivate.Global
     }
 }

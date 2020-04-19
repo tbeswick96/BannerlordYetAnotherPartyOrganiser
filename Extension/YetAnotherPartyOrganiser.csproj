@@ -265,8 +265,9 @@
     <Compile Include="Global\States.cs" />
     <Compile Include="Global\Strings.cs" />
     <Compile Include="GUI\WidgetHelpers.cs" />
+    <Compile Include="Mixins\PartyVmDataSourceMethods.cs" />
     <Compile Include="Mixins\PartyVmMixin.cs" />
-    <Compile Include="Mixins\PartyVmStaticTextProperties.cs" />
+    <Compile Include="Mixins\PartyVmDataSourceProperties.cs" />
     <Compile Include="Patches\PartyScreenWidgetPatches.cs" />
     <Compile Include="Patches\PartyVmPatches.cs" />
     <Compile Include="MultipathUpgrade\Model\PreferredTroopsByCulture.cs" />
