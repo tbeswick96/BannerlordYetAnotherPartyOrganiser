@@ -31,6 +31,7 @@ namespace YAPO
         public PartyVmMixin(PartyVM viewModel) : base(viewModel)
         {
             States.PartyVmMixin = this;
+            GetPartyScreenLogic();
 
             _partyTroopSorterService = InitialiseTroopSorterService(SortSide.PARTY);
             _otherTroopSorterService = InitialiseTroopSorterService(SortSide.OTHER);
@@ -115,7 +116,6 @@ namespace YAPO
         {
             if (_partyTroopSorterService.CurrentSortByMode == SortMode.NONE) return;
 
-            GetPartyScreenLogic();
             if (!skipDirectionUpdate) _partyTroopSorterService.UpdateSortingDirection(sortDirection);
             SortRoster(_partyTroopSorterService, _partyScreenLogic.PrisonerRosters[1], _vm.MainPartyPrisoners, newPartyList => { _vm.MainPartyPrisoners = newPartyList; });
             SortRoster(_partyTroopSorterService, _partyScreenLogic.MemberRosters[1], _vm.MainPartyTroops, newPartyList => { _vm.MainPartyTroops = newPartyList; });
@@ -126,7 +126,6 @@ namespace YAPO
         {
             if (_otherTroopSorterService.CurrentSortByMode == SortMode.NONE) return;
 
-            GetPartyScreenLogic();
             if (!skipDirectionUpdate) _otherTroopSorterService.UpdateSortingDirection(sortDirection);
             SortRoster(_otherTroopSorterService, _partyScreenLogic.PrisonerRosters[0], _vm.OtherPartyPrisoners, newPartyList => { _vm.OtherPartyPrisoners = newPartyList; });
             SortRoster(_otherTroopSorterService, _partyScreenLogic.MemberRosters[0], _vm.OtherPartyTroops, newPartyList => { _vm.OtherPartyTroops = newPartyList; });
@@ -162,7 +161,6 @@ namespace YAPO
 
         private void UpgradeTroops()
         {
-            GetPartyScreenLogic();
             (int upgradedTotal, int upgradedTypes, int multiPathSkipped) = TroopActionService.UpgradeTroops(_vm, _partyScreenLogic);
             if (upgradedTotal == 0) return;
 
@@ -174,7 +172,6 @@ namespace YAPO
 
         private void RecruitPrisoners()
         {
-            GetPartyScreenLogic();
             (int recruitedTotal, int recruitedTypes) = TroopActionService.RecruitPrisoners(_vm, _partyScreenLogic);
             if (recruitedTotal == 0) return;
 

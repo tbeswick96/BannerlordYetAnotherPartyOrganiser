@@ -5,6 +5,8 @@
     {
         public const string MODULE_NAME = "Yet Another Party Organiser";
         public const string MODULE_FOLDER_NAME = "YetAnotherPartyOrganiser";
+        
+        public const string MODULE_DATA_PARTY_COUNT_STRINGS = "ModuleData/PartyCountStrings.xml";
 
         public const string SETTINGS_GENERAL_GROUP_NAME = "General";
         public const string SETTINGS_ENABLE_AUTO_SORT_NAME = "Enable Auto Sorting";

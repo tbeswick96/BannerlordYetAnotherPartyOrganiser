@@ -5,6 +5,7 @@ using ModLib.Debugging;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.Core;
 using TaleWorlds.InputSystem;
+using TaleWorlds.Library;
 using TaleWorlds.MountAndBlade;
 using UIExtenderLib;
 using YAPO.Global;
@@ -39,6 +40,8 @@ namespace YAPO
             if (!(game.GameType is Campaign)) return;
 
             MBObjectManager.Instance.RegisterType<TroopSorterService>("Sorter", "Sorters");
+            
+            (gameStarterObject as CampaignGameStarter)?.LoadGameTexts($"{BasePath.Name}/Modules/{Strings.MODULE_FOLDER_NAME}/{Strings.MODULE_DATA_PARTY_COUNT_STRINGS}");
         }
 
         protected override void OnApplicationTick(float dt)

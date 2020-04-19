@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<base type="string">
+    <strings>
+        <string id="str_party_list_label_with_weak_and_total" text="{PARTY_LIST_TAG}({COUNT} + {WEAK_COUNT}w : {TOTAL_COUNT} / {MAX_COUNT})" />
+    </strings>
+</base>

@@ -272,6 +272,8 @@
     <Compile Include="MultipathUpgrade\Enum\CharacterClassType.cs" />
     <Compile Include="MultipathUpgrade\Enum\EquipmentProperties.cs" />
     <Compile Include="MultipathUpgrade\MultipathUpgradeLogic.cs" />
+    <Compile Include="Patches\PartyVmPatches.cs" />
+    <Compile Include="Services\PartyHeaderCountHelper.cs" />
     <Compile Include="Services\SortHelpers.cs" />
     <Compile Include="Services\TroopActionService.cs" />
     <Compile Include="Services\TroopSorterService.cs" />
@@ -300,7 +302,11 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="ModuleData\PartyCountStrings.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>mkdir "$(TargetDir)bin\Win64_Shipping_Client\"
