@@ -122,8 +122,14 @@ namespace YAPO.Mixins
                 case SortSide.PARTY:
                     SortParty(_otherTroopSorterService.SortDirection, true);
                     break;
+                case SortSide.BOTH:
+                    SortParty(_otherTroopSorterService.SortDirection, true);
+                    SortOther(_otherTroopSorterService.SortDirection, true);
+                    break;
                 default: throw new ArgumentOutOfRangeException(nameof(sortSide), sortSide, null);
             }
+
+            RefreshView();
         }
 
         private void SortParty(SortDirection sortDirection, bool skipDirectionUpdate = false)
@@ -137,7 +143,6 @@ namespace YAPO.Mixins
 
             RefreshPartyTroopsView(_vm.MainPartyPrisoners, sortedPrisoners, newTroops => { _vm.MainPartyPrisoners = newTroops; });
             RefreshPartyTroopsView(_vm.MainPartyTroops, sortedTroops, newTroops => { _vm.MainPartyTroops = newTroops; });
-            RefreshView();
         }
 
         private void SortOther(SortDirection sortDirection, bool skipDirectionUpdate = false)
@@ -151,7 +156,6 @@ namespace YAPO.Mixins
 
             RefreshPartyTroopsView(_vm.OtherPartyPrisoners, sortedPrisoners, newTroops => { _vm.OtherPartyPrisoners = newTroops; });
             RefreshPartyTroopsView(_vm.OtherPartyTroops, sortedTroops, newTroops => { _vm.OtherPartyTroops = newTroops; });
-            RefreshView();
         }
 
         private static IEnumerable<TroopRosterElement> SortRoster(TroopSorterService troopSorterService, TroopRoster troopRoster)
@@ -175,15 +179,19 @@ namespace YAPO.Mixins
 
         private static void RefreshPartyTroopsView(ICollection<PartyCharacterVM> partyList, IEnumerable<TroopRosterElement> sortedTroops, Action<MBBindingList<PartyCharacterVM>> apply)
         {
-            List<PartyCharacterVM> tempTroopList = partyList.ToList();
-            MBBindingList<PartyCharacterVM> newTroopList = new MBBindingList<PartyCharacterVM>();
+            DateTime start = DateTime.Now;
+            List<PartyCharacterVM> tempTroops = partyList.ToList();
+            MBBindingList<PartyCharacterVM> newTroops = new MBBindingList<PartyCharacterVM>();
             partyList.Clear();
-            foreach (PartyCharacterVM troop in sortedTroops.Select(sortedTroop => tempTroopList.FirstOrDefault(x => x.Troop.Character.ToString() == sortedTroop.Character.ToString())))
+            foreach (PartyCharacterVM troop in sortedTroops.Select(sortedTroop => tempTroops.FirstOrDefault(x => x.Troop.Character.ToString() == sortedTroop.Character.ToString())))
             {
-                newTroopList.Add(troop);
+                newTroops.Add(troop);
             }
 
-            apply(newTroopList);
+            apply(newTroops);
+            DateTime end = DateTime.Now;
+            Global.Helpers.Message($"Apply took {(end - start).Milliseconds}ms");
+            
         }
 
         private void UpgradeTroops()
@@ -195,6 +203,7 @@ namespace YAPO.Mixins
 
             _vm.CurrentCharacter = _vm.MainPartyTroops[0];
             SortParty(_partyTroopSorterService.SortDirection, true);
+            RefreshView();
             RefreshPartyVmInformation();
             States.MassActionInProgress = false;
             Global.Helpers.Message($"Upgraded {upgradedTotal} troops over {upgradedTypes} types. {multiPathSkipped} troop types with mulit-path upgrades were skipped. Press 'Apply' to confirm changes");
@@ -209,6 +218,7 @@ namespace YAPO.Mixins
 
             _vm.CurrentCharacter = _vm.MainPartyTroops[0];
             SortParty(_partyTroopSorterService.SortDirection, true);
+            RefreshView();
             RefreshPartyVmInformation();
             States.MassActionInProgress = false;
             Global.Helpers.Message($"Recruited {recruitedTotal} prisoners over {recruitedTypes} types. Press 'Apply' to confirm changes");

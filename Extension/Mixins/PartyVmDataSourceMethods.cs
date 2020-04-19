@@ -28,6 +28,7 @@ namespace YAPO.Mixins
         {
             Global.Helpers.DebugMessage("Party Sort Ascending Pressed");
             SortParty(SortDirection.ASCENDING);
+            RefreshView();
         }
 
         [DataSourceMethod]
@@ -35,6 +36,7 @@ namespace YAPO.Mixins
         {
             Global.Helpers.DebugMessage("Party Sort Descending Pressed");
             SortParty(SortDirection.DESCENDING);
+            RefreshView();
         }
 
         #endregion
@@ -66,6 +68,7 @@ namespace YAPO.Mixins
         {
             Global.Helpers.DebugMessage("Other Sort Ascending Pressed");
             SortOther(SortDirection.ASCENDING);
+            RefreshView();
         }
 
         [DataSourceMethod]
@@ -73,6 +76,7 @@ namespace YAPO.Mixins
         {
             Global.Helpers.DebugMessage("Other Sort Descending Pressed");
             SortOther(SortDirection.DESCENDING);
+            RefreshView();
         }
 
         #endregion

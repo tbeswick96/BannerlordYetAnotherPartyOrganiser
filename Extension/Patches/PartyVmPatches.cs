@@ -19,22 +19,21 @@ namespace YAPO.Patches
             {
                 if (States.MassActionInProgress) return;
 
-                switch (command.Code)
-                {
-                    case PartyScreenLogic.PartyCommandCode.TransferTroop:
-                    case PartyScreenLogic.PartyCommandCode.TransferPartyLeaderTroop:
-                    case PartyScreenLogic.PartyCommandCode.TransferTroopToLeaderSlot:
-                        States.PartyVmMixin?.SortInPlace(SortSide.PARTY);
-                        States.PartyVmMixin?.SortInPlace(SortSide.OTHER);
-                        break;
-                    case PartyScreenLogic.PartyCommandCode.UpgradeTroop:
-                    case PartyScreenLogic.PartyCommandCode.RecruitTroop:
-                        States.PartyVmMixin?.SortInPlace(SortSide.PARTY);
-                        break;
-                    case PartyScreenLogic.PartyCommandCode.ShiftTroop:
-                    case PartyScreenLogic.PartyCommandCode.ExecuteTroop: break;
-                    default: throw new ArgumentOutOfRangeException();
-                }
+                // switch (command.Code)
+                // {
+                //     case PartyScreenLogic.PartyCommandCode.TransferTroop:
+                //     case PartyScreenLogic.PartyCommandCode.TransferPartyLeaderTroop:
+                //     case PartyScreenLogic.PartyCommandCode.TransferTroopToLeaderSlot:
+                //         States.PartyVmMixin?.SortInPlace(SortSide.BOTH);
+                //         break;
+                //     case PartyScreenLogic.PartyCommandCode.UpgradeTroop:
+                //     case PartyScreenLogic.PartyCommandCode.RecruitTroop:
+                //         States.PartyVmMixin?.SortInPlace(SortSide.PARTY);
+                //         break;
+                //     case PartyScreenLogic.PartyCommandCode.ShiftTroop:
+                //     case PartyScreenLogic.PartyCommandCode.ExecuteTroop: break;
+                //     default: throw new ArgumentOutOfRangeException();
+                // }
             }
         }
         
@@ -43,8 +42,7 @@ namespace YAPO.Patches
         {
             public static void Postfix()
             {
-                States.PartyVmMixin?.SortInPlace(SortSide.PARTY);
-                States.PartyVmMixin?.SortInPlace(SortSide.OTHER);
+                // States.PartyVmMixin?.SortInPlace(SortSide.BOTH);
             }
         }
     }

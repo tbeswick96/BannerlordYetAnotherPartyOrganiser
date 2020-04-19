@@ -2,8 +2,8 @@
 using UIExtenderLib.Prefab;
 
 // ReSharper disable InconsistentNaming
-// ReSharper disable UnusedType.Global
 // ReSharper disable UnusedMember.Global
+// ReSharper disable UnusedType.Global
 
 namespace YAPO
 {

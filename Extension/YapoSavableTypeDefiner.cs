@@ -59,6 +59,7 @@ namespace YAPO
     public enum SortSide
     {
         OTHER,
-        PARTY
+        PARTY,
+        BOTH
     }
 }
