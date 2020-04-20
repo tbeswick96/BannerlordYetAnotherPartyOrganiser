@@ -61,4 +61,13 @@ namespace YAPO
         OTHER,
         PARTY
     }
+
+    [SaveableEnum(13337300)]
+    public enum TypeSortOption
+    {
+        CAVALRY,
+        RANGED_CAVALRY,
+        INFANTRY,
+        RANGED
+    }
 }

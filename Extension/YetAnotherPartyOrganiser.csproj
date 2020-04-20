@@ -70,6 +70,10 @@
         <Reference Include="0Harmony">
             <HintPath>lib\0Harmony.dll</HintPath>
         </Reference>
+        <Reference Include="TaleWorlds.MountAndBlade.Launcher">
+          <HintPath>$(GameFolder)\bin\Win64_Shipping_Client\TaleWorlds.MountAndBlade.Launcher.exe</HintPath>
+            <Private>False</Private>
+        </Reference>
         <Reference Include="UIExtenderLib">
             <HintPath>$(GameFolder)\Modules\0UIExtenderLibModule\bin\Win64_Shipping_Client\UIExtenderLib.dll</HintPath>
         </Reference>
@@ -307,6 +311,7 @@
         <Compile Include="Services\TroopSorterService.cs" />
         <Compile Include="MultipathUpgrade\Model\UpgradeCandidate.cs" />
     <Compile Include="MultipathUpgrade\Services\UpgradeTreeCrawler.cs" />
+    <Compile Include="ViewModels\TypeSortOptionVm.cs" />
     <Compile Include="YapoSettings.cs" />
         <Compile Include="SortByModeOptionVM.cs" />
         <Compile Include="UI\PartyScreenWidgetExtensions.cs" />
@@ -333,7 +338,11 @@
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
     </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="GUI\PrefabExtensions\TypeSortOrderMenu.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
     <PropertyGroup>
         <PostBuildEvent>mkdir "$(TargetDir)bin\Win64_Shipping_Client\"

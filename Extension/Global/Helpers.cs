@@ -31,5 +31,18 @@ namespace YAPO.Global
                 default: throw new ArgumentOutOfRangeException(nameof(sortByOption), sortByOption, null);
             }
         }
+
+        public static string AsString(this TypeSortOption typeSortOption)
+        {
+            switch (typeSortOption)
+            {
+                // TODO: Add more options
+                case TypeSortOption.CAVALRY: return "Cavalry";
+                case TypeSortOption.RANGED_CAVALRY: return "Ranged Cavalry";
+                case TypeSortOption.INFANTRY: return "Infantry";
+                case TypeSortOption.RANGED: return "Archers";
+                default: throw new ArgumentOutOfRangeException(nameof(typeSortOption), typeSortOption, null);
+            }
+        }
     }
 }
