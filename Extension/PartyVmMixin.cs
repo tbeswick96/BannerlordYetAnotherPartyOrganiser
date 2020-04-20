@@ -168,10 +168,9 @@ namespace YAPO
             _vm.CurrentCharacter = _vm.MainPartyTroops[0];
             RefreshPartyVmInformation();
             RefreshView();
-            Global.Helpers.Message(
-                $"Upgraded {results.UpgradedTotal} troops over {results.UpgradedTypes} types. " +
-                $"{results.MultiPathSkipped} troop types with multi-path upgrades were skipped. " +
-                "Press 'Done' to confirm changes");
+            Global.Helpers.Message($"Upgraded {results.UpgradedTotal} troops over {results.UpgradedTypes} types. " +
+                                   $"{results.MultiPathSkipped} troop types with multi-path upgrades were skipped. " +
+                                   "Press 'Done' to confirm changes");
         }
 
         private void RecruitPrisoners()
@@ -183,9 +182,9 @@ namespace YAPO
             _vm.CurrentCharacter = _vm.MainPartyTroops[0];
             RefreshPartyVmInformation();
             RefreshView();
-            Global.Helpers.Message(
-                $"Recruited {results.RecruitedTotal} prisoners over {results.RecruitedTypes} types. " +
-                "Press 'Done' to confirm changes");
+            Global.Helpers
+                  .Message($"Recruited {results.RecruitedTotal} prisoners over {results.RecruitedTypes} types. " +
+                           "Press 'Done' to confirm changes");
         }
 
         private void RefreshView()

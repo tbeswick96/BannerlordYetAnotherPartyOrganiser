@@ -29,8 +29,8 @@ namespace YAPO.Services
             if (results.UpgradedTotal == 0)
             {
                 Global.Helpers.Message(results.MultiPathSkipped > 0
-                    ? $"No troops upgraded. {results.MultiPathSkipped} troop types with multi-path upgrades were skipped"
-                    : "No troops upgraded");
+                                           ? $"No troops upgraded. {results.MultiPathSkipped} troop types with multi-path upgrades were skipped"
+                                           : "No troops upgraded");
             }
             else
             {
@@ -84,29 +84,30 @@ namespace YAPO.Services
 
         private static List<PartyCharacterVM> GetUpgradeableTroops(PartyVM partyVm)
         {
-            return partyVm.MainPartyTroops.Where(
-                x =>
-                    !x.IsHero
-                    && x.IsTroopUpgradable
-                    && x.IsUpgrade1Available
-                    && !x.IsUpgrade1Insufficient
-                    && x.NumOfTarget1UpgradesAvailable > 0
-                    || x.IsUpgrade2Available
-                    && !x.IsUpgrade2Insufficient
-                    && x.NumOfTarget2UpgradesAvailable > 0).ToList();
+            return partyVm.MainPartyTroops.Where(x =>
+                                                     !x.IsHero &&
+                                                     x.IsTroopUpgradable &&
+                                                     x.IsUpgrade1Available &&
+                                                     !x.IsUpgrade1Insufficient &&
+                                                     x.NumOfTarget1UpgradesAvailable > 0 ||
+                                                     x.IsUpgrade2Available &&
+                                                     !x.IsUpgrade2Insufficient &&
+                                                     x.NumOfTarget2UpgradesAvailable > 0)
+                          .ToList();
         }
 
         private static List<PartyCharacterVM> GetRecruitablePrisoners(PartyVM partyVm)
         {
-            return partyVm.MainPartyPrisoners.Where(
-                x =>
-                    !x.IsHero
-                    && x.IsRecruitablePrisoner
-                    && x.NumOfRecruitablePrisoners > 0).ToList();
+            return partyVm.MainPartyPrisoners.Where(x =>
+                                                        !x.IsHero &&
+                                                        x.IsRecruitablePrisoner &&
+                                                        x.NumOfRecruitablePrisoners > 0)
+                          .ToList();
         }
 
         private static List<Tuple<PartyCharacterVM, PartyScreenLogic.PartyCommand>> PrepareUpgradeCommands(
-            List<PartyCharacterVM> upgradableTroops, ref UpgradeResults upgradeResults)
+            List<PartyCharacterVM> upgradableTroops,
+            ref UpgradeResults upgradeResults)
         {
             List<Tuple<PartyCharacterVM, PartyScreenLogic.PartyCommand>> commands =
                 new List<Tuple<PartyCharacterVM, PartyScreenLogic.PartyCommand>>();
@@ -133,8 +134,11 @@ namespace YAPO.Services
                 upgradeResults.UpgradedTotal += troopsToUpgrade;
 
                 PartyScreenLogic.PartyCommand upgradeCommand = new PartyScreenLogic.PartyCommand();
-                upgradeCommand.FillForUpgradeTroop(troops.Side, troops.Type, troops.Character, troopsToUpgrade,
-                    upgradeTargetType);
+                upgradeCommand.FillForUpgradeTroop(troops.Side,
+                                                   troops.Type,
+                                                   troops.Character,
+                                                   troopsToUpgrade,
+                                                   upgradeTargetType);
                 commands.Add(new Tuple<PartyCharacterVM, PartyScreenLogic.PartyCommand>(troops, upgradeCommand));
             }
 
@@ -142,7 +146,9 @@ namespace YAPO.Services
         }
 
         private static List<Tuple<PartyCharacterVM, PartyScreenLogic.PartyCommand>> PrepareRecruitmentCommands(
-            List<PartyCharacterVM> recruitablePrisoners, int partySpace, ref RecruitmentResults results,
+            List<PartyCharacterVM> recruitablePrisoners,
+            int partySpace,
+            ref RecruitmentResults results,
             PartyVM partyVm)
         {
             List<Tuple<PartyCharacterVM, PartyScreenLogic.PartyCommand>> commands =
@@ -150,7 +156,7 @@ namespace YAPO.Services
 
             CharacterObject playerSelectedCharacter = partyVm.CurrentCharacter.Character;
 
-            foreach (var prisoners in recruitablePrisoners)
+            foreach (PartyCharacterVM prisoners in recruitablePrisoners)
             {
                 if (partySpace == 0 && !States.HotkeyControl) break;
 
@@ -164,11 +170,14 @@ namespace YAPO.Services
                 partyVm.CurrentCharacter.Character = prisoners.Character;
 
                 Campaign.Current.GetCampaignBehavior<IRecruitPrisonersCampaignBehavior>()
-                    .SetRecruitableNumber(partyVm.CurrentCharacter.Character, numOfRemainingRecruitablePrisoners + 1);
+                        .SetRecruitableNumber(partyVm.CurrentCharacter.Character,
+                                              numOfRemainingRecruitablePrisoners + 1);
 
                 PartyScreenLogic.PartyCommand recruitCommand = new PartyScreenLogic.PartyCommand();
-                recruitCommand.FillForRecruitTroop(prisoners.Side, prisoners.Type, prisoners.Character,
-                    prisonersToRecruit);
+                recruitCommand.FillForRecruitTroop(prisoners.Side,
+                                                   prisoners.Type,
+                                                   prisoners.Character,
+                                                   prisonersToRecruit);
                 commands.Add(new Tuple<PartyCharacterVM, PartyScreenLogic.PartyCommand>(prisoners, recruitCommand));
 
                 partyVm.CurrentCharacter.UpdateRecruitable();
@@ -180,7 +189,8 @@ namespace YAPO.Services
         }
 
         private static void ExecuteCommands(List<Tuple<PartyCharacterVM, PartyScreenLogic.PartyCommand>> commands,
-            PartyVM partyVm, PartyScreenLogic partyScreenLogic)
+                                            PartyVM partyVm,
+                                            PartyScreenLogic partyScreenLogic)
         {
             foreach ((PartyCharacterVM partyCharacterVm, PartyScreenLogic.PartyCommand command) in commands)
             {
