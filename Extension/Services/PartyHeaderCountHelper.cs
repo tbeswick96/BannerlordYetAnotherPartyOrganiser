@@ -18,7 +18,12 @@ namespace YAPO.Services
 
             MBTextManager.SetTextVariable("COUNT", troopsActive);
             MBTextManager.SetTextVariable("WEAK_COUNT", troopsWeak);
-            if (limit == 0) return troopsWeak > 0 ? GameTexts.FindText("str_party_list_label_with_weak_without_max").ToString() : troopsActive.ToString();
+            if (limit == 0)
+            {
+                return troopsWeak > 0
+                           ? GameTexts.FindText("str_party_list_label_with_weak_without_max").ToString()
+                           : troopsActive.ToString();
+            }
 
             MBTextManager.SetTextVariable("MAX_COUNT", limit);
             if (troopsWeak > 0)

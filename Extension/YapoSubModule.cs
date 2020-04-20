@@ -30,7 +30,8 @@ namespace YAPO
 
                 UIExtender.Register();
                 new Harmony("YAPO").PatchAll();
-            } catch (Exception exception)
+            }
+            catch (Exception exception)
             {
                 ModDebug.ShowError("Failed to load YetAnotherPartyOrganiser", "OnSubModuleLoad exception", exception);
             }
@@ -45,7 +46,8 @@ namespace YAPO
             {
                 MBObjectManager.Instance.RegisterType<TroopSorterService>("Sorter", "Sorters");
                 AddBehaviours(gameStarterObject as CampaignGameStarter);
-            } catch (Exception exception)
+            }
+            catch (Exception exception)
             {
                 ModDebug.ShowError("Something went wrong while starting a game", "OnGameStart exception", exception);
             }
@@ -83,7 +85,8 @@ namespace YAPO
                 {
                     States.HotkeyControl = true;
                 }
-            } else
+            }
+            else
             {
                 if (States.HotkeyControl)
                 {
@@ -95,7 +98,8 @@ namespace YAPO
             {
                 States.PartyVmMixin.ExecuteActionUpgrade();
                 States.PartyScreenWidget.Context.TwoDimensionContext.PlaySound("panels/twopanel_open");
-            } else if (Input.IsKeyPressed(InputKey.R))
+            }
+            else if (Input.IsKeyPressed(InputKey.R))
             {
                 States.PartyVmMixin.ExecuteActionRecruit();
                 States.PartyScreenWidget.Context.TwoDimensionContext.PlaySound("panels/twopanel_open");
@@ -107,7 +111,8 @@ namespace YAPO
                 States.PartyVmMixin.ExecuteSortPartyAscending();
                 States.PartyVmMixin.ExecuteSortOtherAscending();
                 States.PartyScreenWidget.Context.TwoDimensionContext.PlaySound("panels/twopanel_open");
-            } else if (Input.IsKeyPressed(InputKey.D))
+            }
+            else if (Input.IsKeyPressed(InputKey.D))
             {
                 States.PartyVmMixin.ExecuteSortPartyDescending();
                 States.PartyVmMixin.ExecuteSortOtherDescending();

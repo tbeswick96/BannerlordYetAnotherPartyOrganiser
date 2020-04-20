@@ -19,22 +19,30 @@ namespace YAPO.Patches
         {
             public static void Postfix(PartyVM __instance)
             {
-                FieldInfo partyScreenLogicField = __instance.GetType().BaseType?.GetField("_partyScreenLogic", BindingFlags.NonPublic | BindingFlags.Instance);
+                FieldInfo partyScreenLogicField =
+                    __instance.GetType()
+                              .BaseType?.GetField("_partyScreenLogic", BindingFlags.NonPublic | BindingFlags.Instance);
                 PartyScreenLogic partyScreenLogic = (PartyScreenLogic) partyScreenLogicField?.GetValue(__instance);
 
                 if (partyScreenLogic == null) return;
 
-                __instance.OtherPartyTroopsLbl = PartyHeaderCountHelper.PopulatePartyListLabel(__instance.OtherPartyTroops, partyScreenLogic.LeftPartySizeLimit);
-                __instance.OtherPartyPrisonersLbl = PartyHeaderCountHelper.PopulatePartyListLabel(__instance.OtherPartyPrisoners);
-                __instance.MainPartyTroopsLbl = PartyHeaderCountHelper.PopulatePartyListLabel(__instance.MainPartyTroops, partyScreenLogic.RightOwnerParty.PartySizeLimit);
+                __instance.OtherPartyTroopsLbl =
+                    PartyHeaderCountHelper.PopulatePartyListLabel(__instance.OtherPartyTroops,
+                                                                  partyScreenLogic.LeftPartySizeLimit);
+                __instance.OtherPartyPrisonersLbl =
+                    PartyHeaderCountHelper.PopulatePartyListLabel(__instance.OtherPartyPrisoners);
+                __instance.MainPartyTroopsLbl =
+                    PartyHeaderCountHelper.PopulatePartyListLabel(__instance.MainPartyTroops,
+                                                                  partyScreenLogic.RightOwnerParty.PartySizeLimit);
 
                 int limit = 0;
-                if (partyScreenLogic.RightOwnerParty != null && partyScreenLogic.RightOwnerParty.Leader != null)
+                if (partyScreenLogic.RightOwnerParty?.Leader != null)
                 {
                     limit = partyScreenLogic.RightOwnerParty.PrisonerSizeLimit;
                 }
 
-                __instance.MainPartyPrisonersLbl = PartyHeaderCountHelper.PopulatePartyListLabel(__instance.MainPartyPrisoners, limit);
+                __instance.MainPartyPrisonersLbl =
+                    PartyHeaderCountHelper.PopulatePartyListLabel(__instance.MainPartyPrisoners, limit);
             }
         }
     }
