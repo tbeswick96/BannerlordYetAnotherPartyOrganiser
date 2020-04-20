@@ -67,11 +67,10 @@ namespace YAPO
 
         protected override void OnApplicationTick(float dt)
         {
-            if (States.PartyVmMixin == null
-                || Campaign.Current == null
-                || Campaign.Current.CurrentMenuContext != null
-                && (!Campaign.Current.CurrentMenuContext.GameMenu.IsWaitActive
-                    || Campaign.Current.TimeControlModeLock))
+            if (States.PartyVmMixin == null ||
+                Campaign.Current == null ||
+                Campaign.Current.CurrentMenuContext != null &&
+                (!Campaign.Current.CurrentMenuContext.GameMenu.IsWaitActive || Campaign.Current.TimeControlModeLock))
             {
                 return;
             }
