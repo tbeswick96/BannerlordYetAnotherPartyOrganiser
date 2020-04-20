@@ -42,6 +42,11 @@ namespace YAPO
         [XmlElement, SettingProperty(Strings.SETTINGS_PREFER_SHIELD_NAME, Strings.SETTINGS_PREFER_SHIELD_TOOLTIP), SettingPropertyGroup(Strings.SETTINGS_UPGRADE_GROUP_NAME)]
         public bool PreferShield { get; set; } = true;
 
+
+        [XmlElement, SettingProperty(Strings.SETTINGS_BUFFER_DAILY_COST_NAME, 0, 10, Strings.SETTINGS_BUFFER_DAILY_COST_TOOLTIP), SettingPropertyGroup(Strings.SETTINGS_UPGRADE_GROUP_NAME)]
+        public int DaysToPayDailyCostsBuffer { get; set; }
+
+        [XmlElement]
         public List<PreferredTroopsByCulture> PreferredTroopsByCulture = new List<PreferredTroopsByCulture>
         {
             new PreferredTroopsByCulture {CultureIdentifier = "Khuzait", TroopClasses = new List<CharacterClassType> {CharacterClassType.HORSE_ARCHER, CharacterClassType.CAVALRY}},

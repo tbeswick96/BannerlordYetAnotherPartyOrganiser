@@ -296,6 +296,7 @@
         <Compile Include="Global\States.cs" />
         <Compile Include="Global\Strings.cs" />
         <Compile Include="Patches\PartyScreenWidgetPatches.cs" />
+        <Compile Include="MultipathUpgrade\Model\AvailableResources.cs" />
         <Compile Include="MultipathUpgrade\Model\PreferredTroopsByCulture.cs" />
         <Compile Include="MultipathUpgrade\Enum\RangedPreference.cs" />
         <Compile Include="MultipathUpgrade\Model\CharacterClass.cs" />
