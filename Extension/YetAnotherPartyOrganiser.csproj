@@ -11,7 +11,7 @@
         <RootNamespace>YAPO</RootNamespace>
         <AssemblyName>YetAnotherPartyOrganiser</AssemblyName>
         <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
-        <LangVersion>8</LangVersion>
+        <LangVersion>7.3</LangVersion>
         <FileAlignment>512</FileAlignment>
         <StartAction>Program</StartAction>
         <StartWorkingDirectory>$(GameFolder)\bin\Win64_Shipping_Client\</StartWorkingDirectory>
@@ -19,7 +19,6 @@
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' Or '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
         <StartProgram>$(GameFolder)\bin\Win64_Shipping_Client\Bannerlord.exe</StartProgram>
         <StartArguments>/singleplayer _MODULES_%2aNative%2aSandBox%2aSandBoxCore%2aStoryMode%2aCustomBattle%2aDeveloperConsole%2aModLib%2a0UIExtenderLibModule%2aYetAnotherPartyOrganiser%2a_MODULES_</StartArguments>
-        <LangVersion>7.3</LangVersion>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
         <PlatformTarget>x64</PlatformTarget>
@@ -63,13 +62,15 @@
         <WarningLevel>4</WarningLevel>
     </PropertyGroup>
     <ItemGroup>
+        <Reference Include="0Harmony, Version=2.0.0.9, Culture=neutral, PublicKeyToken=null">
+          <HintPath>packages\Lib.Harmony.2.0.0.9\lib\net472\0Harmony.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
         <Reference Include="System" />
         <Reference Include="System.Core" />
         <Reference Include="System.Data" />
+        <Reference Include="System.Runtime.InteropServices.RuntimeInformation" />
         <Reference Include="System.Xml" />
-        <Reference Include="0Harmony">
-            <HintPath>lib\0Harmony.dll</HintPath>
-        </Reference>
         <Reference Include="UIExtenderLib">
             <HintPath>$(GameFolder)\Modules\0UIExtenderLibModule\bin\Win64_Shipping_Client\UIExtenderLib.dll</HintPath>
         </Reference>
@@ -124,7 +125,7 @@
             <HintPath>$(GameFolder)\bin\Win64_Shipping_Client\TaleWorlds.CampaignSystem.ViewModelCollection.dll</HintPath>
             <Private>False</Private>
         </Reference>
-        <Reference Include="TaleWorlds.Core, Version=1.0.0.0">
+        <Reference Include="TaleWorlds.Core">
             <HintPath>$(GameFolder)\bin\Win64_Shipping_Client\TaleWorlds.Core.dll</HintPath>
             <Private>False</Private>
         </Reference>
@@ -331,6 +332,7 @@
         <None Include="ModuleData\FormationStrings.xml">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
+        <None Include="packages.config" />
         <None Include="SubModule.xml">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
