@@ -41,13 +41,13 @@ namespace YAPO.MultipathUpgrade.Model
             return 0;
         }
 
-        public void UpdateAvailableResources(PartyCharacterVM member)
+        public void UpdateAvailableResources(PartyCharacterVM member, int troopsToUpgrade)
         {
-            AvailableGold -= member.Character.UpgradeCost(PartyBase.MainParty, 0) * member.NumOfUpgradeableTroops;
+            AvailableGold -= member.Character.UpgradeCost(PartyBase.MainParty, 0) * troopsToUpgrade;
 
             if (member.Character.UpgradeRequiresItemFromCategory != null)
             {
-                ItemsOfCategoryWithCount[member.Character.UpgradeRequiresItemFromCategory] -= member.NumOfUpgradeableTroops;
+                ItemsOfCategoryWithCount[member.Character.UpgradeRequiresItemFromCategory] -= troopsToUpgrade;
             }
         }
     }

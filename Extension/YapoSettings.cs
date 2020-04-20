@@ -42,9 +42,14 @@ namespace YAPO
         [XmlElement, SettingProperty(Strings.SETTINGS_PREFER_SHIELD_NAME, Strings.SETTINGS_PREFER_SHIELD_TOOLTIP), SettingPropertyGroup(Strings.SETTINGS_UPGRADE_GROUP_NAME)]
         public bool PreferShield { get; set; } = true;
 
-
         [XmlElement, SettingProperty(Strings.SETTINGS_BUFFER_DAILY_COST_NAME, 0, 10, Strings.SETTINGS_BUFFER_DAILY_COST_TOOLTIP), SettingPropertyGroup(Strings.SETTINGS_UPGRADE_GROUP_NAME)]
         public int DaysToPayDailyCostsBuffer { get; set; }
+
+        [XmlElement, SettingProperty(Strings.SETTINGS_SPLIT_UPGRADES_NAME, Strings.SETTINGS_SPLIT_UPGRADES_TOOLTIP), SettingPropertyGroup(Strings.SETTINGS_UPGRADE_GROUP_NAME)]
+        public bool SplitUpgrades { get; set; }
+
+        [XmlElement, SettingProperty(Strings.SETTINGS_PLAYER_DECISION_NAME, Strings.SETTINGS_PLAYER_DECISION_TOOLTIP), SettingPropertyGroup(Strings.SETTINGS_UPGRADE_GROUP_NAME)]
+        public bool PlayerDecision { get; set; }
 
         [XmlElement]
         public List<PreferredTroopsByCulture> PreferredTroopsByCulture = new List<PreferredTroopsByCulture>
