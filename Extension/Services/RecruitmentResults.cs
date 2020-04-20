@@ -2,7 +2,7 @@
 {
     public class RecruitmentResults
     {
-        public int RecruitedTotal { get; set; } = 0;
-        public int RecruitedTypes { get; set; } = 0;
+        public int RecruitedTotal { get; set; }
+        public int RecruitedTypes { get; set; }
     }
 }
