@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.ViewModelCollection;
 using TaleWorlds.Core;
@@ -168,9 +169,15 @@ namespace YAPO
             _vm.CurrentCharacter = _vm.MainPartyTroops[0];
             RefreshPartyVmInformation();
             RefreshView();
-            Global.Helpers.Message($"Upgraded {results.UpgradedTotal} troops over {results.UpgradedTypes} types. " +
-                                   $"{results.MultiPathSkipped} troop types with multi-path upgrades were skipped. " +
-                                   "Press 'Done' to confirm changes");
+
+            StringBuilder message = new StringBuilder();
+            message.Append($"Upgraded {results.UpgradedTotal} troops over {results.UpgradedTypes} types. ");
+            if (results.MultiPathSkipped > 0)
+            {
+                message.Append($"{results.MultiPathSkipped} troop types with multi-path upgrades were skipped. ");
+            }
+            message.Append("Press 'Done' to confirm changes");
+            Global.Helpers.Message(message.ToString());
         }
 
         private void RecruitPrisoners()
