@@ -14,7 +14,7 @@ namespace YAPO.Services
     {
         public static (int, int, int) UpgradeTroops(PartyVM partyVm, PartyScreenLogic partyScreenLogic)
         {
-            List<PartyCharacterVM> upgradableTroops = partyVm.MainPartyTroops.Where(x => !x.IsHero && x.IsTroopUpgradable && x.IsUpgrade1Available && x.NumOfTarget1UpgradesAvailable > 0 || x.IsUpgrade2Available && x.NumOfTarget2UpgradesAvailable > 0).ToList();
+            List<PartyCharacterVM> upgradableTroops = partyVm.MainPartyTroops.Where(x => !x.IsHero && x.IsTroopUpgradable && x.IsUpgrade1Available && x.NumOfTarget1UpgradesAvailable > 0 && !x.IsUpgrade1Insufficient || x.IsUpgrade2Available && x.NumOfTarget2UpgradesAvailable > 0 && !x.IsUpgrade2Insufficient).ToList();
             if (!upgradableTroops.Any())
             {
                 Global.Helpers.Message("No troops available to upgrade");
@@ -30,7 +30,12 @@ namespace YAPO.Services
             List<Tuple<PartyCharacterVM, PartyScreenLogic.PartyCommand>> commands = new List<Tuple<PartyCharacterVM, PartyScreenLogic.PartyCommand>>();
             foreach (PartyCharacterVM troops in upgradableTroops)
             {
-                List<(int, PartyScreenLogic.PartyCommand.UpgradeTargetType)> upgradesPerTypes = new List<(int maxUpgradableTroops, PartyScreenLogic.PartyCommand.UpgradeTargetType upgradeTargetType)>();
+                List<(int, PartyScreenLogic.PartyCommand.UpgradeTargetType)> upgradesPerTypes =
+                    new List<(int maxUpgradableTroops, PartyScreenLogic.PartyCommand.UpgradeTargetType upgradeTargetType)>
+                    {
+                        (int.MaxValue,
+                            PartyScreenLogic.PartyCommand.UpgradeTargetType.UpgradeTarget1)
+                    };
 
                 if (troops.IsUpgrade2Exists && !YapoSettings.Instance.PlayerDecision && !MultipathUpgradeLogic.TryGetUpgradePaths(troops, out upgradesPerTypes))
                 {
@@ -42,11 +47,6 @@ namespace YAPO.Services
                 {
                     int troopsToUpgrade = CalculateCountOfTroopsThatCanBeUpgraded(availableResources, troops, partyScreenLogic, upgradesPerType);
                     if (troopsToUpgrade == 0) continue;
-
-                    if (upgradesPerTypes.Count > 1)
-                    {
-                        troopsToUpgrade = troopsToUpgrade / upgradesPerTypes.Count;
-                    }
 
                     upgradedTypes++;
                     upgradedTotal += troopsToUpgrade; 

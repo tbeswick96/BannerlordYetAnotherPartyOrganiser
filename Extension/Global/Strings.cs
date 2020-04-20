@@ -27,9 +27,9 @@
         public const string SETTINGS_BUFFER_DAILY_COST_NAME = "Buffer days to pay daily costs";
         public const string SETTINGS_BUFFER_DAILY_COST_TOOLTIP = "Number of days to pay daily costs upgrading should not use.";
         public const string SETTINGS_SPLIT_UPGRADES_NAME = "Split upgrades if decision can't be made";
-        public const string SETTINGS_SPLIT_UPGRADES_TOOLTIP = "Splits upgradepaths when no decision can be made. NOTE: decisions will be made based on culturestrengths. More info on the mod's page.";
-        public const string SETTINGS_PLAYER_DECISION_NAME = "Lets player decide on every upgradepath";
-        public const string SETTINGS_PLAYER_DECISION_TOOLTIP = "Lets player decide on every upgrade when two upgradeoptions are available";
+        public const string SETTINGS_SPLIT_UPGRADES_TOOLTIP = "Splits upgradepaths when no decision can be made. NOTE: decisions will be made based on culture strengths. More info on the mod's page.";
+        public const string SETTINGS_PLAYER_DECISION_NAME = "Lets player decide on every upgrade split path";
+        public const string SETTINGS_PLAYER_DECISION_TOOLTIP = "Lets player decide on every upgrade when two upgrade options are available";
 
         public const string SORT_TEXT_ASCENDING = "/\\";
         public const string SORT_TEXT_DESCENDING = "\\/";
