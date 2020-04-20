@@ -60,8 +60,8 @@ namespace YAPO
             if (YapoSettings.Instance.IsFormationPersistenceFixEnabled)
             {
                 campaignGameStarter.AddBehavior(FixedFormationsBehaviour.Instance);
-                campaignGameStarter.LoadGameTexts(
-                    $"{BasePath.Name}/Modules/{Strings.MODULE_FOLDER_NAME}/{Strings.MODULE_DATA_FORMATION_STRINGS}");
+                campaignGameStarter
+                    .LoadGameTexts($"{BasePath.Name}/Modules/{Strings.MODULE_FOLDER_NAME}/{Strings.MODULE_DATA_FORMATION_STRINGS}");
             }
         }
 
