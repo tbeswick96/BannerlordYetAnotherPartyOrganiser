@@ -8,6 +8,7 @@ using TaleWorlds.InputSystem;
 using TaleWorlds.Library;
 using TaleWorlds.MountAndBlade;
 using UIExtenderLib;
+using YAPO.Fixes.Formations;
 using YAPO.Global;
 using YAPO.Services;
 
@@ -24,7 +25,7 @@ namespace YAPO
             try
             {
                 FileDatabase.Initialise(Strings.MODULE_FOLDER_NAME);
-                Settings settings = FileDatabase.Get<Settings>(Settings.InstanceId) ?? new Settings();
+                YapoSettings settings = FileDatabase.Get<YapoSettings>(YapoSettings.InstanceId) ?? new YapoSettings();
                 SettingsDatabase.RegisterSettings(settings);
 
                 UIExtender.Register();
@@ -37,16 +38,36 @@ namespace YAPO
 
         protected override void OnGameStart(Game game, IGameStarter gameStarterObject)
         {
+            base.OnGameStart(game, gameStarterObject);
             if (!(game.GameType is Campaign)) return;
 
-            MBObjectManager.Instance.RegisterType<TroopSorterService>("Sorter", "Sorters");
-            
-            (gameStarterObject as CampaignGameStarter)?.LoadGameTexts($"{BasePath.Name}/Modules/{Strings.MODULE_FOLDER_NAME}/{Strings.MODULE_DATA_PARTY_COUNT_STRINGS}");
+            try
+            {
+                MBObjectManager.Instance.RegisterType<TroopSorterService>("Sorter", "Sorters");
+                AddBehaviours(gameStarterObject as CampaignGameStarter);
+            } catch (Exception exception)
+            {
+                ModDebug.ShowError("Something went wrong while starting a game", "OnGameStart exception", exception);
+            }
+        }
+
+        private static void AddBehaviours(CampaignGameStarter campaignGameStarter)
+        {
+            if (campaignGameStarter == null) return;
+
+            if (YapoSettings.Instance.IsFormationPersistenceFixEnabled)
+            {
+                campaignGameStarter.AddBehavior(FixedFormationsBehaviour.Instance);
+                campaignGameStarter.LoadGameTexts($"{BasePath.Name}/Modules/{Strings.MODULE_FOLDER_NAME}/{Strings.MODULE_DATA_FORMATION_STRINGS}");
+            }
+
+            campaignGameStarter.LoadGameTexts($"{BasePath.Name}/Modules/{Strings.MODULE_FOLDER_NAME}/{Strings.MODULE_DATA_PARTY_COUNT_STRINGS}");
         }
 
         protected override void OnApplicationTick(float dt)
         {
-            if (States.PartyVmMixin == null || Campaign.Current == null || Campaign.Current.CurrentMenuContext != null && (!Campaign.Current.CurrentMenuContext.GameMenu.IsWaitActive || Campaign.Current.TimeControlModeLock))
+            if (States.PartyVmMixin == null || Campaign.Current == null ||
+                Campaign.Current.CurrentMenuContext != null && (!Campaign.Current.CurrentMenuContext.GameMenu.IsWaitActive || Campaign.Current.TimeControlModeLock))
             {
                 return;
             }

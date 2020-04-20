@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<base type="string">
+    <strings>
+        <string id="str_formation_class_string.NumberOfDefaultFormations" text="{=q2Y2AziA}Skirmishers"/>
+        <string id="str_formation_class_string.HeavyInfantry" text="{=JSokBXER}Heavy Infantry"/>
+        <string id="str_formation_class_string.LightCavalry" text="{=ZR2bAa1p}Light Cavalry"/>
+        <string id="str_formation_class_string.HeavyCavalry" text="{=MLmHSSg0}Heavy Cavalry"/>
+        <string id="str_troop_type_name.NumberOfDefaultFormations" text="{=ugJfuabA}Skirmishers"/>
+        <string id="str_troop_type_name.HeavyInfantry" text="{=JSokBXER}Heavy Infantry"/>
+        <string id="str_troop_type_name.LightCavalry" text="{=ZR2bAa1p}Light Cavalry"/>
+        <string id="str_troop_type_name.HeavyCavalry" text="{=MLmHSSg0}Heavy Cavalry"/>
+    </strings>
+</base>

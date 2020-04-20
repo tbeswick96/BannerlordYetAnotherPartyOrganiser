@@ -73,7 +73,7 @@ namespace YAPO.MultipathUpgrade
             if (!HasPreferredWeaponLoadout()) return -1;
 
             UpgradeCandidate candidate;
-            if (Settings.Instance.PreferShield && candidates.All(x => x.UpgradeClassTipsWhichAreSpecialties.All(c => c.ClassType == CharacterClassType.INFANTRY)))
+            if (YapoSettings.Instance.PreferShield && candidates.All(x => x.UpgradeClassTipsWhichAreSpecialties.All(c => c.ClassType == CharacterClassType.INFANTRY)))
             {
                 candidate = GetCandidateWithWeaponType(candidates, EquipmentProperties.HAS_SHIELD);
                 if (candidate != null)
@@ -82,7 +82,7 @@ namespace YAPO.MultipathUpgrade
                 }
             }
 
-            if (Settings.Instance.RangedPreference == (int) RangedPreference.CROSSBOWS && candidates.All(x => x.UpgradeClassTipsWhichAreSpecialties.All(c => c.ClassType == CharacterClassType.RANGED)))
+            if (YapoSettings.Instance.RangedPreference == (int) RangedPreference.CROSSBOWS && candidates.All(x => x.UpgradeClassTipsWhichAreSpecialties.All(c => c.ClassType == CharacterClassType.RANGED)))
             {
                 candidate = GetCandidateWithWeaponType(candidates, EquipmentProperties.HAS_CROSS_BOW);
                 if (candidate != null)
@@ -91,7 +91,7 @@ namespace YAPO.MultipathUpgrade
                 }
             }
 
-            if (Settings.Instance.RangedPreference != (int) RangedPreference.BOWS || !candidates.All(x => x.UpgradeClassTipsWhichAreSpecialties.All(c => c.ClassType == CharacterClassType.RANGED))) return -1;
+            if (YapoSettings.Instance.RangedPreference != (int) RangedPreference.BOWS || !candidates.All(x => x.UpgradeClassTipsWhichAreSpecialties.All(c => c.ClassType == CharacterClassType.RANGED))) return -1;
 
             candidate = GetCandidateWithWeaponType(candidates, EquipmentProperties.HAS_BOW);
             if (candidate != null)
@@ -105,10 +105,10 @@ namespace YAPO.MultipathUpgrade
 
         private static IEnumerable<CharacterClassType> GetPreferredClassTypesByCulture(string cultureName)
         {
-            return Settings.Instance.PreferredTroopsByCulture.FirstOrDefault(culture => culture.CultureIdentifier == cultureName)?.TroopClasses ?? new List<CharacterClassType>();
+            return YapoSettings.Instance.PreferredTroopsByCulture.FirstOrDefault(culture => culture.CultureIdentifier == cultureName)?.TroopClasses ?? new List<CharacterClassType>();
         }
 
-        private static bool HasPreferredWeaponLoadout() => Settings.Instance.RangedPreference != (int) RangedPreference.NONE || Settings.Instance.PreferShield;
+        private static bool HasPreferredWeaponLoadout() => YapoSettings.Instance.RangedPreference != (int) RangedPreference.NONE || YapoSettings.Instance.PreferShield;
 
         private static UpgradeCandidate GetCandidateWithWeaponType(IEnumerable<UpgradeCandidate> candidates, EquipmentProperties equipmentProperty)
         {
