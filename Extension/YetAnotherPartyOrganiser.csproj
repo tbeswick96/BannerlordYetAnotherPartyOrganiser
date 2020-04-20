@@ -305,11 +305,13 @@
         <Compile Include="MultipathUpgrade\MultipathUpgradeLogic.cs" />
         <Compile Include="Patches\PartyVmPatches.cs" />
         <Compile Include="Services\PartyHeaderCountHelper.cs" />
+        <Compile Include="Services\RecruitmentResults.cs" />
         <Compile Include="Services\SortHelpers.cs" />
         <Compile Include="Services\TroopActionService.cs" />
         <Compile Include="Services\TroopSorterService.cs" />
         <Compile Include="MultipathUpgrade\Model\UpgradeCandidate.cs" />
         <Compile Include="MultipathUpgrade\Services\UpgradeTreeCrawler.cs" />
+        <Compile Include="Services\UpgradeResults.cs" />
         <Compile Include="YapoSettings.cs" />
         <Compile Include="SortByModeOptionVM.cs" />
         <Compile Include="UI\PartyScreenWidgetExtensions.cs" />
