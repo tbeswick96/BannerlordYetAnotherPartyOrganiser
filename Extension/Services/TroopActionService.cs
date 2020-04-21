@@ -41,15 +41,6 @@ namespace YAPO.Services
             return results;
         }
 
-        private static List<PartyCharacterVM> GetRecruitablePrisoners(PartyVM partyVm)
-        {
-            return partyVm.MainPartyPrisoners.Where(x =>
-                                                        !x.IsHero &&
-                                                        x.IsRecruitablePrisoner &&
-                                                        x.NumOfRecruitablePrisoners > 0)
-                          .ToList();
-        }
-
         public static RecruitmentResults RecruitPrisoners(PartyVM partyVm, PartyScreenLogic partyScreenLogic)
         {
             RecruitmentResults results = new RecruitmentResults();
@@ -152,7 +143,7 @@ namespace YAPO.Services
                             PartyScreenLogic.PartyCommand.UpgradeTargetType.UpgradeTarget1)
                     };
 
-                if (troops.IsUpgrade2Exists && !YapoSettings.Instance.PlayerDecision && !MultipathUpgradeLogic.TryGetUpgradePaths(troops, out upgradesPerTypes)) //TODO get if two upgradepaths not just upgrade2
+                if (HasTwoUpgradePaths(troops) && !YapoSettings.Instance.PlayerDecision && !MultipathUpgradeLogic.TryGetUpgradePaths(troops, out upgradesPerTypes))
                 {
                     upgradeResults.MultiPathSkipped++;
                     continue;
@@ -175,6 +166,20 @@ namespace YAPO.Services
             }
 
             return commands;
+        }
+
+        private static bool HasTwoUpgradePaths(PartyCharacterVM troops)
+        {
+            return troops.IsUpgrade1Exists && troops.IsUpgrade2Exists;
+        }
+
+        private static List<PartyCharacterVM> GetRecruitablePrisoners(PartyVM partyVm)
+        {
+            return partyVm.MainPartyPrisoners.Where(x =>
+                                                        !x.IsHero &&
+                                                        x.IsRecruitablePrisoner &&
+                                                        x.NumOfRecruitablePrisoners > 0)
+                          .ToList();
         }
 
         private static List<PartyCharacterVM> GetUpgradeableTroops(PartyVM partyVm)
