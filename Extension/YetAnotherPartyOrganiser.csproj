@@ -18,7 +18,7 @@
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' Or '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
         <StartProgram>$(GameFolder)\bin\Win64_Shipping_Client\Bannerlord.exe</StartProgram>
-        <StartArguments>/singleplayer _MODULES_%2aNative%2aSandBox%2aSandBoxCore%2aStoryMode%2aCustomBattle%2aDeveloperConsole%2aModLib%2a0UIExtenderLibModule%2aYetAnotherPartyOrganiser%2a_MODULES_</StartArguments>
+        <StartArguments>/singleplayer _MODULES_%2aNative%2aSandBox%2aSandBoxCore%2aStoryMode%2aCustomBattle%2aDeveloperConsole%2aModLib%2a0UIExtenderLibModule%2aAragas.SaveMissingModuleFix%2aYetAnotherPartyOrganiser%2a_MODULES_</StartArguments>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
         <PlatformTarget>x64</PlatformTarget>
