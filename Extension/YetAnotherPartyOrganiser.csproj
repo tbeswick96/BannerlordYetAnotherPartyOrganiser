@@ -353,5 +353,5 @@
             move "$(TargetDir)ModLib.*" "$(TargetDir)bin\Win64_Shipping_Client\"
             move "$(TargetDir)UIExtenderLib_*.*" "$(TargetDir)bin\Win64_Shipping_Client\"
         </PostBuildEvent>
-    </PropertyGroup>
+  </PropertyGroup>
 </Project>

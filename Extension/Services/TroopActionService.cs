@@ -161,7 +161,7 @@ namespace YAPO.Services
                     upgradeCommand.FillForUpgradeTroop(troops.Side, troops.Type, troops.Character, troopsToUpgrade, upgradesPerType.upgradeTargetType);
                     commands.Add(new Tuple<PartyCharacterVM, PartyScreenLogic.PartyCommand>(troops, upgradeCommand));
 
-                    availableResources.UpdateAvailableResources(troops, troopsToUpgrade);
+                    availableResources.UpdateAvailableResources(troops, troopsToUpgrade, (int)upgradesPerType.upgradeTargetType);
                 }
             }
 
@@ -199,13 +199,14 @@ namespace YAPO.Services
         private static int CalculateCountOfTroopsThatCanBeUpgraded(AvailableResources availableResources,
             PartyCharacterVM troops, PartyScreenLogic partyScreenLogic, (int maxUpgradableTroops, PartyScreenLogic.PartyCommand.UpgradeTargetType upgradeTargetType) upgradesPerTargetType)
         {
-            if (troops.Character?.UpgradeRequiresItemFromCategory != null &&
-                !availableResources.ItemsOfCategoryWithCount.ContainsKey(troops.Character
-                    .UpgradeRequiresItemFromCategory))
+            var upgradeRequiredItemCategory = troops.Character.UpgradeTargets[(int) upgradesPerTargetType.upgradeTargetType]?.UpgradeRequiresItemFromCategory;
+
+            if (upgradeRequiredItemCategory != null &&
+                !availableResources.ItemsOfCategoryWithCount.ContainsKey(upgradeRequiredItemCategory))
             {
-                availableResources.ItemsOfCategoryWithCount.Add(troops.Character.UpgradeRequiresItemFromCategory,
+                availableResources.ItemsOfCategoryWithCount.Add(upgradeRequiredItemCategory,
                     troops.GetNumOfCategoryItemPartyHas(partyScreenLogic.RightOwnerParty.ItemRoster,
-                        troops.Character.UpgradeRequiresItemFromCategory));
+                                                        upgradeRequiredItemCategory));
             }
 
             int upgradeCost = troops.Character.UpgradeCost(PartyBase.MainParty, 0) <= 0
@@ -213,10 +214,7 @@ namespace YAPO.Services
                 : troops.Character.UpgradeCost(PartyBase.MainParty, (int)upgradesPerTargetType.upgradeTargetType);
             int upgradableTroopsByGold = availableResources.AvailableGold / upgradeCost;
 
-            if (troops.Character
-                    ?.UpgradeRequiresItemFromCategory != null
-                && availableResources.ItemsOfCategoryWithCount.TryGetValue(
-                    troops.Character.UpgradeRequiresItemFromCategory, out int upgradableTroopsByItemCategory))
+            if (upgradeRequiredItemCategory != null && availableResources.ItemsOfCategoryWithCount.TryGetValue(upgradeRequiredItemCategory, out int upgradableTroopsByItemCategory))
             {
                 return Min4(troops.NumOfUpgradeableTroops, upgradableTroopsByItemCategory, upgradableTroopsByGold, upgradesPerTargetType.maxUpgradableTroops);
             }
