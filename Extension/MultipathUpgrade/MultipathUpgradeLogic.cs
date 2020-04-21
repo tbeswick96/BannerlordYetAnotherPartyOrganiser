@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.ViewModelCollection;
+using TaleWorlds.Core;
 using TaleWorlds.Library;
 using YAPO.MultipathUpgrade.Enum;
 using YAPO.MultipathUpgrade.Model;
@@ -117,9 +118,6 @@ namespace YAPO.MultipathUpgrade
             //if all candidates have different specialties in their tips ==> no upgrade
             if (firstNotSecond.Any() || secondNotFirst.Any()) return -1;
 
-            //if all candidates have the same specialties in their tips ==> Candidates will be tested by equipmentProperty
-            if (firstNotSecond.Any() || secondNotFirst.Any()) return -1;
-
             if (!HasPreferredWeaponLoadout()) return -1;
 
             UpgradeCandidate candidate;
@@ -170,10 +168,15 @@ namespace YAPO.MultipathUpgrade
         private static UpgradeCandidate GetCandidateWithWeaponType(IEnumerable<UpgradeCandidate> candidates,
             EquipmentProperties equipmentProperty)
         {
-            List<UpgradeCandidate> superCandidates = candidates.SelectMany(x => x.UpgradeClassTipsWhichAreSpecialties,
-                    (candidate, upgradeCharacter) => new {candidate, upgradeCharacter})
-                .Where(x => (x.upgradeCharacter.EquipmentProperties & equipmentProperty) != 0).Select(x => x.candidate)
-                .ToList();
+            var superCandidates = candidates.SelectMany(x => x.UpgradeClassTipsWhichAreSpecialties,
+                                                        (candidate, upgradeCharacter) =>
+                                                            new {candidate, upgradeCharacter})
+                                            .DistinctBy(arg => arg.candidate)
+                                            .Where(x =>
+                                                       x.candidate.UpgradeClassTipsWhichAreSpecialties
+                                                        .Any(y => (y.EquipmentProperties & equipmentProperty) != 0))
+                                            .Select(x => x.candidate)
+                                            .ToList();
 
             return superCandidates.Count == 1 ? superCandidates[0] : null;
         }
