@@ -132,7 +132,7 @@ namespace YAPO.Services
             List<Tuple<PartyCharacterVM, PartyScreenLogic.PartyCommand>> commands =
                 new List<Tuple<PartyCharacterVM, PartyScreenLogic.PartyCommand>>();
 
-            AvailableResources availableResources = new AvailableResources(States.HotkeyControl);
+            AvailableResources availableResources = new AvailableResources();
 
             foreach (PartyCharacterVM troops in upgradableTroops)
             {
