@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using HarmonyLib;
 using ModLib;
 using ModLib.Debugging;
@@ -60,18 +63,20 @@ namespace YAPO
             if (YapoSettings.Instance.IsFormationPersistenceFixEnabled)
             {
                 campaignGameStarter.AddBehavior(FixedFormationsBehaviour.Instance);
-                campaignGameStarter.LoadGameTexts(
-                    $"{BasePath.Name}/Modules/{Strings.MODULE_FOLDER_NAME}/{Strings.MODULE_DATA_FORMATION_STRINGS}");
+                campaignGameStarter
+                    .LoadGameTexts($"{BasePath.Name}/Modules/{Strings.MODULE_FOLDER_NAME}/{Strings.MODULE_DATA_FORMATION_STRINGS}");
             }
+
+            campaignGameStarter
+                .LoadGameTexts($"{BasePath.Name}/Modules/{Strings.MODULE_FOLDER_NAME}/{Strings.MODULE_DATA_PARTY_COUNT_STRINGS}");
         }
 
         protected override void OnApplicationTick(float dt)
         {
-            if (States.PartyVmMixin == null
-                || Campaign.Current == null
-                || Campaign.Current.CurrentMenuContext != null
-                && (!Campaign.Current.CurrentMenuContext.GameMenu.IsWaitActive
-                    || Campaign.Current.TimeControlModeLock))
+            if (States.PartyVmMixin == null ||
+                Campaign.Current == null ||
+                Campaign.Current.CurrentMenuContext != null &&
+                (!Campaign.Current.CurrentMenuContext.GameMenu.IsWaitActive || Campaign.Current.TimeControlModeLock))
             {
                 return;
             }

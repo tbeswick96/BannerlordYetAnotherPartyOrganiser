@@ -11,15 +11,14 @@
         <RootNamespace>YAPO</RootNamespace>
         <AssemblyName>YetAnotherPartyOrganiser</AssemblyName>
         <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
-        <LangVersion>8</LangVersion>
+        <LangVersion>7.3</LangVersion>
         <FileAlignment>512</FileAlignment>
         <StartAction>Program</StartAction>
         <StartWorkingDirectory>$(GameFolder)\bin\Win64_Shipping_Client\</StartWorkingDirectory>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' Or '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
         <StartProgram>$(GameFolder)\bin\Win64_Shipping_Client\Bannerlord.exe</StartProgram>
-        <StartArguments>/singleplayer _MODULES_%2aNative%2aSandBox%2aSandBoxCore%2aStoryMode%2aCustomBattle%2aDeveloperConsole%2aModLib%2a0UIExtenderLibModule%2aYetAnotherPartyOrganiser%2a_MODULES_</StartArguments>
-    <LangVersion>7.3</LangVersion>
+        <StartArguments>/singleplayer _MODULES_%2aNative%2aSandBox%2aSandBoxCore%2aStoryMode%2aCustomBattle%2aDeveloperConsole%2aModLib%2a0UIExtenderLibModule%2aAragas.SaveMissingModuleFix%2aYetAnotherPartyOrganiser%2a_MODULES_</StartArguments>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
         <PlatformTarget>x64</PlatformTarget>
@@ -63,17 +62,17 @@
         <WarningLevel>4</WarningLevel>
     </PropertyGroup>
     <ItemGroup>
+        <Reference Include="0Harmony, Version=2.0.0.10, Culture=neutral, PublicKeyToken=null">
+            <HintPath>packages\Lib.Harmony.2.0.0.10\lib\net472\0Harmony.dll</HintPath>
+            <Private>True</Private>
+        </Reference>
+        <Reference Include="0UIExtenderLibModule, Version=1.0.5.0, Culture=neutral, PublicKeyToken=null">
+          <HintPath>..\..\..\..\Steam\steamapps\common\Mount &amp; Blade II Bannerlord\Modules\0UIExtenderLibModule\bin\Win64_Shipping_Client\0UIExtenderLibModule.dll</HintPath>
+        </Reference>
         <Reference Include="System" />
         <Reference Include="System.Core" />
         <Reference Include="System.Data" />
         <Reference Include="System.Xml" />
-        <Reference Include="0Harmony">
-            <HintPath>lib\0Harmony.dll</HintPath>
-        </Reference>
-        <Reference Include="TaleWorlds.MountAndBlade.Launcher">
-          <HintPath>$(GameFolder)\bin\Win64_Shipping_Client\TaleWorlds.MountAndBlade.Launcher.exe</HintPath>
-            <Private>False</Private>
-        </Reference>
         <Reference Include="UIExtenderLib">
             <HintPath>$(GameFolder)\Modules\0UIExtenderLibModule\bin\Win64_Shipping_Client\UIExtenderLib.dll</HintPath>
         </Reference>
@@ -128,7 +127,7 @@
             <HintPath>$(GameFolder)\bin\Win64_Shipping_Client\TaleWorlds.CampaignSystem.ViewModelCollection.dll</HintPath>
             <Private>False</Private>
         </Reference>
-        <Reference Include="TaleWorlds.Core, Version=1.0.0.0">
+        <Reference Include="TaleWorlds.Core">
             <HintPath>$(GameFolder)\bin\Win64_Shipping_Client\TaleWorlds.Core.dll</HintPath>
             <Private>False</Private>
         </Reference>
@@ -299,20 +298,23 @@
         <Compile Include="Global\States.cs" />
         <Compile Include="Global\Strings.cs" />
         <Compile Include="Patches\PartyScreenWidgetPatches.cs" />
-    <Compile Include="MultipathUpgrade\Model\PreferredTroopsByCulture.cs" />
-    <Compile Include="MultipathUpgrade\Enum\RangedPreference.cs" />
-    <Compile Include="MultipathUpgrade\Model\CharacterClass.cs" />
-    <Compile Include="MultipathUpgrade\Services\CharacterClassCreator.cs" />
-    <Compile Include="MultipathUpgrade\Enum\CharacterClassType.cs" />
-    <Compile Include="MultipathUpgrade\Enum\EquipmentProperties.cs" />
-    <Compile Include="MultipathUpgrade\MultipathUpgradeLogic.cs" />
+        <Compile Include="MultipathUpgrade\Model\PreferredTroopsByCulture.cs" />
+        <Compile Include="MultipathUpgrade\Enum\RangedPreference.cs" />
+        <Compile Include="MultipathUpgrade\Model\CharacterClass.cs" />
+        <Compile Include="MultipathUpgrade\Services\CharacterClassCreator.cs" />
+        <Compile Include="MultipathUpgrade\Enum\CharacterClassType.cs" />
+        <Compile Include="MultipathUpgrade\Enum\EquipmentProperties.cs" />
+        <Compile Include="MultipathUpgrade\MultipathUpgradeLogic.cs" />
+        <Compile Include="Patches\PartyVmPatches.cs" />
+        <Compile Include="Patches\ViewModelPatches.cs" />
+        <Compile Include="Services\PartyHeaderCountHelper.cs" />
         <Compile Include="Services\SortHelpers.cs" />
         <Compile Include="Services\TroopActionService.cs" />
         <Compile Include="Services\TroopSorterService.cs" />
         <Compile Include="MultipathUpgrade\Model\UpgradeCandidate.cs" />
-    <Compile Include="MultipathUpgrade\Services\UpgradeTreeCrawler.cs" />
-    <Compile Include="ViewModels\TypeSortOptionVm.cs" />
-    <Compile Include="YapoSettings.cs" />
+        <Compile Include="MultipathUpgrade\Services\UpgradeTreeCrawler.cs" />
+        <Compile Include="ViewModels\TypeSortOptionVm.cs" />
+        <Compile Include="YapoSettings.cs" />
         <Compile Include="SortByModeOptionVM.cs" />
         <Compile Include="UI\PartyScreenWidgetExtensions.cs" />
         <Compile Include="YapoSubModule.cs" />
@@ -322,6 +324,10 @@
         <Compile Include="PartyScreenExtension.cs" />
     </ItemGroup>
     <ItemGroup>
+        <None Include="packages.config" />
+        <None Include="SubModule.xml">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
         <None Include="GUI\PrefabExtensions\OtherTroopSortButtons.xml">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
@@ -331,18 +337,16 @@
         <None Include="GUI\PrefabExtensions\TroopActionButtons.xml">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
+        <None Include="GUI\PrefabExtensions\TypeSortOrderMenu.xml">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
         <None Include="ModuleData\FormationStrings.xml">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Include="SubModule.xml">
+        <None Include="ModuleData\PartyCountStrings.xml">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
     </ItemGroup>
-  <ItemGroup>
-    <None Include="GUI\PrefabExtensions\TypeSortOrderMenu.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
     <PropertyGroup>
         <PostBuildEvent>mkdir "$(TargetDir)bin\Win64_Shipping_Client\"
@@ -351,5 +355,4 @@
             move "$(TargetDir)UIExtenderLib.*" "$(TargetDir)bin\Win64_Shipping_Client\"
             move "$(TargetDir)ModLib.*" "$(TargetDir)bin\Win64_Shipping_Client\"
         </PostBuildEvent>
-    </PropertyGroup>
-</Project>
+    </PropertyGroup></Project>
