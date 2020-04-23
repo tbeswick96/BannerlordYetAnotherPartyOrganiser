@@ -27,11 +27,4 @@ namespace YAPO
         public override int Position => PositionLast;
         public override string Name => "TroopActionButtons";
     }
-
-    [PrefabExtension("PartyScreen", "descendant::PartyScreenWidget[@Id='PartyScreen']/Children")]
-    public class TypeSortOrderMenuExtension : PrefabExtensionInsertPatch
-    {
-        public override int Position => PositionLast;
-        public override string Name => "TypeSortOrderMenu";
-    }
 }

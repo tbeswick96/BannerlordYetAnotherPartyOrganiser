@@ -25,7 +25,7 @@ namespace YAPO.Patches
 
                 if (commandName == nameof(PartyVmMixin.ChangeOrderOfTypeOption))
                 {
-                    States.PartyVmMixin.ChangeOrderOfTypeOption((TypeSortOptionVm) parameters[0], (int) parameters[1]);
+                    States.PartyVmMixin.ChangeOrderOfTypeOption((TypeSortOptionVm) parameters[0], (int) parameters[1], (string) parameters[2]);
                 }
                 
                 MethodInfo method = ViewModelPatchUtil.FindExecuteCommandMethod(type,

@@ -337,9 +337,6 @@
         <None Include="GUI\PrefabExtensions\TroopActionButtons.xml">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Include="GUI\PrefabExtensions\TypeSortOrderMenu.xml">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
         <None Include="ModuleData\FormationStrings.xml">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
