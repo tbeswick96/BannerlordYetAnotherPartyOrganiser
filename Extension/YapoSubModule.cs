@@ -18,7 +18,7 @@ namespace YAPO
 {
     public class YapoSubModule : MBSubModuleBase
     {
-        private readonly UIExtender _uiExtender = new UIExtender("YAPO");
+        private readonly UIExtender _uiExtender = new UIExtender("YetAnotherPartyOrganiser");
         
         protected override void OnSubModuleLoad()
         {
