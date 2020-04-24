@@ -16,10 +16,6 @@ Known mods that use an outdated Harmony version (< 2.0.0.9)
 - Workshop Demystifier
 - Tournaments XPanded
 
-_This mod is open source, so please feel free to explore it.
-It isn't perfect but we are working on it.
-If you want to help don't hesitate to get into contact and have a look at our [contribution guide](https://github.com/tbeswick96/BannerlordYetAnotherPartyOrganiser/wiki/Contributing)._
-
 ## Dependencies
 
 | Dependency | Mandatory | Notes |
@@ -47,7 +43,7 @@ Make sure that the dependent mods are enabled and listed above this mod within t
 - Button to place upgradable troops at the top of the list
 - Buttons will disable themselves if functionality is not available (e.g. cannot set opposite sorting if no Then By mode is selected)
 - Sorting configuration is saved to your save file
- 
+
 ### Party Actions
 
 - Upgrade single-path upgradable troops
@@ -77,3 +73,9 @@ Options can be found via the main menu option:
 - Configurable upgrade rules
 - Handling of multi-path upgradable troops
 - Configurable main party prisoner and other party troops/prisoner (after battle) recruitment rules
+
+## Contributing
+
+_This mod is open source, so please feel free to explore it.
+It isn't perfect but we are working on it.
+If you want to help don't hesitate to get into contact and have a look at our [contribution guide](https://github.com/tbeswick96/BannerlordYetAnotherPartyOrganiser/wiki/Contributing)._
