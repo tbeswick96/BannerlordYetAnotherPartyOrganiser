@@ -6,11 +6,11 @@
 
 **IMPORTANT** If you used a version prior to 1.2.0, UIExtenderLibModule is a deprecated mod. Make sure you remove this mod from your load order. The library is included with this mod.
 
-**IMPORTANT** If you have any mods that use a Harmony version < 2.0.0.9, make these are loaded AFTER any mod that uses a Harmony version >= 2.0.0.9.
+**IMPORTANT** If you have any mods that use a Harmony version < 2.0.0.9, make sure these are loaded AFTER any mod that uses a Harmony version >= 2.0.0.9.
 
 In other words, a mod using a Harmony version >= 2.0.0.9 needs to be loaded first. The safest way to do this is to load ModLib first after the official modules.
 
-Know mods that use an outdated Harmony version < 2.0.0.9
+Known mods that use an outdated Harmony version (< 2.0.0.9)
 
 - Bannerlord Tweaks
 - Workshop Demystifier
@@ -25,7 +25,7 @@ If you want to help don't hesitate to get into contact and have a look at our [c
 | Dependency | Mandatory | Notes |
 |------------|:---------:|-------|
 | [ModLib](https://www.nexusmods.com/mountandblade2bannerlord/mods/592) | ✓ | Used to provide settings and other goodies |
-| [Save Missing Module Fix](https://www.nexusmods.com/mountandblade2bannerlord/mods/282) | ✗ | Recommended as it ensures saves can be loaded when you unload this mod having saved a game with it enabled (Ensure this is loaded BEFORE Yet Another Party Organiser) |
+| [Save Missing Module Fix](https://www.nexusmods.com/mountandblade2bannerlord/mods/282) | ✗ | Recommended as it ensures saves can be loaded when you unload this mod having saved a game with it enabled |
 
 Make sure that the dependent mods are enabled and listed above this mod within to launcher.
 
