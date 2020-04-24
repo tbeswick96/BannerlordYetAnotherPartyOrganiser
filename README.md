@@ -6,15 +6,7 @@
 
 **IMPORTANT** If you used a version prior to 1.2.0, UIExtenderLibModule is a deprecated mod. Make sure you remove this mod from your load order. The library is included with this mod.
 
-**IMPORTANT** If you have any mods that use a Harmony version < 2.0.0.9, make sure these are loaded AFTER any mod that uses a Harmony version >= 2.0.0.9.
-
-In other words, a mod using a Harmony version >= 2.0.0.9 needs to be loaded first. The safest way to do this is to load ModLib first after the official modules.
-
-Known mods that use an outdated Harmony version (< 2.0.0.9)
-
-- Bannerlord Tweaks
-- Workshop Demystifier
-- Tournaments XPanded
+**IMPORTANT** To ensure compatibility between Harmony versions across different modules, it is advised to load ModLib as the first Module after the official modules. If this is not done, the game may error on startup as an older version of harmony might be loaded first
 
 ## Dependencies
 
