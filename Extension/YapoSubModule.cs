@@ -18,28 +18,32 @@ namespace YAPO
 {
     public class YapoSubModule : MBSubModuleBase
     {
+        private readonly UIExtender _uiExtender = new UIExtender("YAPO");
+        
         protected override void OnSubModuleLoad()
         {
-            base.OnSubModuleLoad();
-
             try
             {
                 FileDatabase.Initialise(Strings.MODULE_FOLDER_NAME);
                 YapoSettings settings = FileDatabase.Get<YapoSettings>(YapoSettings.InstanceId) ?? new YapoSettings();
                 SettingsDatabase.RegisterSettings(settings);
 
-                UIExtender.Register();
                 new Harmony("YAPO").PatchAll();
+                _uiExtender.Register();
             }
             catch (Exception exception)
             {
                 ModDebug.ShowError("Failed to load YetAnotherPartyOrganiser", "OnSubModuleLoad exception", exception);
             }
         }
+        
+        protected override void OnBeforeInitialModuleScreenSetAsRoot()
+        {
+            _uiExtender.Verify();
+        }
 
         protected override void OnGameStart(Game game, IGameStarter gameStarterObject)
         {
-            base.OnGameStart(game, gameStarterObject);
             if (!(game.GameType is Campaign)) return;
 
             try

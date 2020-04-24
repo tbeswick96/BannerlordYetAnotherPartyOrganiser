@@ -1,5 +1,4 @@
-﻿using UIExtenderLib;
-using UIExtenderLib.Prefab;
+﻿using UIExtenderLib.Interface;
 
 // ReSharper disable InconsistentNaming
 // ReSharper disable UnusedType.Global
