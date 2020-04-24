@@ -4,11 +4,17 @@
 
 ### Another party organisation mod to add to your ever expanding collection!
 
-_**Disclaimer**:
-Yes, we know a lot of these mods have been released in the space of a few days.
-Many had similar ideas and implemented them in different ways.
-Over the course of the next few weeks it's likely some of these mods will either lose support from their dev(s), or be merged into one or few feature-complete mods that everyone uses.
-We encourage the latter, as long as the resulting mods are open sourced._
+**IMPORTANT** If you used a version prior to 1.2.0, UIExtenderLibModule is a deprecated mod. Make sure you remove this mod from your load order. The library is included with this mod.
+
+**IMPORTANT** If you have any mods that use a Harmony version < 2.0.0.9, make these are loaded AFTER any mod that uses a Harmony version >= 2.0.0.9.
+
+In other words, a mod using a Harmony version >= 2.0.0.9 needs to be loaded first. The safest way to do this is to load ModLib first after the official modules.
+
+Know mods that use an outdated Harmony version < 2.0.0.9
+
+- Bannerlord Tweaks
+- Workshop Demystifier
+- Tournaments XPanded
 
 _This mod is open source, so please feel free to explore it.
 It isn't perfect but we are working on it.
@@ -18,9 +24,8 @@ If you want to help don't hesitate to get into contact and have a look at our [c
 
 | Dependency | Mandatory | Notes |
 |------------|:---------:|-------|
-| [UIExtenderLib](https://www.nexusmods.com/mountandblade2bannerlord/mods/323) | ✓ | Used to safely extend the game UI |
 | [ModLib](https://www.nexusmods.com/mountandblade2bannerlord/mods/592) | ✓ | Used to provide settings and other goodies |
-| [Save Missing Module Fix](https://www.nexusmods.com/mountandblade2bannerlord/mods/282) | ✗ | Recommended as it ensures saves can be loaded when you unload this mod having saved a game with it enabled |
+| [Save Missing Module Fix](https://www.nexusmods.com/mountandblade2bannerlord/mods/282) | ✗ | Recommended as it ensures saves can be loaded when you unload this mod having saved a game with it enabled (Ensure this is loaded BEFORE Yet Another Party Organiser) |
 
 Make sure that the dependent mods are enabled and listed above this mod within to launcher.
 
