@@ -62,18 +62,18 @@
         <WarningLevel>4</WarningLevel>
     </PropertyGroup>
     <ItemGroup>
-        <Reference Include="0Harmony, Version=2.0.0.9, Culture=neutral, PublicKeyToken=null">
-          <HintPath>packages\Lib.Harmony.2.0.0.9\lib\net472\0Harmony.dll</HintPath>
+        <Reference Include="0Harmony, Version=2.0.0.10, Culture=neutral, PublicKeyToken=null">
+          <HintPath>packages\Lib.Harmony.2.0.0.10\lib\net472\0Harmony.dll</HintPath>
           <Private>True</Private>
+        </Reference>
+        <Reference Include="UIExtenderLib_2.0.0.1, Version=2.0.0.1, Culture=neutral, PublicKeyToken=null">
+            <HintPath>packages\UIExtenderLib.2.0.0.1\lib\net472\UIExtenderLib_2.0.0.1.dll</HintPath>
         </Reference>
         <Reference Include="System" />
         <Reference Include="System.Core" />
         <Reference Include="System.Data" />
         <Reference Include="System.Runtime.InteropServices.RuntimeInformation" />
         <Reference Include="System.Xml" />
-        <Reference Include="UIExtenderLib">
-            <HintPath>$(GameFolder)\Modules\0UIExtenderLibModule\bin\Win64_Shipping_Client\UIExtenderLib.dll</HintPath>
-        </Reference>
         <Reference Include="ModLib">
             <HintPath>$(GameFolder)\Modules\ModLib\bin\Win64_Shipping_Client\ModLib.dll</HintPath>
         </Reference>
@@ -347,8 +347,8 @@
         <PostBuildEvent>mkdir "$(TargetDir)bin\Win64_Shipping_Client\"
             move "$(TargetDir)$(ProjectName).*" "$(TargetDir)bin\Win64_Shipping_Client\"
             move "$(TargetDir)0Harmony.*" "$(TargetDir)bin\Win64_Shipping_Client\"
-            move "$(TargetDir)UIExtenderLib.*" "$(TargetDir)bin\Win64_Shipping_Client\"
             move "$(TargetDir)ModLib.*" "$(TargetDir)bin\Win64_Shipping_Client\"
+            move "$(TargetDir)UIExtenderLib_*.*" "$(TargetDir)bin\Win64_Shipping_Client\"
         </PostBuildEvent>
     </PropertyGroup>
 </Project>

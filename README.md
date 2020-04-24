@@ -4,21 +4,14 @@
 
 ### Another party organisation mod to add to your ever expanding collection!
 
-_**Disclaimer**:
-Yes, we know a lot of these mods have been released in the space of a few days.
-Many had similar ideas and implemented them in different ways.
-Over the course of the next few weeks it's likely some of these mods will either lose support from their dev(s), or be merged into one or few feature-complete mods that everyone uses.
-We encourage the latter, as long as the resulting mods are open sourced._
+**IMPORTANT** If you used a version prior to 1.2.0, UIExtenderLibModule is a deprecated mod. Make sure you remove this mod from your load order. The library is included with this mod.
 
-_This mod is open source, so please feel free to explore it.
-It isn't perfect but we are working on it.
-If you want to help don't hesitate to get into contact and have a look at our [contribution guide](https://github.com/tbeswick96/BannerlordYetAnotherPartyOrganiser/wiki/Contributing)._
+**IMPORTANT** To ensure compatibility between Harmony versions across different modules, it is advised to load ModLib as the first Module after the official modules. If this is not done, the game may error on startup as an older version of harmony might be loaded first
 
 ## Dependencies
 
 | Dependency | Mandatory | Notes |
 |------------|:---------:|-------|
-| [UIExtenderLib](https://www.nexusmods.com/mountandblade2bannerlord/mods/323) | ✓ | Used to safely extend the game UI |
 | [ModLib](https://www.nexusmods.com/mountandblade2bannerlord/mods/592) | ✓ | Used to provide settings and other goodies |
 | [Save Missing Module Fix](https://www.nexusmods.com/mountandblade2bannerlord/mods/282) | ✗ | Recommended as it ensures saves can be loaded when you unload this mod having saved a game with it enabled |
 
@@ -42,7 +35,7 @@ Make sure that the dependent mods are enabled and listed above this mod within t
 - Button to place upgradable troops at the top of the list
 - Buttons will disable themselves if functionality is not available (e.g. cannot set opposite sorting if no Then By mode is selected)
 - Sorting configuration is saved to your save file
- 
+
 ### Party Actions
 
 - Upgrade single-path upgradable troops
@@ -72,3 +65,9 @@ Options can be found via the main menu option:
 - Configurable upgrade rules
 - Handling of multi-path upgradable troops
 - Configurable main party prisoner and other party troops/prisoner (after battle) recruitment rules
+
+## Contributing
+
+This mod is open source, so please feel free to explore it. It isn't perfect but we are working on it.
+
+If you want to help don't hesitate to get into contact and have a look at our [contribution guide](https://github.com/tbeswick96/BannerlordYetAnotherPartyOrganiser/wiki/Contributing).
