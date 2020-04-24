@@ -76,8 +76,6 @@ Options can be found via the main menu option:
 
 ## Contributing
 
-_This mod is open source, so please feel free to explore it.
+This mod is open source, so please feel free to explore it. It isn't perfect but we are working on it.
 
-It isn't perfect but we are working on it.
-
-If you want to help don't hesitate to get into contact and have a look at our [contribution guide](https://github.com/tbeswick96/BannerlordYetAnotherPartyOrganiser/wiki/Contributing)._
+If you want to help don't hesitate to get into contact and have a look at our [contribution guide](https://github.com/tbeswick96/BannerlordYetAnotherPartyOrganiser/wiki/Contributing).
