@@ -68,7 +68,6 @@
         </Reference>
         <Reference Include="UIExtenderLib_2.0.0.1, Version=2.0.0.1, Culture=neutral, PublicKeyToken=null">
             <HintPath>packages\UIExtenderLib.2.0.0.1\lib\net472\UIExtenderLib_2.0.0.1.dll</HintPath>
-            <Private>True</Private>
         </Reference>
         <Reference Include="System" />
         <Reference Include="System.Core" />
@@ -350,8 +349,6 @@
             move "$(TargetDir)0Harmony.*" "$(TargetDir)bin\Win64_Shipping_Client\"
             move "$(TargetDir)ModLib.*" "$(TargetDir)bin\Win64_Shipping_Client\"
             move "$(TargetDir)UIExtenderLib_*.*" "$(TargetDir)bin\Win64_Shipping_Client\"
-            move "$(TargetDir)Newtonsoft.Json.*" "$(TargetDir)bin\Win64_Shipping_Client\"
-            move "$(TargetDir)System.Management.*" "$(TargetDir)bin\Win64_Shipping_Client\"
         </PostBuildEvent>
     </PropertyGroup>
 </Project>
