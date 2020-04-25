@@ -206,9 +206,15 @@ def main(argv):
 ##################################
 """)
 
+    zipSuffix = ""
+
+    if len(argv) > 1:
+        zipSuffix = argv[1]
+
     root = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
     releasePath = os.path.join(root, "Release")
     extensionPath = os.path.join(root, "Extension")
+    zipName = "{}{}".format(moduleName, zipSuffix)
 
     os.chdir(root)
 
@@ -216,8 +222,8 @@ def main(argv):
     if (os.path.exists(releasePath)):
         shutil.rmtree(releasePath, True)
 
-    if (os.path.exists(os.path.join(root, "{}.zip".format(moduleName)))):
-        os.remove(os.path.join(root, "{}.zip".format(moduleName)))
+    if (os.path.exists(os.path.join(root, "{}.zip".format(zipName)))):
+        os.remove(os.path.join(root, "{}.zip".format(zipName)))
 
     # Build extension
     ret = compile_extension(extensionPath, os.path.join(releasePath, "Modules", moduleName))
@@ -225,7 +231,7 @@ def main(argv):
         raise Exception()
 
     # Make release zip
-    shutil.make_archive("{}".format(moduleName), "zip", releasePath)
+    shutil.make_archive(zipName, "zip", releasePath)
 
 
 if __name__ == "__main__":
