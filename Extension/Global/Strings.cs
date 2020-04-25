@@ -52,5 +52,6 @@
         public const string UPGRADE_HINT_TEXT_DISABLED = "Upgrade all toops requires upgradable troops";
         public const string RECRUIT_HINT_TEXT = "Recruit all recruitable prisoners (Hold control to override party size limit)";
         public const string RECRUIT_HINT_TEXT_DISABLED = "Recruit all recruitable prisoners requires recruitable prisoners";
+        public const string TRANSFER_HINT_TEXT_APPENDIX = "\nHold [Left Ctrl] to do all";
     }
 }

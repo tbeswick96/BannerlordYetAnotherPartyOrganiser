@@ -14,5 +14,14 @@ namespace YAPO.Patches
                 if (States.HotkeyControl) transferAmount = __instance.Troop.Number;
             }
         }
+
+        [HarmonyPatch(typeof(PartyCharacterVM), "UpdateTransferHint")]
+        public class UpdateTransferHintPatch
+        {
+            public static void Postfix(PartyCharacterVM __instance)
+            {
+                __instance.TransferHint.HintText += Strings.TRANSFER_HINT_TEXT_APPENDIX;
+            }
+        }
     }
 }
