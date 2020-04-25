@@ -38,7 +38,7 @@ Make sure that the dependent mods are enabled and listed above this mod within t
 
 ### Party Actions
 
-- Upgrade single-path upgradable troops
+- Upgrade all single-path and most multi-path upgradable troops based on the culture's strength
 - Recruit recruitable prisoners - sort order is respected, party limit is respected but can be overridden by holding CTRL
 - Buttons will disable themselves if functionality is not available (e.g. no troops to upgrade)
 
@@ -57,13 +57,17 @@ Options can be found via the main menu option:
 | Option | Default | Description |
 |--------|---------|-------------|
 | Enable Auto Sorting | On | Sorts troops and prisoners upon opening the party screen |
+| Prefer ranged with specific weapons | 0 | Prefer specific ranged weapons when upgrading to ranged troop classes. (0 for no preference, 1 for Bows, 2 for crossbows) |
+| Keep enough gold for X days of troop wages | 3 | Reserves gold to pay daily costs for X amount of days. | 
+| Split upgrades if decision can't be made | false | Splits upgradepaths when no decision can be made. NOTE: decisions will be made based on culture strengths. |
+| Player decides on split upgrade path | false | Lets player decide on every upgrade when two upgrade options are available. |
 
 ### Planned Features
 
 - Anything that fits within the scope of party organisation that anyone may suggest! Feel free to create feature requests!
 - Configurable group sort order (sort cavalry after archers for example)
 - Configurable upgrade rules
-- Handling of multi-path upgradable troops
+- Handling of all multi-path upgradable troops by ratio or by partycomposition
 - Configurable main party prisoner and other party troops/prisoner (after battle) recruitment rules
 
 ## Contributing
