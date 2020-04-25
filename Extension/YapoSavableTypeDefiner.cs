@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using TaleWorlds.Core;
+using TaleWorlds.ObjectSystem;
 using TaleWorlds.SaveSystem;
 using YAPO.Services;
 
@@ -25,7 +25,7 @@ namespace YAPO
 
         protected override void DefineGenericClassDefinitions()
         {
-            ConstructGenericClassDefinition(typeof(MBObjectManager.ObjectTypeRecord<TroopSorterService>));
+            ConstructGenericClassDefinition(typeof(ObsoleteObjectManager.ObjectTypeRecord<TroopSorterService>));
         }
 
         protected override void DefineEnumTypes()

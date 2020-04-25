@@ -2,6 +2,8 @@
 using TaleWorlds.Core;
 using TaleWorlds.SaveSystem;
 
+// ReSharper disable UnusedType.Global
+
 namespace YAPO.Fixes.Formations
 {
     public class FixedFormationsSaveableTypeDefiner : SaveableTypeDefiner

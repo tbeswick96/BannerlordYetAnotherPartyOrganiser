@@ -7,6 +7,7 @@ using TaleWorlds.Core;
 using TaleWorlds.InputSystem;
 using TaleWorlds.Library;
 using TaleWorlds.MountAndBlade;
+using TaleWorlds.ObjectSystem;
 using UIExtenderLib;
 using YAPO.Fixes.Formations;
 using YAPO.Global;
@@ -48,7 +49,7 @@ namespace YAPO
 
             try
             {
-                MBObjectManager.Instance.RegisterType<TroopSorterService>("Sorter", "Sorters");
+                MBObjectManager.Instance.RegisterType<TroopSorterService>("TroopSorterService", "TroopSorterServices", 137U);
                 AddBehaviours(gameStarterObject as CampaignGameStarter);
             }
             catch (Exception exception)
@@ -63,7 +64,7 @@ namespace YAPO
 
             if (YapoSettings.Instance.IsFormationPersistenceFixEnabled)
             {
-                campaignGameStarter.AddBehavior(FixedFormationsBehaviour.Instance);
+                campaignGameStarter.AddBehavior(FixedFormationsBehaviour.INSTANCE);
                 campaignGameStarter
                     .LoadGameTexts($"{BasePath.Name}/Modules/{Strings.MODULE_FOLDER_NAME}/{Strings.MODULE_DATA_FORMATION_STRINGS}");
             }

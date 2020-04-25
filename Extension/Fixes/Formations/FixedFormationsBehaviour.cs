@@ -6,7 +6,7 @@ namespace YAPO.Fixes.Formations
 {
     public class FixedFormationsBehaviour : CampaignBehaviorBase
     {
-        public static readonly FixedFormationsBehaviour Instance = new FixedFormationsBehaviour();
+        public static readonly FixedFormationsBehaviour INSTANCE = new FixedFormationsBehaviour();
 
         public Dictionary<BasicCharacterObject, FormationClass> FormationClasses;
 
