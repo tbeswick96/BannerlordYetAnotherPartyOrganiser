@@ -4,71 +4,56 @@ using System.Linq;
 using MountAndBlade.CampaignBehaviors;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.ViewModelCollection;
+using TaleWorlds.Core;
 using YAPO.Global;
 using YAPO.MultipathUpgrade;
+using YAPO.MultipathUpgrade.Model;
 
 namespace YAPO.Services
 {
     public static class TroopActionService
     {
-        public static (int, int, int) UpgradeTroops(PartyVM partyVm, PartyScreenLogic partyScreenLogic)
+        public static UpgradeResults UpgradeTroops(PartyVM partyVm, PartyScreenLogic partyScreenLogic)
         {
-            List<PartyCharacterVM> upgradableTroops = partyVm.MainPartyTroops.Where(x => !x.IsHero && x.IsTroopUpgradable && x.IsUpgrade1Available && x.NumOfTarget1UpgradesAvailable > 0 || x.IsUpgrade2Available && x.NumOfTarget2UpgradesAvailable > 0).ToList();
-            if (!upgradableTroops.Any())
+            UpgradeResults results = new UpgradeResults();
+
+            List<PartyCharacterVM> upgradableTroops = GetUpgradeableTroops(partyVm);
+            if (upgradableTroops.IsEmpty())
             {
                 Global.Helpers.Message("No troops available to upgrade");
-                return (0, 0, 0);
+                return results;
             }
 
-            int upgradedTotal = 0;
-            int upgradedTypes = 0;
-            int multiPathSkipped = 0;
-            List<Tuple<PartyCharacterVM, PartyScreenLogic.PartyCommand>> commands = new List<Tuple<PartyCharacterVM, PartyScreenLogic.PartyCommand>>();
-            foreach (PartyCharacterVM troops in upgradableTroops)
+            List<Tuple<PartyCharacterVM, PartyScreenLogic.PartyCommand>> commands =
+                PrepareUpgradeCommands(upgradableTroops, partyScreenLogic, ref results);
+
+            if (results.UpgradedTotal == 0)
             {
-                PartyScreenLogic.PartyCommand.UpgradeTargetType upgradeTargetType =
-                    PartyScreenLogic.PartyCommand.UpgradeTargetType.UpgradeTarget1;
-
-                if (troops.IsUpgrade2Exists && !MultipathUpgradeLogic.TryGetUpgradePath(troops, out upgradeTargetType))
-                {
-                    multiPathSkipped++;
-                    continue;
-                }
-
-                int troopsToUpgrade = troops.NumOfUpgradeableTroops;
-                upgradedTypes++;
-                upgradedTotal += troopsToUpgrade;
-
-                PartyScreenLogic.PartyCommand upgradeCommand = new PartyScreenLogic.PartyCommand();
-                upgradeCommand.FillForUpgradeTroop(troops.Side, troops.Type, troops.Character, troopsToUpgrade, upgradeTargetType);
-                commands.Add(new Tuple<PartyCharacterVM, PartyScreenLogic.PartyCommand>(troops, upgradeCommand));
+                Global.Helpers.Message(results.MultiPathSkipped > 0 
+                                           ? $"No troops upgraded. {results.MultiPathSkipped} troop types with multi-path upgrades were skipped. To prevent any skipping enable split upgrades and disable player decision in the settings" 
+                                           : "No troops upgraded");
             }
-
-            if (upgradedTotal == 0)
+            else
             {
-                Global.Helpers.Message(multiPathSkipped > 0 ? $"No troops upgraded. {multiPathSkipped} troop types with multi-path upgrades were skipped" : "No troops upgraded");
-                return (0, 0, 0);
+                ExecuteCommands(commands, partyVm, partyScreenLogic);
             }
 
-            foreach ((PartyCharacterVM partyCharacterVm, PartyScreenLogic.PartyCommand command) in commands)
-            {
-                partyVm.CurrentCharacter = partyCharacterVm;
-                partyScreenLogic.AddCommand(command);
-            }
-
-            return (upgradedTotal, upgradedTypes, multiPathSkipped);
+            return results;
         }
 
-        public static (int, int) RecruitPrisoners(PartyVM partyVm, PartyScreenLogic partyScreenLogic)
+        public static RecruitmentResults RecruitPrisoners(PartyVM partyVm, PartyScreenLogic partyScreenLogic)
         {
-            List<PartyCharacterVM> recruitablePrisoners = partyVm.MainPartyPrisoners.Where(x => !x.IsHero && x.IsTroopRecruitable && x.NumOfRecruitablePrisoners > 0).ToList();
-            if (!recruitablePrisoners.Any())
+            RecruitmentResults results = new RecruitmentResults();
+
+            List<PartyCharacterVM> recruitablePrisoners = GetRecruitablePrisoners(partyVm);
+            if (recruitablePrisoners.IsEmpty())
             {
                 Global.Helpers.Message("No prisoners available to recruit");
-                return (0, 0);
+                return results;
             }
 
-            int partySpace = partyScreenLogic.RightOwnerParty.PartySizeLimit - partyScreenLogic.MemberRosters[1].TotalManCount;
+            int partySpace = partyScreenLogic.RightOwnerParty.PartySizeLimit - 
+                             partyScreenLogic.MemberRosters[1].TotalManCount;
             partySpace = partySpace < 0 ? 0 : partySpace;
             if (partySpace == 0)
             {
@@ -78,33 +63,58 @@ namespace YAPO.Services
                 } else
                 {
                     Global.Helpers.Message("Party limit reached! Cannot recruit prisoners. (Hold control to override)");
-                    return (0, 0);
+                    return results;
                 }
             }
 
+            List<Tuple<PartyCharacterVM, PartyScreenLogic.PartyCommand>> commands =
+                PrepareRecruitmentCommands(recruitablePrisoners, partySpace, ref results, partyVm);
+
+            if (commands.Count == 0)
+            {
+                Global.Helpers.Message("No prisoners recruited");
+            }
+            else
+            {
+                ExecuteCommands(commands, partyVm, partyScreenLogic);
+            }
+
+            return results;
+        }
+
+        private static List<Tuple<PartyCharacterVM, PartyScreenLogic.PartyCommand>> PrepareRecruitmentCommands(
+            List<PartyCharacterVM> recruitablePrisoners,
+            int partySpace,
+            ref RecruitmentResults results,
+            PartyVM partyVm)
+        {
+            List<Tuple<PartyCharacterVM, PartyScreenLogic.PartyCommand>> commands =
+                new List<Tuple<PartyCharacterVM, PartyScreenLogic.PartyCommand>>();
+
             CharacterObject playerSelectedCharacter = partyVm.CurrentCharacter.Character;
 
-            int recruitedTypes = 0;
-            int recruitedTotal = 0;
-            List<Tuple<PartyCharacterVM, PartyScreenLogic.PartyCommand>> commands = new List<Tuple<PartyCharacterVM, PartyScreenLogic.PartyCommand>>();
-            foreach (var prisoners in recruitablePrisoners)
+            foreach (PartyCharacterVM prisoners in recruitablePrisoners)
             {
                 if (partySpace == 0 && !States.HotkeyControl) break;
 
                 int prisonerCount = prisoners.NumOfRecruitablePrisoners;
                 int prisonersToRecruit = States.HotkeyControl ? prisonerCount : Math.Min(prisonerCount, partySpace);
                 int numOfRemainingRecruitablePrisoners = prisonerCount - prisonersToRecruit;
-                recruitedTypes++;
-                recruitedTotal += prisonersToRecruit;
+                results.RecruitedTypes++;
+                results.RecruitedTotal += prisonersToRecruit;
                 partySpace -= prisonersToRecruit;
 
                 partyVm.CurrentCharacter.Character = prisoners.Character;
 
                 Campaign.Current.GetCampaignBehavior<IRecruitPrisonersCampaignBehavior>()
-                    .SetRecruitableNumber(partyVm.CurrentCharacter.Character, numOfRemainingRecruitablePrisoners + 1);
+                        .SetRecruitableNumber(partyVm.CurrentCharacter.Character,
+                                              numOfRemainingRecruitablePrisoners + 1);
 
                 PartyScreenLogic.PartyCommand recruitCommand = new PartyScreenLogic.PartyCommand();
-                recruitCommand.FillForRecruitTroop(prisoners.Side, prisoners.Type, prisoners.Character, prisonersToRecruit);
+                recruitCommand.FillForRecruitTroop(prisoners.Side,
+                                                   prisoners.Type,
+                                                   prisoners.Character,
+                                                   prisonersToRecruit);
                 commands.Add(new Tuple<PartyCharacterVM, PartyScreenLogic.PartyCommand>(prisoners, recruitCommand));
 
                 partyVm.CurrentCharacter.UpdateRecruitable();
@@ -112,19 +122,125 @@ namespace YAPO.Services
 
             partyVm.CurrentCharacter.Character = playerSelectedCharacter;
 
-            if (commands.Count == 0)
+            return commands;
+        }
+
+        private static List<Tuple<PartyCharacterVM, PartyScreenLogic.PartyCommand>> PrepareUpgradeCommands(
+            List<PartyCharacterVM> upgradableTroops, PartyScreenLogic partyScreenLogic,
+            ref UpgradeResults upgradeResults)
+        {
+            List<Tuple<PartyCharacterVM, PartyScreenLogic.PartyCommand>> commands =
+                new List<Tuple<PartyCharacterVM, PartyScreenLogic.PartyCommand>>();
+
+            AvailableResources availableResources = new AvailableResources();
+
+            foreach (PartyCharacterVM troops in upgradableTroops)
             {
-                Global.Helpers.Message("No prisoners recruited");
-                return (0, 0);
+                List<(int, PartyScreenLogic.PartyCommand.UpgradeTargetType)> upgradesPerTypes =
+                    new List<(int maxUpgradableTroops, PartyScreenLogic.PartyCommand.UpgradeTargetType upgradeTargetType)>
+                    {
+                        (int.MaxValue,
+                            PartyScreenLogic.PartyCommand.UpgradeTargetType.UpgradeTarget1)
+                    };
+
+                if (HasTwoUpgradePaths(troops) && !YapoSettings.Instance.PlayerDecision && !MultipathUpgradeLogic.TryGetUpgradePaths(troops, out upgradesPerTypes))
+                {
+                    upgradeResults.MultiPathSkipped++;
+                    continue;
+                }
+
+                foreach ((int maxUpgradableTroops, PartyScreenLogic.PartyCommand.UpgradeTargetType upgradeTargetType) upgradesPerType in upgradesPerTypes)
+                {
+                    int troopsToUpgrade = CalculateCountOfTroopsThatCanBeUpgraded(availableResources, troops, partyScreenLogic, upgradesPerType);
+                    if (troopsToUpgrade == 0) continue;
+
+                    upgradeResults.UpgradedTypes++;
+                    upgradeResults.UpgradedTotal += troopsToUpgrade;
+
+                    PartyScreenLogic.PartyCommand upgradeCommand = new PartyScreenLogic.PartyCommand();
+                    upgradeCommand.FillForUpgradeTroop(troops.Side, troops.Type, troops.Character, troopsToUpgrade, upgradesPerType.upgradeTargetType);
+                    commands.Add(new Tuple<PartyCharacterVM, PartyScreenLogic.PartyCommand>(troops, upgradeCommand));
+
+                    availableResources.UpdateAvailableResources(troops, troopsToUpgrade, (int)upgradesPerType.upgradeTargetType);
+                }
             }
 
+            return commands;
+        }
+
+        private static bool HasTwoUpgradePaths(PartyCharacterVM troops)
+        {
+            return troops.IsUpgrade1Exists && troops.IsUpgrade2Exists;
+        }
+
+        private static List<PartyCharacterVM> GetRecruitablePrisoners(PartyVM partyVm)
+        {
+            return partyVm.MainPartyPrisoners.Where(x =>
+                                                        !x.IsHero &&
+                                                        x.IsRecruitablePrisoner &&
+                                                        x.NumOfRecruitablePrisoners > 0)
+                          .ToList();
+        }
+
+        private static List<PartyCharacterVM> GetUpgradeableTroops(PartyVM partyVm)
+        {
+            return partyVm.MainPartyTroops.Where(x =>
+                                                     !x.IsHero &&
+                                                     x.IsTroopUpgradable &&
+                                                     x.IsUpgrade1Available &&
+                                                     !x.IsUpgrade1Insufficient &&
+                                                     x.NumOfTarget1UpgradesAvailable > 0 ||
+                                                     x.IsUpgrade2Available &&
+                                                     !x.IsUpgrade2Insufficient &&
+                                                     x.NumOfTarget2UpgradesAvailable > 0)
+                          .ToList();
+        }
+
+        private static int CalculateCountOfTroopsThatCanBeUpgraded(AvailableResources availableResources,
+            PartyCharacterVM troops, PartyScreenLogic partyScreenLogic, (int maxUpgradableTroops, PartyScreenLogic.PartyCommand.UpgradeTargetType upgradeTargetType) upgradesPerTargetType)
+        {
+            var upgradeRequiredItemCategory = troops.Character.UpgradeTargets[(int) upgradesPerTargetType.upgradeTargetType]?.UpgradeRequiresItemFromCategory;
+
+            if (upgradeRequiredItemCategory != null &&
+                !availableResources.ItemsOfCategoryWithCount.ContainsKey(upgradeRequiredItemCategory))
+            {
+                availableResources.ItemsOfCategoryWithCount.Add(upgradeRequiredItemCategory,
+                    troops.GetNumOfCategoryItemPartyHas(partyScreenLogic.RightOwnerParty.ItemRoster,
+                                                        upgradeRequiredItemCategory));
+            }
+
+            int upgradeCost = troops.Character.UpgradeCost(PartyBase.MainParty, 0) <= 0
+                ? 1
+                : troops.Character.UpgradeCost(PartyBase.MainParty, (int)upgradesPerTargetType.upgradeTargetType);
+            int upgradableTroopsByGold = availableResources.AvailableGold / upgradeCost;
+
+            if (upgradeRequiredItemCategory != null && availableResources.ItemsOfCategoryWithCount.TryGetValue(upgradeRequiredItemCategory, out int upgradableTroopsByItemCategory))
+            {
+                return Min4(troops.NumOfUpgradeableTroops, upgradableTroopsByItemCategory, upgradableTroopsByGold, upgradesPerTargetType.maxUpgradableTroops);
+            }
+
+            return Min3(troops.NumOfUpgradeableTroops, upgradableTroopsByGold, upgradesPerTargetType.maxUpgradableTroops);
+
+            int Min3(int a, int b, int c)
+            {
+                return (Math.Min(Math.Min(a, b), c));
+            }
+
+            int Min4(int a, int b, int c, int d)
+            {
+                return Math.Min(Math.Min(Math.Min(a, b), c), d);
+            }
+        }
+
+        private static void ExecuteCommands(List<Tuple<PartyCharacterVM, PartyScreenLogic.PartyCommand>> commands,
+                                            PartyVM partyVm,
+                                            PartyScreenLogic partyScreenLogic)
+        {
             foreach ((PartyCharacterVM partyCharacterVm, PartyScreenLogic.PartyCommand command) in commands)
             {
                 partyVm.CurrentCharacter = partyCharacterVm;
                 partyScreenLogic.AddCommand(command);
             }
-
-            return (recruitedTotal, recruitedTypes);
         }
     }
 }

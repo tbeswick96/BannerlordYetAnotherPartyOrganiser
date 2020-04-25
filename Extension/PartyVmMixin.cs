@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.ViewModelCollection;
 using TaleWorlds.Core.ViewModelCollection;
@@ -197,27 +198,36 @@ namespace YAPO
 
         private void UpgradeTroops()
         {
-            (int upgradedTotal, int upgradedTypes, int multiPathSkipped) =
-                TroopActionService.UpgradeTroops(_viewModel, _partyScreenLogic);
-            if (upgradedTotal == 0) return;
+            GetPartyScreenLogic();
+            UpgradeResults results = TroopActionService.UpgradeTroops(_viewModel, _partyScreenLogic);
+            if (results.UpgradedTotal == 0) return;
 
             _viewModel.CurrentCharacter = _viewModel.MainPartyTroops[0];
             RefreshPartyVmInformation();
             RefreshView();
-            Global.Helpers
-                  .Message($"Upgraded {upgradedTotal} troops over {upgradedTypes} types. {multiPathSkipped} troop types with mulit-path upgrades were skipped. Press 'Apply' to confirm changes");
+
+            StringBuilder message = new StringBuilder();
+            message.Append($"Upgraded {results.UpgradedTotal} troops over {results.UpgradedTypes} types. ");
+            if (results.MultiPathSkipped > 0)
+            {
+                message.Append($"{results.MultiPathSkipped} troop types with multi-path upgrades were skipped. ");
+            }
+            message.Append("Press 'Done' to confirm changes");
+            Global.Helpers.Message(message.ToString());
         }
 
         private void RecruitPrisoners()
         {
-            (int recruitedTotal, int recruitedTypes) = TroopActionService.RecruitPrisoners(_viewModel, _partyScreenLogic);
-            if (recruitedTotal == 0) return;
+            GetPartyScreenLogic();
+            RecruitmentResults results = TroopActionService.RecruitPrisoners(_viewModel, _partyScreenLogic);
+            if (results.RecruitedTotal == 0) return;
 
             _viewModel.CurrentCharacter = _viewModel.MainPartyTroops[0];
             RefreshPartyVmInformation();
             RefreshView();
             Global.Helpers
-                  .Message($"Recruited {recruitedTotal} prisoners over {recruitedTypes} types. Press 'Apply' to confirm changes");
+                  .Message($"Recruited {results.RecruitedTotal} prisoners over {results.RecruitedTypes} types. " +
+                           "Press 'Done' to confirm changes");
         }
 
         private void RefreshView()
