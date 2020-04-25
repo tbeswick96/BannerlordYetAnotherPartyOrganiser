@@ -70,6 +70,20 @@ Options can be found via the main menu option:
 - Handling of all multi-path upgradable troops by ratio or by partycomposition
 - Configurable main party prisoner and other party troops/prisoner (after battle) recruitment rules
 
+## Versions
+
+We maintaing separate versions for Bannerlord Stable and Beta branches. The beta-compatible branch is clearly labelled with BETA in the files section.
+
+We will aim to do the majority of development on the beta-compatible version, so new features will most likely hit that version before they hit stable.
+
+For bugs and crashes, we will aim to make fixes for these available on both versions, depending on their nature.
+
+Please make sure you identify which version you are using whne reporting any issues on the github repository.
+
+## Known Issues
+
+- BETA: Saving of sorting configuration is broken due to changes to the vanilla saving mechanism
+
 ## Contributing
 
 This mod is open source, so please feel free to explore it. It isn't perfect but we are working on it.
