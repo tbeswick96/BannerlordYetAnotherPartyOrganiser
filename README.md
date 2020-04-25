@@ -15,7 +15,7 @@
 | [ModLib](https://www.nexusmods.com/mountandblade2bannerlord/mods/592) | ✓ | Used to provide settings and other goodies |
 | [Save Missing Module Fix](https://www.nexusmods.com/mountandblade2bannerlord/mods/282) | ✗ | Recommended as it ensures saves can be loaded when you unload this mod having saved a game with it enabled |
 
-Make sure that the dependent mods are enabled and listed above this mod within to launcher.
+Make sure that the dependent mods are enabled and listed above this mod within the launcher.
 
 ## Features
 
@@ -59,27 +59,27 @@ Options can be found via the main menu option:
 |--------|---------|-------------|
 | Enable Auto Sorting | On | Sorts troops and prisoners upon opening the party screen |
 | Prefer ranged with specific weapons | 0 | Prefer specific ranged weapons when upgrading to ranged troop classes. (0 for no preference, 1 for Bows, 2 for crossbows) |
-| Keep enough gold for X days of troop wages | 3 | Reserves gold to pay daily costs for X amount of days. | 
-| Split upgrades if decision can't be made | false | Splits upgradepaths when no decision can be made. NOTE: decisions will be made based on culture strengths. |
-| Player decides on split upgrade path | false | Lets player decide on every upgrade when two upgrade options are available. |
+| Keep enough gold for X days of troop wages | 3 | Reserves gold to pay daily costs for X amount of days |
+| Split upgrades if decision can't be made | false | Splits upgrade paths when no decision can be made _NOTE: decisions will be made based on culture strengths_ |
+| Player decides on split upgrade path | false | Lets player decide on every upgrade when two upgrade options are available |
 
 ### Planned Features
 
 - Anything that fits within the scope of party organisation that anyone may suggest! Feel free to create feature requests!
 - Configurable group sort order (sort cavalry after archers for example)
 - Configurable upgrade rules
-- Handling of all multi-path upgradable troops by ratio or by partycomposition
+- Handling of all multi-path upgradable troops by ratio or by party composition
 - Configurable main party prisoner and other party troops/prisoner (after battle) recruitment rules
 
 ## Versions
 
-We maintaing separate versions for Bannerlord Stable and Beta branches. The beta-compatible branch is clearly labelled with BETA in the files section.
+We maintain separate versions for Bannerlord Stable and Beta branches. The beta-compatible branch is clearly labelled with BETA in the files section.
 
 We will aim to do the majority of development on the beta-compatible version, so new features will most likely hit that version before they hit stable.
 
 For bugs and crashes, we will aim to make fixes for these available on both versions, depending on their nature.
 
-Please make sure you identify which version you are using whne reporting any issues on the github repository.
+Please make sure you identify which version you are using when reporting any issues on the github repository.
 
 ## Known Issues
 
