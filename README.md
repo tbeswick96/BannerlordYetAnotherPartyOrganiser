@@ -46,6 +46,7 @@ Make sure that the dependent mods are enabled and listed above this mod within t
 
 - LCTRL + LSHIFT + A - Sort Ascending (Both Sides)
 - LCTRL + LSHIFT + D - Sort Descending (Both Sides)
+- LCTRL + {Move troops arrow} - Moves entire stack of troops
 - U - Upgrade Troops
 - R - Recruit Prisoners
 
