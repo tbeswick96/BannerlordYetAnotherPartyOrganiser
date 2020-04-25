@@ -199,7 +199,7 @@ namespace YAPO
         private void UpgradeTroops()
         {
             GetPartyScreenLogic();
-            UpgradeResults results = TroopActionService.UpgradeTroops(_vm, _partyScreenLogic);
+            UpgradeResults results = TroopActionService.UpgradeTroops(_viewModel, _partyScreenLogic);
             if (results.UpgradedTotal == 0) return;
 
             _viewModel.CurrentCharacter = _viewModel.MainPartyTroops[0];
@@ -219,7 +219,7 @@ namespace YAPO
         private void RecruitPrisoners()
         {
             GetPartyScreenLogic();
-            RecruitmentResults results = TroopActionService.RecruitPrisoners(_vm, _partyScreenLogic);
+            RecruitmentResults results = TroopActionService.RecruitPrisoners(_viewModel, _partyScreenLogic);
             if (results.RecruitedTotal == 0) return;
 
             _viewModel.CurrentCharacter = _viewModel.MainPartyTroops[0];
