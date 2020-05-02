@@ -6,8 +6,6 @@
 
 **IMPORTANT** If you used a version prior to 1.2.0, UIExtenderLibModule is a deprecated mod. Make sure you remove this mod from your load order. The library is included with this mod.
 
-**IMPORTANT** To ensure compatibility between Harmony versions across different modules, it is advised to load ModLib as the first Module after the official modules. If this is not done, the game may error on startup as an older version of harmony might be loaded first
-
 ## Dependencies
 
 | Dependency | Mandatory | Notes |
