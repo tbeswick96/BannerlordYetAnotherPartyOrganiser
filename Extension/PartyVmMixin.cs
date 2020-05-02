@@ -325,7 +325,7 @@ namespace YAPO
         [DataSourceMethod]
         public void ExecuteOtherSortOrderOpposite()
         {
-            Global.Helpers.DebugMessage("Other sort order oppiste toggled");
+            Global.Helpers.DebugMessage("Other sort order opposite toggled");
             _otherTroopSorterService.SortOrderOpposite = !_otherTroopSorterService.SortOrderOpposite;
             SortOther(_otherTroopSorterService.SortDirection);
         }
@@ -651,7 +651,7 @@ namespace YAPO
         [DataSourceMethod]
         public void ExecutePartySortOrderOpposite()
         {
-            Global.Helpers.DebugMessage("Party sort order oppiste toggled");
+            Global.Helpers.DebugMessage("Party sort order opposite toggled");
             _partyTroopSorterService.SortOrderOpposite = !_partyTroopSorterService.SortOrderOpposite;
             SortParty(_partyTroopSorterService.SortDirection);
         }
