@@ -1,8 +1,6 @@
 ﻿using System;
 using JetBrains.Annotations;
 
-// ReSharper disable UnusedMember.Global
-
 namespace YAPO.Configuration.Models
 {
     [UsedImplicitly]

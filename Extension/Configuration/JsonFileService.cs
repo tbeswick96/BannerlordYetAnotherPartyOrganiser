@@ -22,7 +22,7 @@ namespace YAPO.Configuration
                 {
                     return new SorterConfigurationContainer {ConfigurationSaves = new List<SorterConfigurationSave>()};
                 }
-                
+
                 string fileContents = File.ReadAllText(FilePath);
                 SorterConfigurationContainer configurationContainer =
                     JsonConvert.DeserializeObject<SorterConfigurationContainer>(fileContents);
@@ -42,7 +42,8 @@ namespace YAPO.Configuration
         {
             try
             {
-                string configurationContainerString = JsonConvert.SerializeObject(configurationContainer, Formatting.Indented);
+                string configurationContainerString =
+                    JsonConvert.SerializeObject(configurationContainer, Formatting.Indented);
                 Directory.CreateDirectory(Path.GetDirectoryName(FilePath) ?? throw new DirectoryNotFoundException());
                 File.WriteAllText(FilePath, configurationContainerString);
             }

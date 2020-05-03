@@ -1,6 +1,4 @@
-﻿// ReSharper disable UnusedMember.Global
-
-using JetBrains.Annotations;
+﻿using JetBrains.Annotations;
 
 namespace YAPO.Configuration.Models
 {
