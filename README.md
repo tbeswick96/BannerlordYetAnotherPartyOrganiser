@@ -11,7 +11,7 @@
 | Dependency | Mandatory | Notes |
 |------------|:---------:|-------|
 | [ModLib](https://www.nexusmods.com/mountandblade2bannerlord/mods/592) | ✓ | Used to provide settings and other goodies |
-| [Save Missing Module Fix](https://www.nexusmods.com/mountandblade2bannerlord/mods/282) | ✗ | Recommended as it ensures saves can be loaded when you unload this mod having saved a game with it enabled |
+| [ALTERNATIVE Save Missing Module Fix](https://github.com/bmountney/Aragas.AltSaveSystemFix/releases/tag/1.3.0.0) | ✗ | Recommended as it ensures saves can be loaded when you unload this mod having saved a game with it enabled. Tested as working with this mod (Note: Original version does not work correctly) |
 
 Make sure that the dependent mods are enabled and listed above this mod within the launcher.
 
