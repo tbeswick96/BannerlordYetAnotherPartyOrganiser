@@ -48,7 +48,6 @@ namespace YAPO
 
             try
             {
-                MBObjectManager.Instance.RegisterType<TroopSorterService>("Sorter", "Sorters");
                 AddBehaviours(gameStarterObject as CampaignGameStarter);
             }
             catch (Exception exception)
