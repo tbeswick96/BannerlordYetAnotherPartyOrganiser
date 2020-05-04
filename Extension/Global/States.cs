@@ -9,7 +9,7 @@ namespace YAPO.Global
         public static PartyVmMixin PartyVmMixin = null;
         public static PartyScreenWidget PartyScreenWidget = null;
         
-        public static string CurrentSaveId = "";
+        public static string CurrentSaveName = "";
         public static SorterConfiguration PartySorterConfiguration = null;
         public static SorterConfiguration OtherSorterConfiguration = null;
     }

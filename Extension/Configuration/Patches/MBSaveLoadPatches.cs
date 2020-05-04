@@ -16,7 +16,7 @@ namespace YAPO.Configuration.Patches
         {
             public static void Postfix(string saveName)
             {
-                States.CurrentSaveId = saveName;
+                States.CurrentSaveName = saveName;
                 Task unused = Task.Run(LoadAsync);
             }
 
@@ -24,7 +24,7 @@ namespace YAPO.Configuration.Patches
             {
                 SorterConfigurationManager.Instance.LoadConfigurations();
                 (States.PartySorterConfiguration, States.OtherSorterConfiguration) =
-                    SorterConfigurationManager.Instance.GetConfiguration(States.CurrentSaveId);
+                    SorterConfigurationManager.Instance.GetConfiguration(States.CurrentSaveName);
             }
         }
 
@@ -35,7 +35,7 @@ namespace YAPO.Configuration.Patches
             {
                 // Removing ".tmp" from the savename is necessary as MBB starts saving the file as <name>.tmp,
                 // and only removes the ".tmp" when it finalises the save file
-                States.CurrentSaveId = saveName.Replace(".tmp", "");
+                States.CurrentSaveName = saveName.Replace(".tmp", "");
                 Task unused = Task.Run(SaveAsync);
             }
 
