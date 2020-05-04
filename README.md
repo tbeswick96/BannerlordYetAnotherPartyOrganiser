@@ -8,8 +8,8 @@
 
 **IMPORTANT** If you used a version prior to 1.2.0, `Save Missing Module Fix` should no longer be needed for save files, as the vanilla saving mechanism has been removed in favour of a non-save-breaking JSON file alternative.
 However, if you do have issues with a save file not loading after unloading this mod, please try using [ALTERNATIVE Save Missing Module Fix](https://github.com/bmountney/Aragas.AltSaveSystemFix/releases/tag/1.3.0.0). This version has been tested with this mod and works well.
-It is advised to load this mod regardless of whether you have issues with saves or not.
 We recommend loading this mod and your latest save, then saving the game again to remove the old data that this mod previously stored in the save file.
+It is also advised to load this mod regardless of whether you have issues with saves or not.
 
 ## Dependencies
 
