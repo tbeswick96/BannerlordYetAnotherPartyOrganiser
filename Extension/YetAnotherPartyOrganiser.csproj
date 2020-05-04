@@ -292,7 +292,7 @@
         </Reference>
     </ItemGroup>
     <ItemGroup>
-        <Compile Include="Configuration\JsonFileService.cs" />
+        <Compile Include="Configuration\SorterConfigurationJsonService.cs" />
         <Compile Include="Configuration\Models\SorterConfiguration.cs" />
         <Compile Include="Configuration\Models\SorterConfigurationContainer.cs" />
         <Compile Include="Configuration\Models\SorterConfigurationSave.cs" />

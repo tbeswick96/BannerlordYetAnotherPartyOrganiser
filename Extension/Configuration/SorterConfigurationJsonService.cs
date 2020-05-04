@@ -9,7 +9,7 @@ using Path = System.IO.Path;
 
 namespace YAPO.Configuration
 {
-    public static class JsonFileService
+    public static class SorterConfigurationJsonService
     {
         private const string CONFIG_FILE = "YetAnotherPartyOrganiser/Config.json";
         private static string FilePath => $"{Utilities.GetConfigsPath()}{CONFIG_FILE}";

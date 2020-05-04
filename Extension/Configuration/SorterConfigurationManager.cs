@@ -16,7 +16,7 @@ namespace YAPO.Configuration
 
         public void LoadConfigurations()
         {
-            _configurationContainer = JsonFileService.Load();
+            _configurationContainer = SorterConfigurationJsonService.Load();
         }
 
         public void SaveConfigurations()
@@ -36,7 +36,7 @@ namespace YAPO.Configuration
 
             RemoveOldSaveConfigurations();
 
-            JsonFileService.Save(_configurationContainer);
+            SorterConfigurationJsonService.Save(_configurationContainer);
         }
 
         private void RemoveOldSaveConfigurations()

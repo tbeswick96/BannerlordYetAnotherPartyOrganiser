@@ -5,14 +5,10 @@ namespace YAPO.Configuration.Models
     [UsedImplicitly]
     public class SorterConfiguration
     {
-        public SortDirection SortDirection;
-
-        public bool UpgradableOnTop;
-
-        public bool SortOrderOpposite;
-
         public SortMode CurrentSortByMode;
-
         public SortMode CurrentThenByMode;
+        public SortDirection SortDirection;
+        public bool SortOrderOpposite;
+        public bool UpgradableOnTop;
     }
 }

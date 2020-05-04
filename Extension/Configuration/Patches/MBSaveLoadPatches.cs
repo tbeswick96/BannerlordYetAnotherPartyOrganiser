@@ -33,6 +33,8 @@ namespace YAPO.Configuration.Patches
         {
             public static void Postfix(string saveName)
             {
+                // Removing ".tmp" from the savename is necessary as MBB starts saving the file as <name>.tmp,
+                // and only removes the ".tmp" when it finalises the save file
                 States.CurrentSaveId = saveName.Replace(".tmp", "");
                 Task unused = Task.Run(SaveAsync);
             }

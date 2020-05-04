@@ -6,12 +6,16 @@
 
 **IMPORTANT** If you used a version prior to 1.2.0, UIExtenderLibModule is a deprecated mod. Make sure you remove this mod from your load order. The library is included with this mod.
 
+**IMPORTANT** If you used a version prior to 1.2.0, `Save Missing Module Fix` should no longer be needed for save files, as the vanilla saving mechanism has been removed in favour of a non-save-breaking JSON file alternative.
+However, if you do have issues with a save file not loading after unloading this mod, please try using [ALTERNATIVE Save Missing Module Fix](https://github.com/bmountney/Aragas.AltSaveSystemFix/releases/tag/1.3.0.0). This version has been tested with this mod and works well.
+It is advised to load this mod regardless of whether you have issues with saves or not.
+We recommend loading this mod and your latest save, then saving the game again to remove the old data that this mod previously stored in the save file.
+
 ## Dependencies
 
 | Dependency | Mandatory | Notes |
 |------------|:---------:|-------|
 | [ModLib](https://www.nexusmods.com/mountandblade2bannerlord/mods/592) | ✓ | Used to provide settings and other goodies |
-| [ALTERNATIVE Save Missing Module Fix](https://github.com/bmountney/Aragas.AltSaveSystemFix/releases/tag/1.3.0.0) | ✗ | Recommended as it ensures saves can be loaded when you unload this mod having saved a game with it enabled. Tested as working with this mod (Note: Original version does not work correctly) |
 
 Make sure that the dependent mods are enabled and listed above this mod within the launcher.
 
@@ -81,7 +85,7 @@ Please make sure you identify which version you are using when reporting any iss
 
 ## Known Issues
 
-- BETA: Saving of sorting configuration is broken due to changes to the vanilla saving mechanism
+- None
 
 ## Contributing
 
