@@ -4,23 +4,22 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using JetBrains.Annotations;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.ViewModelCollection;
-using TaleWorlds.Core;
 using TaleWorlds.Core.ViewModelCollection;
 using TaleWorlds.GauntletUI;
 using TaleWorlds.Library;
 using UIExtenderLib.Interface;
+using YAPO.Configuration.Models;
 using YAPO.Global;
 using YAPO.Services;
 
 namespace YAPO
 {
-    [ViewModelMixin, SuppressMessage("ReSharper", "UnusedMember.Global")]
+    [ViewModelMixin, SuppressMessage("ReSharper", "UnusedMember.Global"), UsedImplicitly]
     public class PartyVmMixin : BaseViewModelMixin<PartyVM>
     {
-        private readonly TroopSorterService _otherTroopSorterService;
-        private readonly TroopSorterService _partyTroopSorterService;
         private readonly PartyVM _viewModel;
         private bool _firstRefreshDone;
         private MBBindingList<SortByModeOptionVm> _otherSortByModeOptionVms = new MBBindingList<SortByModeOptionVm>();
@@ -41,11 +40,8 @@ namespace YAPO
             {
                 throw new NullReferenceException("Could not get PartyVM from weak reference");
             }
-            
-            GetPartyScreenLogic();
 
-            _partyTroopSorterService = InitialiseTroopSorterService(SortSide.PARTY);
-            _otherTroopSorterService = InitialiseTroopSorterService(SortSide.OTHER);
+            GetPartyScreenLogic();
 
             InitialiseOptionVmList(_partySortByModeOptionVms);
             InitialiseOptionVmList(_partyThenByModeOptionVms);
@@ -53,17 +49,6 @@ namespace YAPO
             InitialiseOptionVmList(_otherThenByModeOptionVms);
 
             InitialiseOptionDropdowns();
-        }
-
-        private static TroopSorterService InitialiseTroopSorterService(SortSide sortSide)
-        {
-            TroopSorterService troopSorterService =
-                MBObjectManager.Instance.GetObject<TroopSorterService>(x => x.SortSide == sortSide);
-            if (troopSorterService != null) return troopSorterService;
-
-            troopSorterService = MBObjectManager.Instance.CreateObject<TroopSorterService>();
-            troopSorterService.SortSide = sortSide;
-            return troopSorterService;
         }
 
         private void InitialiseOptionVmList(ICollection<SortByModeOptionVm> optionVms)
@@ -76,13 +61,13 @@ namespace YAPO
 
         private void InitialiseOptionDropdowns()
         {
-            CurrentPartySortByMode = _partyTroopSorterService.CurrentSortByMode;
+            CurrentPartySortByMode = States.PartySorterConfiguration.CurrentSortByMode;
+            CurrentPartyThenByMode = States.PartySorterConfiguration.CurrentThenByMode;
+            CurrentOtherSortByMode = States.OtherSorterConfiguration.CurrentSortByMode;
+            CurrentOtherThenByMode = States.OtherSorterConfiguration.CurrentThenByMode;
             CurrentPartySortByModeText = CurrentPartySortByMode.AsString();
-            CurrentPartyThenByMode = _partyTroopSorterService.CurrentThenByMode;
             CurrentPartyThenByModeText = CurrentPartyThenByMode.AsString();
-            CurrentOtherSortByMode = _otherTroopSorterService.CurrentSortByMode;
             CurrentOtherSortByModeText = CurrentOtherSortByMode.AsString();
-            CurrentOtherThenByMode = _otherTroopSorterService.CurrentThenByMode;
             CurrentOtherThenByModeText = CurrentOtherThenByMode.AsString();
         }
 
@@ -101,8 +86,8 @@ namespace YAPO
 
             if (YapoSettings.Instance.IsAutoSortEnabled)
             {
-                SortParty(_partyTroopSorterService.SortDirection);
-                SortOther(_partyTroopSorterService.SortDirection);
+                SortParty(States.PartySorterConfiguration.SortDirection);
+                SortOther(States.PartySorterConfiguration.SortDirection);
             }
 
             OnRefresh();
@@ -121,20 +106,21 @@ namespace YAPO
             if (_partyScreenLogic != null) return;
 
             FieldInfo partyScreenLogicField =
-                _viewModel.GetType().BaseType?.GetField("_partyScreenLogic", BindingFlags.NonPublic | BindingFlags.Instance);
+                _viewModel.GetType()
+                          .BaseType?.GetField("_partyScreenLogic", BindingFlags.NonPublic | BindingFlags.Instance);
             _partyScreenLogic = (PartyScreenLogic) partyScreenLogicField?.GetValue(_viewModel);
         }
 
         private void SortParty(SortDirection sortDirection, bool skipDirectionUpdate = false)
         {
-            if (_partyTroopSorterService.CurrentSortByMode == SortMode.NONE) return;
+            if (States.PartySorterConfiguration.CurrentSortByMode == SortMode.NONE) return;
 
-            if (!skipDirectionUpdate) _partyTroopSorterService.UpdateSortingDirection(sortDirection);
-            SortRoster(_partyTroopSorterService,
+            if (!skipDirectionUpdate) States.PartySorterConfiguration.SortDirection = sortDirection;
+            SortRoster(States.PartySorterConfiguration,
                        _partyScreenLogic.PrisonerRosters[1],
                        _viewModel.MainPartyPrisoners,
                        newPartyList => { _viewModel.MainPartyPrisoners = newPartyList; });
-            SortRoster(_partyTroopSorterService,
+            SortRoster(States.PartySorterConfiguration,
                        _partyScreenLogic.MemberRosters[1],
                        _viewModel.MainPartyTroops,
                        newPartyList => { _viewModel.MainPartyTroops = newPartyList; });
@@ -143,21 +129,21 @@ namespace YAPO
 
         private void SortOther(SortDirection sortDirection, bool skipDirectionUpdate = false)
         {
-            if (_otherTroopSorterService.CurrentSortByMode == SortMode.NONE) return;
+            if (States.OtherSorterConfiguration.CurrentSortByMode == SortMode.NONE) return;
 
-            if (!skipDirectionUpdate) _otherTroopSorterService.UpdateSortingDirection(sortDirection);
-            SortRoster(_otherTroopSorterService,
+            if (!skipDirectionUpdate) States.OtherSorterConfiguration.SortDirection = sortDirection;
+            SortRoster(States.OtherSorterConfiguration,
                        _partyScreenLogic.PrisonerRosters[0],
                        _viewModel.OtherPartyPrisoners,
                        newPartyList => { _viewModel.OtherPartyPrisoners = newPartyList; });
-            SortRoster(_otherTroopSorterService,
+            SortRoster(States.OtherSorterConfiguration,
                        _partyScreenLogic.MemberRosters[0],
                        _viewModel.OtherPartyTroops,
                        newPartyList => { _viewModel.OtherPartyTroops = newPartyList; });
             RefreshView();
         }
 
-        private static void SortRoster(TroopSorterService troopSorterService,
+        private static void SortRoster(SorterConfiguration configuration,
                                        TroopRoster troopRoster,
                                        ICollection<PartyCharacterVM> partyList,
                                        Action<MBBindingList<PartyCharacterVM>> apply)
@@ -174,7 +160,7 @@ namespace YAPO
                                                  .ToList();
             TroopRosterElement player = originalTroopList.FirstOrDefault(x => x.Character.IsPlayerCharacter);
 
-            troopSorterService.Sort(ref sortedTroops, ref heroTroops);
+            TroopSorterService.Sort(ref sortedTroops, ref heroTroops, configuration);
             if (heroTroops.Count > 0) sortedTroops.InsertRange(0, heroTroops);
             if (player.Character != null) sortedTroops.Insert(0, player);
             troopRosterDataField.SetValue(troopRoster, sortedTroops.ToArray());
@@ -212,6 +198,7 @@ namespace YAPO
             {
                 message.Append($"{results.MultiPathSkipped} troop types with multi-path upgrades were skipped. ");
             }
+
             message.Append("Press 'Done' to confirm changes");
             Global.Helpers.Message(message.ToString());
         }
@@ -326,8 +313,8 @@ namespace YAPO
         public void ExecuteOtherSortOrderOpposite()
         {
             Global.Helpers.DebugMessage("Other sort order opposite toggled");
-            _otherTroopSorterService.SortOrderOpposite = !_otherTroopSorterService.SortOrderOpposite;
-            SortOther(_otherTroopSorterService.SortDirection);
+            States.OtherSorterConfiguration.SortOrderOpposite = !States.OtherSorterConfiguration.SortOrderOpposite;
+            SortOther(States.OtherSorterConfiguration.SortDirection);
         }
 
         #endregion
@@ -378,15 +365,16 @@ namespace YAPO
 
         [DataSourceProperty]
         public string PartySortOrderOppositeText =>
-            _partyTroopSorterService == null ? "NULL" :
-            _partyTroopSorterService.SortOrderOpposite ? Strings.SORT_ORDER_OPPOSITE_TEXT_SAME :
+            States.PartySorterConfiguration == null ? "NULL" :
+            States.PartySorterConfiguration.SortOrderOpposite ? Strings.SORT_ORDER_OPPOSITE_TEXT_SAME :
             Strings.SORT_ORDER_OPPOSITE_TEXT_OPPOSITE;
 
         [DataSourceProperty]
         public HintViewModel PartySortOrderOppositeHintText =>
-            new HintViewModel(_partyTroopSorterService == null ? "NULL" :
-                              _partyTroopSorterService.SortOrderOpposite ? Strings.SORT_ORDER_OPPOSITE_HINT_TEXT_SAME :
-                              Strings.SORT_ORDER_OPPOSITE_HINT_TEXT_OPPOSITE);
+            new HintViewModel(States.PartySorterConfiguration == null ? "NULL" :
+                                  States.PartySorterConfiguration.SortOrderOpposite ?
+                                      Strings.SORT_ORDER_OPPOSITE_HINT_TEXT_SAME :
+                                      Strings.SORT_ORDER_OPPOSITE_HINT_TEXT_OPPOSITE);
 
         [DataSourceProperty]
         public HintViewModel PartySortOrderOppositeDisabledHintText =>
@@ -394,14 +382,14 @@ namespace YAPO
 
         [DataSourceProperty]
         public string UpgradableOnTopText =>
-            _partyTroopSorterService == null ? "NULL" :
-            _partyTroopSorterService.UpgradableOnTop ? Strings.UPGRADABLE_ON_TOP_TEXT_ON :
+            States.PartySorterConfiguration == null ? "NULL" :
+            States.PartySorterConfiguration.UpgradableOnTop ? Strings.UPGRADABLE_ON_TOP_TEXT_ON :
             Strings.UPGRADABLE_ON_TOP_TEXT_OFF;
 
         [DataSourceProperty]
         public HintViewModel UpgradableOnTopHintText =>
-            new HintViewModel(_partyTroopSorterService == null ? "NULL" :
-                              _partyTroopSorterService.UpgradableOnTop ? Strings.UPGRADABLE_ON_TOP_HINT_TEXT_ON :
+            new HintViewModel(States.PartySorterConfiguration == null ? "NULL" :
+                              States.PartySorterConfiguration.UpgradableOnTop ? Strings.UPGRADABLE_ON_TOP_HINT_TEXT_ON :
                               Strings.UPGRADABLE_ON_TOP_HINT_TEXT_OFF);
 
         [DataSourceProperty]
@@ -414,15 +402,16 @@ namespace YAPO
 
         [DataSourceProperty]
         public string OtherSortOrderOppositeText =>
-            _otherTroopSorterService == null ? "NULL" :
-            _otherTroopSorterService.SortOrderOpposite ? Strings.SORT_ORDER_OPPOSITE_TEXT_SAME :
+            States.OtherSorterConfiguration == null ? "NULL" :
+            States.OtherSorterConfiguration.SortOrderOpposite ? Strings.SORT_ORDER_OPPOSITE_TEXT_SAME :
             Strings.SORT_ORDER_OPPOSITE_TEXT_OPPOSITE;
 
         [DataSourceProperty]
         public HintViewModel OtherSortOrderOppositeHintText =>
-            new HintViewModel(_otherTroopSorterService == null ? "NULL" :
-                              _otherTroopSorterService.SortOrderOpposite ? Strings.SORT_ORDER_OPPOSITE_HINT_TEXT_SAME :
-                              Strings.SORT_ORDER_OPPOSITE_HINT_TEXT_OPPOSITE);
+            new HintViewModel(States.OtherSorterConfiguration == null ? "NULL" :
+                                  States.OtherSorterConfiguration.SortOrderOpposite ?
+                                      Strings.SORT_ORDER_OPPOSITE_HINT_TEXT_SAME :
+                                      Strings.SORT_ORDER_OPPOSITE_HINT_TEXT_OPPOSITE);
 
         [DataSourceProperty]
         public HintViewModel OtherSortOrderOppositeDisabledHintText =>
@@ -470,16 +459,16 @@ namespace YAPO
 
         public SortMode CurrentPartySortByMode
         {
-            get => _partyTroopSorterService.CurrentSortByMode;
+            get => States.PartySorterConfiguration.CurrentSortByMode;
             set
             {
-                if (value == _partyTroopSorterService.CurrentSortByMode)
+                if (value == States.PartySorterConfiguration.CurrentSortByMode)
                 {
                     return;
                 }
 
                 SortMode currentSortByMode = CurrentPartySortByMode;
-                _partyTroopSorterService.CurrentSortByMode = value;
+                States.PartySorterConfiguration.CurrentSortByMode = value;
                 CurrentPartySortByModeText = value.AsString();
                 _viewModel.OnPropertyChanged(nameof(CurrentPartySortByModeText));
 
@@ -514,10 +503,10 @@ namespace YAPO
 
         public SortMode CurrentPartyThenByMode
         {
-            get => _partyTroopSorterService.CurrentThenByMode;
+            get => States.PartySorterConfiguration.CurrentThenByMode;
             set
             {
-                if (value == _partyTroopSorterService.CurrentThenByMode)
+                if (value == States.PartySorterConfiguration.CurrentThenByMode)
                 {
                     return;
                 }
@@ -528,7 +517,7 @@ namespace YAPO
                     Global.Helpers.Message("Then By should be different from Sort By");
                 }
 
-                _partyTroopSorterService.CurrentThenByMode = value;
+                States.PartySorterConfiguration.CurrentThenByMode = value;
                 CurrentPartyThenByModeText = value.AsString();
                 _viewModel.OnPropertyChanged(nameof(CurrentPartyThenByModeText));
                 RefreshPartyScreenWidgetStates();
@@ -561,16 +550,16 @@ namespace YAPO
 
         public SortMode CurrentOtherSortByMode
         {
-            get => _otherTroopSorterService.CurrentSortByMode;
+            get => States.OtherSorterConfiguration.CurrentSortByMode;
             set
             {
-                if (value == _otherTroopSorterService.CurrentSortByMode)
+                if (value == States.OtherSorterConfiguration.CurrentSortByMode)
                 {
                     return;
                 }
 
                 SortMode currentSortByMode = CurrentOtherSortByMode;
-                _otherTroopSorterService.CurrentSortByMode = value;
+                States.OtherSorterConfiguration.CurrentSortByMode = value;
                 CurrentOtherSortByModeText = value.AsString();
                 _viewModel.OnPropertyChanged(nameof(CurrentOtherSortByModeText));
 
@@ -605,10 +594,10 @@ namespace YAPO
 
         public SortMode CurrentOtherThenByMode
         {
-            get => _otherTroopSorterService.CurrentThenByMode;
+            get => States.OtherSorterConfiguration.CurrentThenByMode;
             set
             {
-                if (value == _otherTroopSorterService.CurrentThenByMode)
+                if (value == States.OtherSorterConfiguration.CurrentThenByMode)
                 {
                     return;
                 }
@@ -619,7 +608,7 @@ namespace YAPO
                     Global.Helpers.Message("Then By should be different from Sort By");
                 }
 
-                _otherTroopSorterService.CurrentThenByMode = value;
+                States.OtherSorterConfiguration.CurrentThenByMode = value;
                 CurrentOtherThenByModeText = value.AsString();
                 _viewModel.OnPropertyChanged(nameof(CurrentOtherThenByModeText));
                 RefreshPartyScreenWidgetStates();
@@ -652,16 +641,16 @@ namespace YAPO
         public void ExecutePartySortOrderOpposite()
         {
             Global.Helpers.DebugMessage("Party sort order opposite toggled");
-            _partyTroopSorterService.SortOrderOpposite = !_partyTroopSorterService.SortOrderOpposite;
-            SortParty(_partyTroopSorterService.SortDirection);
+            States.PartySorterConfiguration.SortOrderOpposite = !States.PartySorterConfiguration.SortOrderOpposite;
+            SortParty(States.PartySorterConfiguration.SortDirection);
         }
 
         [DataSourceMethod]
         public void ExecuteUpgradableOnTop()
         {
             Global.Helpers.DebugMessage("Party Upgradable on top toggled");
-            _partyTroopSorterService.UpgradableOnTop = !_partyTroopSorterService.UpgradableOnTop;
-            SortParty(_partyTroopSorterService.SortDirection, true);
+            States.PartySorterConfiguration.UpgradableOnTop = !States.PartySorterConfiguration.UpgradableOnTop;
+            SortParty(States.PartySorterConfiguration.SortDirection, true);
         }
 
         #endregion
