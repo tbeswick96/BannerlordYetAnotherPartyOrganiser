@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Module>
-    <Name value="Yet Another Party Organiser"/>
+    <Name value="Yet Another Party Organiser BETA"/>
     <Id value="YetAnotherPartyOrganiser"/>
     <Version value="v1.2.1"/>
     <SingleplayerModule value="true"/>
