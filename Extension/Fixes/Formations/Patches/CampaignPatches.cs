@@ -5,6 +5,12 @@ using HarmonyLib;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.Core;
 
+// ReSharper disable InconsistentNaming
+// ReSharper disable ParameterTypeCanBeEnumerable.Global
+// ReSharper disable RedundantAssignment
+// ReSharper disable UnusedType.Global
+// ReSharper disable UnusedMember.Global
+
 namespace YAPO.Fixes.Formations.Patches
 {
     public class CampaignPatches
@@ -22,10 +28,7 @@ namespace YAPO.Fixes.Formations.Patches
                 return false;
             }
 
-            public static MethodBase TargetMethod()
-            {
-                return TryToAccessTargetMethod();
-            }
+            public static MethodBase TargetMethod() => TryToAccessTargetMethod();
 
             private static MethodBase TryToAccessTargetMethod()
             {
@@ -42,10 +45,10 @@ namespace YAPO.Fixes.Formations.Patches
 
             public static void Postfix()
             {
-                FixedFormationsBehaviour.Instance.FormationClasses =
-                    FixedFormationsBehaviour.Instance.FormationClasses ??
+                FixedFormationsBehaviour.INSTANCE.FormationClasses =
+                    FixedFormationsBehaviour.INSTANCE.FormationClasses ??
                     new Dictionary<BasicCharacterObject, FormationClass>();
-                FixedFormationsBehaviour.Instance.GameStarted = true;
+                FixedFormationsBehaviour.INSTANCE.GameStarted = true;
             }
         }
     }

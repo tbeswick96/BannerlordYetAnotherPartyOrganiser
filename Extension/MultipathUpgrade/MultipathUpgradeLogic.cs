@@ -40,7 +40,7 @@ namespace YAPO.MultipathUpgrade
 
             if (YapoSettings.Instance.SplitUpgrades)
             {
-                var targets = GetAllUpgradePaths(troops).ToList();
+                List<PartyScreenLogic.PartyCommand.UpgradeTargetType> targets = GetAllUpgradePaths(troops).ToList();
                 upgradeTargets = DetermineMaxCountOfUpgradesPerTarget(troops, targets).ToList();
                 return true;
             }
@@ -57,7 +57,7 @@ namespace YAPO.MultipathUpgrade
 
             upgradeTargets.Shuffle();
 
-            foreach (var target in upgradeTargets)
+            foreach (PartyScreenLogic.PartyCommand.UpgradeTargetType target in upgradeTargets)
             {
                 int maxCountOfUpgrades = upgradesPerTarget;
                 if (leftoverUpgrades > 0)
@@ -143,7 +143,9 @@ namespace YAPO.MultipathUpgrade
 
             if (YapoSettings.Instance.RangedPreference != (int) RangedPreference.BOWS || !candidates.All(x =>
                     x.UpgradeClassTipsWhichAreSpecialties.All(c => c.ClassType == CharacterClassType.RANGED)))
+            {
                 return -1;
+            }
 
             candidate = GetCandidateWithWeaponType(candidates, EquipmentProperties.HAS_BOW);
             if (candidate != null)
@@ -168,27 +170,27 @@ namespace YAPO.MultipathUpgrade
         private static UpgradeCandidate GetCandidateWithWeaponType(IEnumerable<UpgradeCandidate> candidates,
             EquipmentProperties equipmentProperty)
         {
-            var superCandidates = candidates.SelectMany(x => x.UpgradeClassTipsWhichAreSpecialties,
-                                                        (candidate, upgradeCharacter) =>
-                                                            new {candidate, upgradeCharacter})
-                                            .DistinctBy(arg => arg.candidate)
-                                            .Where(x =>
-                                                       x.candidate.UpgradeClassTipsWhichAreSpecialties
-                                                        .Any(y => (y.EquipmentProperties & equipmentProperty) != 0))
-                                            .Select(x => x.candidate)
-                                            .ToList();
+            List<UpgradeCandidate> superCandidates = candidates.SelectMany(x => x.UpgradeClassTipsWhichAreSpecialties,
+                                                                           (candidate, upgradeCharacter) =>
+                                                                               new {candidate, upgradeCharacter})
+                                                               .DistinctBy(arg => arg.candidate)
+                                                               .Where(x =>
+                                                                          x.candidate.UpgradeClassTipsWhichAreSpecialties
+                                                                           .Any(y => (y.EquipmentProperties & equipmentProperty) != 0))
+                                                               .Select(x => x.candidate)
+                                                               .ToList();
 
             return superCandidates.Count == 1 ? superCandidates[0] : null;
         }
 
-        private static Random rng = new Random();
+        private static readonly Random RNG = new Random();
         private static void Shuffle<T>(this IList<T> list)
         {
             int n = list.Count;
             while (n > 1)
             {
                 n--;
-                int k = rng.Next(n + 1);
+                int k = RNG.Next(n + 1);
                 T value = list[k];
                 list[k] = list[n];
                 list[n] = value;

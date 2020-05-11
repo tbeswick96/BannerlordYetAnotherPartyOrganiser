@@ -168,10 +168,7 @@ namespace YAPO.Services
             return commands;
         }
 
-        private static bool HasTwoUpgradePaths(PartyCharacterVM troops)
-        {
-            return troops.IsUpgrade1Exists && troops.IsUpgrade2Exists;
-        }
+        private static bool HasTwoUpgradePaths(PartyCharacterVM troops) => troops.IsUpgrade1Exists && troops.IsUpgrade2Exists;
 
         private static List<PartyCharacterVM> GetRecruitablePrisoners(PartyVM partyVm)
         {
@@ -199,7 +196,7 @@ namespace YAPO.Services
         private static int CalculateCountOfTroopsThatCanBeUpgraded(AvailableResources availableResources,
             PartyCharacterVM troops, PartyScreenLogic partyScreenLogic, (int maxUpgradableTroops, PartyScreenLogic.PartyCommand.UpgradeTargetType upgradeTargetType) upgradesPerTargetType)
         {
-            var upgradeRequiredItemCategory = troops.Character.UpgradeTargets[(int) upgradesPerTargetType.upgradeTargetType]?.UpgradeRequiresItemFromCategory;
+            ItemCategory upgradeRequiredItemCategory = troops.Character.UpgradeTargets[(int) upgradesPerTargetType.upgradeTargetType]?.UpgradeRequiresItemFromCategory;
 
             if (upgradeRequiredItemCategory != null &&
                 !availableResources.ItemsOfCategoryWithCount.ContainsKey(upgradeRequiredItemCategory))
@@ -221,15 +218,9 @@ namespace YAPO.Services
 
             return Min3(troops.NumOfUpgradeableTroops, upgradableTroopsByGold, upgradesPerTargetType.maxUpgradableTroops);
 
-            int Min3(int a, int b, int c)
-            {
-                return (Math.Min(Math.Min(a, b), c));
-            }
+            int Min3(int a, int b, int c) => Math.Min(Math.Min(a, b), c);
 
-            int Min4(int a, int b, int c, int d)
-            {
-                return Math.Min(Math.Min(Math.Min(a, b), c), d);
-            }
+            int Min4(int a, int b, int c, int d) => Math.Min(Math.Min(Math.Min(a, b), c), d);
         }
 
         private static void ExecuteCommands(List<Tuple<PartyCharacterVM, PartyScreenLogic.PartyCommand>> commands,

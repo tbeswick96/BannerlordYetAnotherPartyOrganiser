@@ -10,7 +10,6 @@ using TaleWorlds.MountAndBlade;
 using UIExtenderLib;
 using YAPO.Fixes.Formations;
 using YAPO.Global;
-using YAPO.Services;
 
 // ReSharper disable UnusedType.Global
 
@@ -62,7 +61,7 @@ namespace YAPO
 
             if (YapoSettings.Instance.IsFormationPersistenceFixEnabled)
             {
-                campaignGameStarter.AddBehavior(FixedFormationsBehaviour.Instance);
+                campaignGameStarter.AddBehavior(FixedFormationsBehaviour.INSTANCE);
                 campaignGameStarter
                     .LoadGameTexts($"{BasePath.Name}/Modules/{Strings.MODULE_FOLDER_NAME}/{Strings.MODULE_DATA_FORMATION_STRINGS}");
             }
