@@ -13,7 +13,7 @@ It is also advised to load this mod regardless of whether you have issues with s
 
 ## Dependencies
 
-| Dependency | Mandatory | Notes |
+| Dependency | Required | Notes |
 |------------|:---------:|-------|
 | [ModLib](https://www.nexusmods.com/mountandblade2bannerlord/mods/592) | ✓ | Used to provide settings and other goodies |
 
