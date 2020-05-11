@@ -1,6 +1,5 @@
 ﻿using System;
 using HarmonyLib;
-using ModLib;
 using ModLib.Debugging;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.Core;
@@ -18,16 +17,11 @@ namespace YAPO
     public class YapoSubModule : MBSubModuleBase
     {
         private readonly UIExtender _uiExtender = new UIExtender("YetAnotherPartyOrganiser");
-        
+
         protected override void OnSubModuleLoad()
         {
             try
             {
-                FileDatabase.Initialise(Strings.MODULE_FOLDER_NAME);
-                YapoSettings settings = FileDatabase.Get<YapoSettings>(YapoSettings.InstanceId) ?? new YapoSettings();
-                SettingsDatabase.RegisterSettings(settings);
-
-                new Harmony("YAPO").PatchAll();
                 _uiExtender.Register();
             }
             catch (Exception exception)
@@ -35,10 +29,18 @@ namespace YAPO
                 ModDebug.ShowError("Failed to load YetAnotherPartyOrganiser", "OnSubModuleLoad exception", exception);
             }
         }
-        
+
         protected override void OnBeforeInitialModuleScreenSetAsRoot()
         {
-            _uiExtender.Verify();
+            try
+            {
+                new Harmony("YAPO").PatchAll();
+                _uiExtender.Verify();
+            }
+            catch (Exception exception)
+            {
+                ModDebug.ShowError("Failed to finish loading YetAnotherPartyOrganiser", "OnBeforeInitialModuleScreenSetAsRoot exception", exception);
+            }
         }
 
         protected override void OnGameStart(Game game, IGameStarter gameStarterObject)
@@ -63,11 +65,11 @@ namespace YAPO
             {
                 campaignGameStarter.AddBehavior(FixedFormationsBehaviour.INSTANCE);
                 campaignGameStarter
-                    .LoadGameTexts($"{BasePath.Name}/Modules/{Strings.MODULE_FOLDER_NAME}/{Strings.MODULE_DATA_FORMATION_STRINGS}");
+                   .LoadGameTexts($"{BasePath.Name}/Modules/{Strings.MODULE_FOLDER_NAME}/{Strings.MODULE_DATA_FORMATION_STRINGS}");
             }
 
             campaignGameStarter
-                .LoadGameTexts($"{BasePath.Name}/Modules/{Strings.MODULE_FOLDER_NAME}/{Strings.MODULE_DATA_PARTY_COUNT_STRINGS}");
+               .LoadGameTexts($"{BasePath.Name}/Modules/{Strings.MODULE_FOLDER_NAME}/{Strings.MODULE_DATA_PARTY_COUNT_STRINGS}");
         }
 
         protected override void OnApplicationTick(float dt)

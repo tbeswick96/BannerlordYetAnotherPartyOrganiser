@@ -81,6 +81,11 @@
         <Reference Include="System.Xml" />
         <Reference Include="ModLib">
             <HintPath>$(GameFolder)\Modules\ModLib\bin\Win64_Shipping_Client\ModLib.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="ModLib.Definitions">
+            <HintPath>$(GameFolder)\Modules\ModLib\bin\Win64_Shipping_Client\ModLib.Definitions.dll</HintPath>
+            <Private>True</Private>
         </Reference>
         <Reference Include="System.Numerics.Vectors">
             <HintPath>$(GameFolder)\bin\Win64_Shipping_Client\System.Numerics.Vectors.dll</HintPath>
