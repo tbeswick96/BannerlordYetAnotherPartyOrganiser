@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using ModLib.Debugging;
+using Newtonsoft.Json;
 using YAPO.Configuration.Models;
 using YAPO.Global;
 
@@ -23,13 +24,36 @@ namespace YAPO.Configuration
         {
             try
             {
-                SorterConfigurationSave configurationSave =
-                    _configurationContainer.ConfigurationSaves.First(x => x.SaveName == States.CurrentSaveName);
+                SorterConfigurationSave configurationSave = _configurationContainer
+                                                           .ConfigurationSaves.FirstOrDefault(x => x.SaveName ==
+                                                                                                   States.NewSaveName);
+                if (configurationSave == null)
+                {
+                    if (States.NewSaveName != States.LoadedSaveName)
+                    {
+                        SorterConfigurationSave loadedConfigurationSave = _configurationContainer
+                                                                         .ConfigurationSaves.First(x => x.SaveName ==
+                                                                                                        States
+                                                                                                           .LoadedSaveName);
+                        configurationSave =
+                            JsonConvert
+                               .DeserializeObject<SorterConfigurationSave>(JsonConvert
+                                                                              .SerializeObject(loadedConfigurationSave));
+                        configurationSave.SaveName = States.NewSaveName;
+                        _configurationContainer.ConfigurationSaves.Add(configurationSave);
+                    }
+                    else
+                    {
+                        throw new NullReferenceException();
+                    }
+                }
+
                 configurationSave.LastSaved = DateTime.Now;
             }
             catch (Exception exception)
             {
-                ModDebug.ShowError($"YetAnotherPartyOrganiser failed to find sorter configuration for the current save {States.CurrentSaveName}. This shouldn't happen, please report this error by creating an issue on our github page",
+                ModDebug.ShowError($"YetAnotherPartyOrganiser failed to find sorter configuration for the current save {States.NewSaveName}." +
+                                   "This shouldn't happen, please report this error by creating an issue on our github page",
                                    "SorterConfigurationManager SaveConfigurations error",
                                    exception);
             }
