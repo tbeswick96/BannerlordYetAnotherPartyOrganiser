@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using ModLib.Debugging;
 using Newtonsoft.Json;
@@ -12,8 +11,7 @@ namespace YAPO.Configuration
     {
         private static SorterConfigurationManager instance;
 
-        private SorterConfigurationContainer _configurationContainer =
-            new SorterConfigurationContainer {ConfigurationSaves = new List<SorterConfigurationSave>()};
+        private SorterConfigurationContainer _configurationContainer;
 
         public static SorterConfigurationManager Instance => instance ?? (instance = new SorterConfigurationManager());
 
@@ -24,6 +22,11 @@ namespace YAPO.Configuration
 
         public void SaveConfigurations()
         {
+            if (_configurationContainer == null)
+            {
+                _configurationContainer = SorterConfigurationJsonService.Load();
+            }
+
             try
             {
                 SorterConfigurationSave configurationSave = _configurationContainer
@@ -39,27 +42,22 @@ namespace YAPO.Configuration
                                                                                               States
                                                                                                  .LoadedSaveName);
                         configurationSave = loadedConfigurationSave == null
-                                                ? new SorterConfigurationSave
-                                                {
-                                                    Party = States.PartySorterConfiguration,
-                                                    Other = States.OtherSorterConfiguration
-                                                }
+                                                ? new SorterConfigurationSave()
                                                 : JsonConvert
                                                    .DeserializeObject<SorterConfigurationSave>(JsonConvert
                                                                                                   .SerializeObject(loadedConfigurationSave));
                     }
                     else
                     {
-                        configurationSave = new SorterConfigurationSave
-                        {
-                            Party = States.PartySorterConfiguration, Other = States.OtherSorterConfiguration
-                        };
+                        configurationSave = new SorterConfigurationSave();
                     }
 
-                    configurationSave.SaveName = States.NewSaveName;
                     _configurationContainer.ConfigurationSaves.Add(configurationSave);
                 }
 
+                configurationSave.SaveName = States.NewSaveName;
+                configurationSave.Party = States.PartySorterConfiguration;
+                configurationSave.Other = States.OtherSorterConfiguration;
                 configurationSave.LastSaved = DateTime.Now;
             }
             catch (Exception exception)
