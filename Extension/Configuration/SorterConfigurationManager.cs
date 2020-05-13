@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using ModLib.Debugging;
 using Newtonsoft.Json;
@@ -11,7 +12,8 @@ namespace YAPO.Configuration
     {
         private static SorterConfigurationManager instance;
 
-        private SorterConfigurationContainer _configurationContainer;
+        private SorterConfigurationContainer _configurationContainer =
+            new SorterConfigurationContainer {ConfigurationSaves = new List<SorterConfigurationSave>()};
 
         public static SorterConfigurationManager Instance => instance ?? (instance = new SorterConfigurationManager());
 
@@ -32,20 +34,30 @@ namespace YAPO.Configuration
                     if (States.NewSaveName != States.LoadedSaveName)
                     {
                         SorterConfigurationSave loadedConfigurationSave = _configurationContainer
-                                                                         .ConfigurationSaves.First(x => x.SaveName ==
-                                                                                                        States
-                                                                                                           .LoadedSaveName);
-                        configurationSave =
-                            JsonConvert
-                               .DeserializeObject<SorterConfigurationSave>(JsonConvert
-                                                                              .SerializeObject(loadedConfigurationSave));
-                        configurationSave.SaveName = States.NewSaveName;
-                        _configurationContainer.ConfigurationSaves.Add(configurationSave);
+                                                                         .ConfigurationSaves
+                                                                         .FirstOrDefault(x => x.SaveName ==
+                                                                                              States
+                                                                                                 .LoadedSaveName);
+                        configurationSave = loadedConfigurationSave == null
+                                                ? new SorterConfigurationSave
+                                                {
+                                                    Party = States.PartySorterConfiguration,
+                                                    Other = States.OtherSorterConfiguration
+                                                }
+                                                : JsonConvert
+                                                   .DeserializeObject<SorterConfigurationSave>(JsonConvert
+                                                                                                  .SerializeObject(loadedConfigurationSave));
                     }
                     else
                     {
-                        throw new NullReferenceException();
+                        configurationSave = new SorterConfigurationSave
+                        {
+                            Party = States.PartySorterConfiguration, Other = States.OtherSorterConfiguration
+                        };
                     }
+
+                    configurationSave.SaveName = States.NewSaveName;
+                    _configurationContainer.ConfigurationSaves.Add(configurationSave);
                 }
 
                 configurationSave.LastSaved = DateTime.Now;
@@ -67,6 +79,7 @@ namespace YAPO.Configuration
         {
             _configurationContainer.ConfigurationSaves = _configurationContainer
                                                         .ConfigurationSaves.OrderByDescending(x => x.LastSaved)
+                                                        .Where(x => !string.IsNullOrEmpty(x.SaveName))
                                                         .Take(50)
                                                         .ToList();
         }
