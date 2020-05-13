@@ -11,7 +11,7 @@ namespace YAPO.Global
         
         public static string LoadedSaveName = "";
         public static string NewSaveName = "";
-        public static SorterConfiguration PartySorterConfiguration = null;
-        public static SorterConfiguration OtherSorterConfiguration = null;
+        public static SorterConfiguration PartySorterConfiguration = new SorterConfiguration();
+        public static SorterConfiguration OtherSorterConfiguration = new SorterConfiguration();
     }
 }
