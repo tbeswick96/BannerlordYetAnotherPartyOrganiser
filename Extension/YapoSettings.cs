@@ -6,10 +6,8 @@ using YAPO.Global;
 using YAPO.MultipathUpgrade.Enum;
 using YAPO.MultipathUpgrade.Model;
 
-namespace YAPO
-{
-    public class YapoSettings : SettingsBase
-    {
+namespace YAPO {
+    public class YapoSettings : SettingsBase {
         private const string INSTANCE_ID = Strings.MODULE_FOLDER_NAME + "Settings";
 
         public override string ModName { get; } = Strings.MODULE_NAME;
@@ -28,16 +26,6 @@ namespace YAPO
 
         #endregion
 
-        #region Fixes
-
-        [XmlElement,
-         SettingProperty(Strings.SETTINGS_ENABLE_FORMATION_PERSISTENCE_NAME,
-                         Strings.SETTINGS_ENABLE_FORMATION_PERSISTENCE_TOOLTIP),
-         SettingPropertyGroup(Strings.SETTINGS_FIXES_GROUP_NAME)]
-        public bool IsFormationPersistenceFixEnabled { get; set; } = true;
-
-        #endregion
-
         #region UpgradeSettings
 
         [XmlElement,
@@ -49,8 +37,7 @@ namespace YAPO
          SettingPropertyGroup(Strings.SETTINGS_UPGRADE_GROUP_NAME)]
         public bool PreferShield { get; set; } = true;
 
-        [XmlElement,
-         SettingProperty(Strings.SETTINGS_BUFFER_DAILY_COST_NAME, 0, 10, Strings.SETTINGS_BUFFER_DAILY_COST_TOOLTIP),
+        [XmlElement, SettingProperty(Strings.SETTINGS_BUFFER_DAILY_COST_NAME, 0, 10, Strings.SETTINGS_BUFFER_DAILY_COST_TOOLTIP),
          SettingPropertyGroup(Strings.SETTINGS_UPGRADE_GROUP_NAME)]
         public int DaysToPayDailyCostsBuffer { get; set; } = 3;
 
@@ -62,45 +49,13 @@ namespace YAPO
          SettingPropertyGroup(Strings.SETTINGS_UPGRADE_GROUP_NAME)]
         public bool PlayerDecision { get; set; }
 
-        [XmlElement]
-        public List<PreferredTroopsByCulture> PreferredTroopsByCulture = new List<PreferredTroopsByCulture>
-        {
-            new PreferredTroopsByCulture
-            {
-                CultureIdentifier = "Khuzait",
-                TroopClasses = new List<CharacterClassType>
-                {
-                    CharacterClassType.HORSE_ARCHER, CharacterClassType.CAVALRY
-                }
-            },
-            new PreferredTroopsByCulture
-            {
-                CultureIdentifier = "Battania",
-                TroopClasses = new List<CharacterClassType> {CharacterClassType.INFANTRY}
-            },
-            new PreferredTroopsByCulture
-            {
-                CultureIdentifier = "Aserai",
-                TroopClasses = new List<CharacterClassType>
-                {
-                    CharacterClassType.INFANTRY, CharacterClassType.HORSE_ARCHER, CharacterClassType.RANGED
-                }
-            },
-            new PreferredTroopsByCulture
-            {
-                CultureIdentifier = "Sturgia",
-                TroopClasses = new List<CharacterClassType> {CharacterClassType.INFANTRY}
-            },
-            new PreferredTroopsByCulture
-            {
-                CultureIdentifier = "Vlandia",
-                TroopClasses = new List<CharacterClassType>
-                {
-                    CharacterClassType.CAVALRY, CharacterClassType.INFANTRY, CharacterClassType.RANGED
-                }
-            },
-            new PreferredTroopsByCulture
-            {
+        [XmlElement] public List<PreferredTroopsByCulture> PreferredTroopsByCulture = new List<PreferredTroopsByCulture> {
+            new PreferredTroopsByCulture {CultureIdentifier = "Khuzait", TroopClasses = new List<CharacterClassType> {CharacterClassType.HORSE_ARCHER, CharacterClassType.CAVALRY}},
+            new PreferredTroopsByCulture {CultureIdentifier = "Battania", TroopClasses = new List<CharacterClassType> {CharacterClassType.INFANTRY}},
+            new PreferredTroopsByCulture {CultureIdentifier = "Aserai", TroopClasses = new List<CharacterClassType> {CharacterClassType.INFANTRY, CharacterClassType.HORSE_ARCHER, CharacterClassType.RANGED}},
+            new PreferredTroopsByCulture {CultureIdentifier = "Sturgia", TroopClasses = new List<CharacterClassType> {CharacterClassType.INFANTRY}},
+            new PreferredTroopsByCulture {CultureIdentifier = "Vlandia", TroopClasses = new List<CharacterClassType> {CharacterClassType.CAVALRY, CharacterClassType.INFANTRY, CharacterClassType.RANGED}},
+            new PreferredTroopsByCulture {
                 CultureIdentifier = "Empire",
                 TroopClasses =
                     new List<CharacterClassType> {CharacterClassType.INFANTRY, CharacterClassType.RANGED}

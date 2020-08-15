@@ -1,11 +1,8 @@
 ﻿using YAPO.MultipathUpgrade.Enum;
 
-namespace YAPO.MultipathUpgrade.Model
-{
-    public class CharacterClass
-    {
-        public CharacterClass(CharacterClassType classType, EquipmentProperties equipmentProperties)
-        {
+namespace YAPO.MultipathUpgrade.Model {
+    public class CharacterClass {
+        public CharacterClass(CharacterClassType classType, EquipmentProperties equipmentProperties) {
             ClassType = classType;
             EquipmentProperties = equipmentProperties;
         }

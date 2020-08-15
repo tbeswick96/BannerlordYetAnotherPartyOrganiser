@@ -4,16 +4,12 @@ using System.Linq;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.Core;
 
-namespace YAPO.Services
-{
-    public static class SortHelpers
-    {
+namespace YAPO.Services {
+    public static class SortHelpers {
         public static SortDirection InvertDirection(this SortDirection sortDirection) => sortDirection == SortDirection.ASCENDING ? SortDirection.DESCENDING : SortDirection.ASCENDING;
 
-        public static IOrderedEnumerable<TroopRosterElement> SortBy(this IEnumerable<TroopRosterElement> troops, SortMode sortMode, SortDirection sortDirection)
-        {
-            switch (sortMode)
-            {
+        public static IOrderedEnumerable<TroopRosterElement> SortBy(this IEnumerable<TroopRosterElement> troops, SortMode sortMode, SortDirection sortDirection) {
+            switch (sortMode) {
                 case SortMode.NONE: return troops.OrderBy(x => x);
                 case SortMode.ALPHABETICAL: return sortDirection == SortDirection.ASCENDING ? troops.OrderBy(SortAlphabetically) : troops.OrderByDescending(SortAlphabetically);
                 case SortMode.TYPE: return sortDirection == SortDirection.ASCENDING ? troops.OrderBy(x => x, new TroopTypeComparer()) : troops.OrderByDescending(x => x, new TroopTypeComparer());
@@ -25,10 +21,8 @@ namespace YAPO.Services
             }
         }
 
-        public static IEnumerable<TroopRosterElement> ThenSortBy(this IOrderedEnumerable<TroopRosterElement> troops, SortMode sortMode, SortDirection sortDirection)
-        {
-            switch (sortMode)
-            {
+        public static IEnumerable<TroopRosterElement> ThenSortBy(this IOrderedEnumerable<TroopRosterElement> troops, SortMode sortMode, SortDirection sortDirection) {
+            switch (sortMode) {
                 case SortMode.NONE: return troops.ThenBy(x => x);
                 case SortMode.ALPHABETICAL: return sortDirection == SortDirection.ASCENDING ? troops.ThenBy(SortAlphabetically) : troops.ThenByDescending(SortAlphabetically);
                 case SortMode.TYPE: return sortDirection == SortDirection.ASCENDING ? troops.ThenBy(x => x, new TroopTypeComparer()) : troops.ThenByDescending(x => x, new TroopTypeComparer());
@@ -44,7 +38,7 @@ namespace YAPO.Services
         private static string SortAlphabetically(TroopRosterElement x) => x.Character.ToString();
 
         // Formation Group
-        private static FormationClass SortByGroup(TroopRosterElement x) => x.Character.CurrentFormationClass;
+        private static FormationClass SortByGroup(TroopRosterElement x) => x.Character.GetFormationClass(PartyBase.MainParty); // TODO: Check if PartyBase.MainParty can be ued for prisoners etc
 
         // Tier
         private static int SortByTier(TroopRosterElement x) => x.Character.Tier;
@@ -56,10 +50,8 @@ namespace YAPO.Services
         private static int SortByCount(TroopRosterElement x) => x.Number;
 
         // Type: Cavalry, Ranged Cavalry, Infantry, Ranged
-        private class TroopTypeComparer : IComparer<TroopRosterElement>
-        {
-            public int Compare(TroopRosterElement x, TroopRosterElement y)
-            {
+        private class TroopTypeComparer : IComparer<TroopRosterElement> {
+            public int Compare(TroopRosterElement x, TroopRosterElement y) {
                 if (x.Character == null && y.Character == null) return 0;
                 if (y.Character == null) return 1;
                 if (x.Character == null) return -1;

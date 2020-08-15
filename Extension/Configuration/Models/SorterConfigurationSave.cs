@@ -1,14 +1,12 @@
 ﻿using System;
 using JetBrains.Annotations;
 
-namespace YAPO.Configuration.Models
-{
+namespace YAPO.Configuration.Models {
     [UsedImplicitly]
-    public class SorterConfigurationSave
-    {
-        public string SaveName;
+    public class SorterConfigurationSave {
         public DateTime LastSaved;
-        public SorterConfiguration Party;
         public SorterConfiguration Other;
+        public SorterConfiguration Party;
+        public string SaveName;
     }
 }
