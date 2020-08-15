@@ -5,50 +5,30 @@ using Newtonsoft.Json;
 using YAPO.Configuration.Models;
 using YAPO.Global;
 
-namespace YAPO.Configuration
-{
-    public class SorterConfigurationManager
-    {
+namespace YAPO.Configuration {
+    public class SorterConfigurationManager {
         private static SorterConfigurationManager instance;
 
         private SorterConfigurationContainer _configurationContainer;
 
         public static SorterConfigurationManager Instance => instance ?? (instance = new SorterConfigurationManager());
 
-        public void LoadConfigurations()
-        {
+        public void LoadConfigurations() {
             _configurationContainer = SorterConfigurationJsonService.Load();
         }
 
-        public void SaveConfigurations()
-        {
-            if (_configurationContainer == null)
-            {
+        public void SaveConfigurations() {
+            if (_configurationContainer == null) {
                 _configurationContainer = SorterConfigurationJsonService.Load();
             }
 
-            try
-            {
-                SorterConfigurationSave configurationSave = _configurationContainer
-                                                           .ConfigurationSaves.FirstOrDefault(x => x.SaveName ==
-                                                                                                   States.NewSaveName);
-                if (configurationSave == null)
-                {
-                    if (States.NewSaveName != States.LoadedSaveName)
-                    {
-                        SorterConfigurationSave loadedConfigurationSave = _configurationContainer
-                                                                         .ConfigurationSaves
-                                                                         .FirstOrDefault(x => x.SaveName ==
-                                                                                              States
-                                                                                                 .LoadedSaveName);
-                        configurationSave = loadedConfigurationSave == null
-                                                ? new SorterConfigurationSave()
-                                                : JsonConvert
-                                                   .DeserializeObject<SorterConfigurationSave>(JsonConvert
-                                                                                                  .SerializeObject(loadedConfigurationSave));
-                    }
-                    else
-                    {
+            try {
+                SorterConfigurationSave configurationSave = _configurationContainer.ConfigurationSaves.FirstOrDefault(x => x.SaveName == States.NewSaveName);
+                if (configurationSave == null) {
+                    if (States.NewSaveName != States.LoadedSaveName) {
+                        SorterConfigurationSave loadedConfigurationSave = _configurationContainer.ConfigurationSaves.FirstOrDefault(x => x.SaveName == States.LoadedSaveName);
+                        configurationSave = loadedConfigurationSave == null ? new SorterConfigurationSave() : JsonConvert.DeserializeObject<SorterConfigurationSave>(JsonConvert.SerializeObject(loadedConfigurationSave));
+                    } else {
                         configurationSave = new SorterConfigurationSave();
                     }
 
@@ -59,9 +39,7 @@ namespace YAPO.Configuration
                 configurationSave.Party = States.PartySorterConfiguration;
                 configurationSave.Other = States.OtherSorterConfiguration;
                 configurationSave.LastSaved = DateTime.Now;
-            }
-            catch (Exception exception)
-            {
+            } catch (Exception exception) {
                 ModDebug.ShowError($"YetAnotherPartyOrganiser failed to find sorter configuration for the current save {States.NewSaveName}." +
                                    "This shouldn't happen, please report this error by creating an issue on our github page",
                                    "SorterConfigurationManager SaveConfigurations error",
@@ -73,25 +51,19 @@ namespace YAPO.Configuration
             SorterConfigurationJsonService.Save(_configurationContainer);
         }
 
-        private void RemoveOldSaveConfigurations()
-        {
-            _configurationContainer.ConfigurationSaves = _configurationContainer
-                                                        .ConfigurationSaves.OrderByDescending(x => x.LastSaved)
-                                                        .Where(x => !string.IsNullOrEmpty(x.SaveName))
-                                                        .Take(50)
-                                                        .ToList();
+        private void RemoveOldSaveConfigurations() {
+            _configurationContainer.ConfigurationSaves = _configurationContainer.ConfigurationSaves.OrderByDescending(x => x.LastSaved)
+                                                                                .Where(x => !string.IsNullOrEmpty(x.SaveName))
+                                                                                .Where(x => !string.IsNullOrEmpty(x.SaveName))
+                                                                                .Take(50)
+                                                                                .ToList();
         }
 
-        public (SorterConfiguration, SorterConfiguration) GetConfiguration(string saveName)
-        {
-            SorterConfigurationSave configurationSave =
-                _configurationContainer.ConfigurationSaves.FirstOrDefault(x => x.SaveName == saveName);
+        public (SorterConfiguration, SorterConfiguration) GetConfiguration(string saveName) {
+            SorterConfigurationSave configurationSave = _configurationContainer.ConfigurationSaves.FirstOrDefault(x => x.SaveName == saveName);
             if (configurationSave != null) return (configurationSave.Party, configurationSave.Other);
 
-            configurationSave = new SorterConfigurationSave
-            {
-                SaveName = saveName, Party = new SorterConfiguration(), Other = new SorterConfiguration()
-            };
+            configurationSave = new SorterConfigurationSave {SaveName = saveName, Party = new SorterConfiguration(), Other = new SorterConfiguration()};
             _configurationContainer.ConfigurationSaves.Add(configurationSave);
             return (configurationSave.Party, configurationSave.Other);
         }

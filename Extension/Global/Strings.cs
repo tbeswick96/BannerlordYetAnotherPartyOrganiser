@@ -1,23 +1,14 @@
-﻿namespace YAPO.Global
-{
+﻿namespace YAPO.Global {
     // TODO: How to localise this?
-    public static class Strings
-    {
+    public static class Strings {
         public const string MODULE_NAME = "Yet Another Party Organiser";
         public const string MODULE_FOLDER_NAME = "YetAnotherPartyOrganiser";
 
         public const string MODULE_DATA_PARTY_COUNT_STRINGS = "ModuleData/PartyCountStrings.xml";
 
-        public const string MODULE_DATA_FORMATION_STRINGS = "ModuleData/FormationStrings.xml";
-
         public const string SETTINGS_GENERAL_GROUP_NAME = "General";
         public const string SETTINGS_ENABLE_AUTO_SORT_NAME = "Enable Auto Sorting";
         public const string SETTINGS_ENABLE_AUTO_SORT_TOOLTIP = "When enabled troops and prisoners are sorted upon opening the party screen.";
-
-        public const string SETTINGS_FIXES_GROUP_NAME = "Fixes";
-        public const string SETTINGS_ENABLE_FORMATION_PERSISTENCE_NAME = "Enable formation persistence fix";
-
-        public const string SETTINGS_ENABLE_FORMATION_PERSISTENCE_TOOLTIP = "When enabled assigned formations will be correctly stored with each save game.";
 
         public const string SETTINGS_UPGRADE_GROUP_NAME = "Upgrade";
         public const string SETTINGS_PREFER_SHIELD_NAME = "Prefer infantry with shields";

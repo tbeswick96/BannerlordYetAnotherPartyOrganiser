@@ -1,10 +1,8 @@
 ﻿using JetBrains.Annotations;
 
-namespace YAPO.Configuration.Models
-{
+namespace YAPO.Configuration.Models {
     [UsedImplicitly]
-    public class SorterConfiguration
-    {
+    public class SorterConfiguration {
         public SortMode CurrentSortByMode;
         public SortMode CurrentThenByMode;
         public SortDirection SortDirection;
