@@ -307,11 +307,6 @@
         <Compile Include="Configuration\Models\SorterConfigurationSave.cs" />
         <Compile Include="Configuration\Patches\MBSaveLoadPatches.cs" />
         <Compile Include="Configuration\SorterConfigurationManager.cs" />
-        <Compile Include="Fixes\Formations\FixedFormationsBehaviour.cs" />
-        <Compile Include="Fixes\Formations\FixedFormationsSaveableTypeDefiner.cs" />
-        <Compile Include="Fixes\Formations\Patches\BasicCharacterObjectPatches.cs" />
-        <Compile Include="Fixes\Formations\Patches\CampaignPatches.cs" />
-        <Compile Include="Fixes\Formations\Patches\LoadContextPatches.cs" />
         <Compile Include="Global\Helpers.cs" />
         <Compile Include="Global\States.cs" />
         <Compile Include="Global\Strings.cs" />
@@ -351,9 +346,6 @@
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
         <None Include="GUI\PrefabExtensions\TroopActionButtons.xml">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="ModuleData\FormationStrings.xml">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
         <None Include="packages.config" />

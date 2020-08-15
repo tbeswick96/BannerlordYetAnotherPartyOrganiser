@@ -1,7 +1,5 @@
-﻿namespace YAPO
-{
-    public enum SortMode
-    {
+﻿namespace YAPO {
+    public enum SortMode {
         NONE,
         ALPHABETICAL,
         TYPE,
@@ -11,8 +9,7 @@
         COUNT
     }
 
-    public enum SortDirection
-    {
+    public enum SortDirection {
         ASCENDING,
         DESCENDING
     }

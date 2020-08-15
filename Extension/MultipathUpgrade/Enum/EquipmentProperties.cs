@@ -1,10 +1,8 @@
 ﻿using System;
 
-namespace YAPO.MultipathUpgrade.Enum
-{
+namespace YAPO.MultipathUpgrade.Enum {
     [Flags]
-    public enum EquipmentProperties
-    {
+    public enum EquipmentProperties {
         NONE = 0,
         HAS_SHIELD = 1,
         HAS_CROSS_BOW = 2,
