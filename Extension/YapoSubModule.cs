@@ -1,6 +1,5 @@
 ﻿using System;
 using HarmonyLib;
-using ModLib.Debugging;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.Core;
 using TaleWorlds.InputSystem;
@@ -19,7 +18,7 @@ namespace YAPO {
             try {
                 _uiExtender.Register();
             } catch (Exception exception) {
-                ModDebug.ShowError("Failed to load YetAnotherPartyOrganiser", "OnSubModuleLoad exception", exception);
+                Global.Helpers.ShowError("Failed to load YetAnotherPartyOrganiser", "OnSubModuleLoad exception", exception);
             }
         }
 
@@ -28,7 +27,7 @@ namespace YAPO {
                 new Harmony("YAPO").PatchAll();
                 _uiExtender.Verify();
             } catch (Exception exception) {
-                ModDebug.ShowError("Failed to finish loading YetAnotherPartyOrganiser", "OnBeforeInitialModuleScreenSetAsRoot exception", exception);
+                Global.Helpers.ShowError("Failed to finish loading YetAnotherPartyOrganiser", "OnBeforeInitialModuleScreenSetAsRoot exception", exception);
             }
         }
 
@@ -38,7 +37,7 @@ namespace YAPO {
             try {
                 AddBehaviours(gameStarterObject as CampaignGameStarter);
             } catch (Exception exception) {
-                ModDebug.ShowError("Something went wrong while starting a game", "OnGameStart exception", exception);
+                Global.Helpers.ShowError("Something went wrong while starting a game", "OnGameStart exception", exception);
             }
         }
 

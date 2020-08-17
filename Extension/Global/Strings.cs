@@ -6,7 +6,7 @@
 
         public const string MODULE_DATA_PARTY_COUNT_STRINGS = "ModuleData/PartyCountStrings.xml";
 
-        public const string SETTINGS_GENERAL_GROUP_NAME = "General";
+        public const string SETTINGS_SORTING_GROUP_NAME = "Sorting";
         public const string SETTINGS_ENABLE_AUTO_SORT_NAME = "Enable Auto Sorting";
         public const string SETTINGS_ENABLE_AUTO_SORT_TOOLTIP = "When enabled troops and prisoners are sorted upon opening the party screen.";
 

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using ModLib.Debugging;
 using Newtonsoft.Json;
 using TaleWorlds.Engine;
 using YAPO.Configuration.Models;
@@ -22,7 +21,7 @@ namespace YAPO.Configuration {
                 SorterConfigurationContainer configurationContainer = JsonConvert.DeserializeObject<SorterConfigurationContainer>(fileContents);
                 return configurationContainer;
             } catch (Exception exception) {
-                ModDebug.ShowError("Failed to load sorter configuration file for YetAnotherPartyOrganiser. Configurations have not been loaded and will get overwritten on next game save", "JsonFileService Load exception", exception);
+                Global.Helpers.ShowError("Failed to load sorter configuration file for YetAnotherPartyOrganiser. Configurations have not been loaded and will get overwritten on next game save", "JsonFileService Load exception", exception);
             }
 
             return new SorterConfigurationContainer();
@@ -34,7 +33,7 @@ namespace YAPO.Configuration {
                 Directory.CreateDirectory(Path.GetDirectoryName(FilePath) ?? throw new DirectoryNotFoundException());
                 File.WriteAllText(FilePath, configurationContainerString);
             } catch (Exception exception) {
-                ModDebug.ShowError("Failed to save sorter configuration file for YetAnotherPartyOrganiser. Configurations have not been saved and won't load correctly on next game load", "JsonFileService Save exception", exception);
+                Global.Helpers.ShowError("Failed to save sorter configuration file for YetAnotherPartyOrganiser. Configurations have not been saved and won't load correctly on next game load", "JsonFileService Save exception", exception);
             }
         }
     }

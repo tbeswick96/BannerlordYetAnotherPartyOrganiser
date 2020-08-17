@@ -100,14 +100,14 @@ namespace YAPO.MultipathUpgrade {
                 }
             }
 
-            if (YapoSettings.Instance.RangedPreference == (int) RangedPreference.CROSSBOWS && candidates.All(x => x.UpgradeClassTipsWhichAreSpecialties.All(c => c.ClassType == CharacterClassType.RANGED))) {
+            if (YapoSettings.Instance.RangedPreference.SelectedValue.Value == RangedPreference.CROSSBOWS && candidates.All(x => x.UpgradeClassTipsWhichAreSpecialties.All(c => c.ClassType == CharacterClassType.RANGED))) {
                 candidate = GetCandidateWithWeaponType(candidates, EquipmentProperties.HAS_CROSS_BOW);
                 if (candidate != null) {
                     return candidate.UpgradeTargetIndex;
                 }
             }
 
-            if (YapoSettings.Instance.RangedPreference != (int) RangedPreference.BOWS || !candidates.All(x => x.UpgradeClassTipsWhichAreSpecialties.All(c => c.ClassType == CharacterClassType.RANGED))) {
+            if (YapoSettings.Instance.RangedPreference.SelectedValue.Value != RangedPreference.BOWS || !candidates.All(x => x.UpgradeClassTipsWhichAreSpecialties.All(c => c.ClassType == CharacterClassType.RANGED))) {
                 return -1;
             }
 
@@ -123,7 +123,7 @@ namespace YAPO.MultipathUpgrade {
             return YapoSettings.Instance.PreferredTroopsByCulture.FirstOrDefault(culture => culture.CultureIdentifier == cultureName)?.TroopClasses ?? new List<CharacterClassType>();
         }
 
-        private static bool HasPreferredWeaponLoadout() => YapoSettings.Instance.RangedPreference != (int) RangedPreference.NONE || YapoSettings.Instance.PreferShield;
+        private static bool HasPreferredWeaponLoadout() => YapoSettings.Instance.RangedPreference.SelectedValue.Value != RangedPreference.NONE || YapoSettings.Instance.PreferShield;
 
         private static UpgradeCandidate GetCandidateWithWeaponType(IEnumerable<UpgradeCandidate> candidates, EquipmentProperties equipmentProperty) {
             List<UpgradeCandidate> superCandidates = candidates.SelectMany(x => x.UpgradeClassTipsWhichAreSpecialties, (candidate, upgradeCharacter) => new {candidate, upgradeCharacter})
