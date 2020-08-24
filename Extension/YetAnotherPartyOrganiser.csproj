@@ -62,17 +62,13 @@
         <WarningLevel>4</WarningLevel>
     </PropertyGroup>
     <ItemGroup>
-        <Reference Include="0Harmony_2.0.0.10, Version=2.0.0.10, Culture=neutral, PublicKeyToken=null">
-            <HintPath>packages\UIExtenderLib.2.0.0.3\lib\net472\0Harmony_2.0.0.10.dll</HintPath>
-            <Private>True</Private>
-        </Reference>
-        <Reference Include="UIExtenderLib_2.0.0.3, Version=2.0.0.3, Culture=neutral, PublicKeyToken=null">
-            <HintPath>packages\UIExtenderLib.2.0.0.3\lib\net472\UIExtenderLib_2.0.0.3.dll</HintPath>
-            <Private>True</Private>
+        <Reference Include="0Harmony, Version=2.0.2.0, Culture=neutral, PublicKeyToken=null">
+          <HintPath>packages\Lib.Harmony.2.0.2\lib\net472\0Harmony.dll</HintPath>
+          <Private>True</Private>
         </Reference>
         <Reference Include="Bannerlord.UIExtenderEx, Version=0.0.11.13, Culture=neutral, PublicKeyToken=null">
           <HintPath>packages\Bannerlord.MCM.Integrated.3.1.9\lib\net472\Bannerlord.UIExtenderEx.dll</HintPath>
-          <Private>False</Private>
+          <Private>True</Private>
         </Reference>
         <Reference Include="MCMv3, Version=3.1.9.0, Culture=neutral, PublicKeyToken=null">
           <HintPath>packages\Bannerlord.MCM.Integrated.3.1.9\lib\net472\MCMv3.dll</HintPath>
@@ -308,10 +304,6 @@
             <HintPath>$(GameFolder)\bin\Win64_Shipping_Client\TaleWorlds.TwoDimension.Standalone.dll</HintPath>
             <Private>False</Private>
         </Reference>
-        <Reference Include="UIExtenderLib_2.0.0.3, Version=2.0.0.3, Culture=neutral, PublicKeyToken=null">
-          <HintPath>packages\UIExtenderLib.2.0.0.3\lib\net472\UIExtenderLib_2.0.0.3.dll</HintPath>
-          <Private>True</Private>
-        </Reference>
     </ItemGroup>
     <ItemGroup>
         <Compile Include="Configuration\SorterConfigurationJsonService.cs" />
@@ -376,7 +368,7 @@
         <PostBuildEvent>mkdir "$(TargetDir)bin\Win64_Shipping_Client\"
             move "$(TargetDir)$(ProjectName).*" "$(TargetDir)bin\Win64_Shipping_Client\"
             move "$(TargetDir)0Harmony*.*" "$(TargetDir)bin\Win64_Shipping_Client\"
-            move "$(TargetDir)UIExtender*.*" "$(TargetDir)bin\Win64_Shipping_Client\"
+            move "$(TargetDir)Bannerlord.UIExtenderEx*.*" "$(TargetDir)bin\Win64_Shipping_Client\"
             move "$(TargetDir)Newtonsoft*.*" "$(TargetDir)bin\Win64_Shipping_Client\"
             move "$(TargetDir)MCMv3*.*" "$(TargetDir)bin\Win64_Shipping_Client\"
             del "$(TargetDir)*.dll"

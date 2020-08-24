@@ -4,13 +4,14 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using Bannerlord.UIExtenderEx.Attributes;
+using Bannerlord.UIExtenderEx.ViewModels;
 using JetBrains.Annotations;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.ViewModelCollection;
 using TaleWorlds.Core.ViewModelCollection;
 using TaleWorlds.GauntletUI;
 using TaleWorlds.Library;
-using UIExtenderLib.Interface;
 using YAPO.Configuration.Models;
 using YAPO.Global;
 using YAPO.Services;
@@ -28,10 +29,10 @@ namespace YAPO {
         public PartyVmMixin(PartyVM viewModel) : base(viewModel) {
             States.PartyVmMixin = this;
 
-            if (_vm.TryGetTarget(out PartyVM vm)) {
-                _viewModel = vm;
+            if (ViewModel != null) {
+                _viewModel = ViewModel;
             } else {
-                throw new NullReferenceException("Could not get PartyVM from weak reference");
+                throw new NullReferenceException("PartyVM ViewModel is null");
             }
 
             InitialiseOptionVmList(_partySortByModeOptionVms);

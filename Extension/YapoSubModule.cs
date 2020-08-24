@@ -1,11 +1,11 @@
 ﻿using System;
+using Bannerlord.UIExtenderEx;
 using HarmonyLib;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.Core;
 using TaleWorlds.InputSystem;
 using TaleWorlds.Library;
 using TaleWorlds.MountAndBlade;
-using UIExtenderLib;
 using YAPO.Global;
 
 // ReSharper disable UnusedType.Global
@@ -17,6 +17,7 @@ namespace YAPO {
         protected override void OnSubModuleLoad() {
             try {
                 _uiExtender.Register();
+                _uiExtender.Enable();
             } catch (Exception exception) {
                 Global.Helpers.ShowError("Failed to load YetAnotherPartyOrganiser", "OnSubModuleLoad exception", exception);
             }
@@ -25,7 +26,6 @@ namespace YAPO {
         protected override void OnBeforeInitialModuleScreenSetAsRoot() {
             try {
                 new Harmony("YAPO").PatchAll();
-                _uiExtender.Verify();
             } catch (Exception exception) {
                 Global.Helpers.ShowError("Failed to finish loading YetAnotherPartyOrganiser", "OnBeforeInitialModuleScreenSetAsRoot exception", exception);
             }
