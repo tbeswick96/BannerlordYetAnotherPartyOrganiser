@@ -94,6 +94,7 @@ namespace YAPO.Services {
             return commands;
         }
 
+        // Something wrong with upgrade
         private static List<Tuple<PartyCharacterVM, PartyScreenLogic.PartyCommand>> PrepareUpgradeCommands(IEnumerable<PartyCharacterVM> upgradableTroops, PartyScreenLogic partyScreenLogic, ref UpgradeResults upgradeResults) {
             List<Tuple<PartyCharacterVM, PartyScreenLogic.PartyCommand>> commands = new List<Tuple<PartyCharacterVM, PartyScreenLogic.PartyCommand>>();
 
