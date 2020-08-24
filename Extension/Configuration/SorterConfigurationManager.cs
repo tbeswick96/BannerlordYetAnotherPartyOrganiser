@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using ModLib.Debugging;
-using Newtonsoft.Json;
 using YAPO.Configuration.Models;
 using YAPO.Global;
 
@@ -27,12 +26,21 @@ namespace YAPO.Configuration {
                 if (configurationSave == null) {
                     if (States.NewSaveName != States.LoadedSaveName) {
                         SorterConfigurationSave loadedConfigurationSave = _configurationContainer.ConfigurationSaves.FirstOrDefault(x => x.SaveName == States.LoadedSaveName);
-                        configurationSave = loadedConfigurationSave == null ? new SorterConfigurationSave() : JsonConvert.DeserializeObject<SorterConfigurationSave>(JsonConvert.SerializeObject(loadedConfigurationSave));
+                        configurationSave = loadedConfigurationSave == null
+                                                ? new SorterConfigurationSave()
+                                                : new SorterConfigurationSave {
+                                                    SaveName = loadedConfigurationSave.SaveName, Other = loadedConfigurationSave.Other, Party = loadedConfigurationSave.Party, LastSaved = loadedConfigurationSave.LastSaved
+                                                };
                     } else {
                         configurationSave = new SorterConfigurationSave();
                     }
 
                     _configurationContainer.ConfigurationSaves.Add(configurationSave);
+                }
+
+                if (configurationSave.SaveName == States.NewSaveName && configurationSave.Party == States.PartySorterConfiguration && configurationSave.Other == States.OtherSorterConfiguration) {
+                    // Don't save config if it hasn't changed
+                    return;
                 }
 
                 configurationSave.SaveName = States.NewSaveName;
@@ -42,7 +50,7 @@ namespace YAPO.Configuration {
             } catch (Exception exception) {
                 ModDebug.ShowError($"YetAnotherPartyOrganiser failed to find sorter configuration for the current save {States.NewSaveName}." +
                                    "This shouldn't happen, please report this error by creating an issue on our github page",
-                                   "SorterConfigurationManager SaveConfigurations error",
+                                   "SorterConfigurationManager SaveConfigurations Error",
                                    exception);
             }
 

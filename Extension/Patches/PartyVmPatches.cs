@@ -1,6 +1,4 @@
-﻿using System.Reflection;
-using HarmonyLib;
-using TaleWorlds.CampaignSystem;
+﻿using HarmonyLib;
 using TaleWorlds.CampaignSystem.ViewModelCollection;
 using YAPO.Services;
 
@@ -15,18 +13,15 @@ namespace YAPO.Patches {
         [HarmonyPatch(typeof(PartyVM), "RefreshPartyInformation")]
         public static class PartyVMPopulatePartyListLabelCallsite {
             public static void Postfix(PartyVM __instance) {
-                FieldInfo partyScreenLogicField = __instance.GetType().BaseType?.GetField("_partyScreenLogic", BindingFlags.NonPublic | BindingFlags.Instance);
-                PartyScreenLogic partyScreenLogic = (PartyScreenLogic) partyScreenLogicField?.GetValue(__instance);
+                if (__instance.PartyScreenLogic == null) return;
 
-                if (partyScreenLogic == null) return;
-
-                __instance.OtherPartyTroopsLbl = PartyHeaderCountHelper.PopulatePartyListLabel(__instance.OtherPartyTroops, partyScreenLogic.LeftPartySizeLimit);
+                __instance.OtherPartyTroopsLbl = PartyHeaderCountHelper.PopulatePartyListLabel(__instance.OtherPartyTroops, __instance.PartyScreenLogic.LeftPartySizeLimit);
                 __instance.OtherPartyPrisonersLbl = PartyHeaderCountHelper.PopulatePartyListLabel(__instance.OtherPartyPrisoners);
-                __instance.MainPartyTroopsLbl = PartyHeaderCountHelper.PopulatePartyListLabel(__instance.MainPartyTroops, partyScreenLogic.RightOwnerParty.PartySizeLimit);
+                __instance.MainPartyTroopsLbl = PartyHeaderCountHelper.PopulatePartyListLabel(__instance.MainPartyTroops, __instance.PartyScreenLogic.RightOwnerParty.PartySizeLimit);
 
                 int limit = 0;
-                if (partyScreenLogic.RightOwnerParty?.Leader != null) {
-                    limit = partyScreenLogic.RightOwnerParty.PrisonerSizeLimit;
+                if (__instance.PartyScreenLogic.RightOwnerParty?.Leader != null) {
+                    limit = __instance.PartyScreenLogic.RightOwnerParty.PrisonerSizeLimit;
                 }
 
                 __instance.MainPartyPrisonersLbl = PartyHeaderCountHelper.PopulatePartyListLabel(__instance.MainPartyPrisoners, limit);
