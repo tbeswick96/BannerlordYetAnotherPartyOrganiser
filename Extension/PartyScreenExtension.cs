@@ -2,6 +2,7 @@
 // ReSharper disable UnusedType.Global
 // ReSharper disable UnusedMember.Global
 
+using System.Diagnostics;
 using System.Xml;
 using Bannerlord.UIExtenderEx.Attributes;
 using Bannerlord.UIExtenderEx.Prefabs;
@@ -13,7 +14,11 @@ namespace YAPO {
     [PrefabExtension("PartyScreen", "descendant::PartyScreenWidget[@Id='PartyScreen']/Children")]
     public class PartyTroopSortButtonsExtension : PrefabExtensionInsertPatch {
         public PartyTroopSortButtonsExtension() {
-            XmlDocument.Load(XmlPathHelper.GetXmlPath(Id));
+            using (XmlReader reader = XmlReader.Create(XmlPathHelper.GetXmlPath(Id), new XmlReaderSettings {IgnoreComments = true, IgnoreWhitespace = true})) {
+                XmlDocument.Load(reader);
+            }
+
+            Debug.Assert(XmlDocument.HasChildNodes, $"Failed to parse extension ({Id}) XML!");
         }
 
         public sealed override string Id => "PartyTroopSortButtons";
@@ -26,7 +31,11 @@ namespace YAPO {
     [PrefabExtension("PartyScreen", "descendant::PartyScreenWidget[@Id='PartyScreen']/Children")]
     public class OtherTroopSortButtonsExtension : PrefabExtensionInsertPatch {
         public OtherTroopSortButtonsExtension() {
-            XmlDocument.Load(XmlPathHelper.GetXmlPath(Id));
+            using (XmlReader reader = XmlReader.Create(XmlPathHelper.GetXmlPath(Id), new XmlReaderSettings {IgnoreComments = true, IgnoreWhitespace = true})) {
+                XmlDocument.Load(reader);
+            }
+
+            Debug.Assert(XmlDocument.HasChildNodes, $"Failed to parse extension ({Id}) XML!");
         }
 
         public sealed override string Id => "OtherTroopSortButtons";
@@ -39,7 +48,11 @@ namespace YAPO {
     [PrefabExtension("PartyScreen", "descendant::PartyScreenWidget[@Id='PartyScreen']/Children")]
     public class TroopActionButtonsExtension : PrefabExtensionInsertPatch {
         public TroopActionButtonsExtension() {
-            XmlDocument.Load(XmlPathHelper.GetXmlPath(Id));
+            using (XmlReader reader = XmlReader.Create(XmlPathHelper.GetXmlPath(Id), new XmlReaderSettings {IgnoreComments = true, IgnoreWhitespace = true})) {
+                XmlDocument.Load(reader);
+            }
+
+            Debug.Assert(XmlDocument.HasChildNodes, $"Failed to parse extension ({Id}) XML!");
         }
 
         public sealed override string Id => "TroopActionButtons";

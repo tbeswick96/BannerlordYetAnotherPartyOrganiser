@@ -3,8 +3,6 @@ using TaleWorlds.CampaignSystem.ViewModelCollection;
 using YAPO.Services;
 
 // ReSharper disable InconsistentNaming
-// ReSharper disable ParameterTypeCanBeEnumerable.Global
-// ReSharper disable RedundantAssignment
 // ReSharper disable UnusedType.Global
 // ReSharper disable UnusedMember.Global
 

@@ -213,12 +213,10 @@ namespace YAPO {
         }
 
         private void RefreshPartyVmInformation() {
-            MethodInfo refreshPrisonersRecruitable = _viewModel.GetType().BaseType?.GetMethod("RefreshPrisonersRecruitable", BindingFlags.NonPublic | BindingFlags.Instance);
-            refreshPrisonersRecruitable?.Invoke(_viewModel, new object[0]);
-            MethodInfo refreshTopInformation = _viewModel.GetType().BaseType?.GetMethod("RefreshTopInformation", BindingFlags.NonPublic | BindingFlags.Instance);
-            refreshTopInformation?.Invoke(_viewModel, new object[0]);
-            MethodInfo refreshPartyInformation = _viewModel.GetType().BaseType?.GetMethod("RefreshPartyInformation", BindingFlags.NonPublic | BindingFlags.Instance);
-            refreshPartyInformation?.Invoke(_viewModel, new object[0]);
+            new List<string> {"RefreshPrisonersRecruitable", "RefreshTopInformation", "RefreshPartyInformation"}.ForEach(x => {
+                MethodInfo method = _viewModel.GetType().BaseType?.GetMethod(x, BindingFlags.NonPublic | BindingFlags.Instance);
+                method?.Invoke(_viewModel, new object[0]);
+            });
         }
 
         #region Command - Other Sort Option Buttons
