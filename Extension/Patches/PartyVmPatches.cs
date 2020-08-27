@@ -1,48 +1,28 @@
-﻿using System.Reflection;
-using HarmonyLib;
-using TaleWorlds.CampaignSystem;
+﻿using HarmonyLib;
 using TaleWorlds.CampaignSystem.ViewModelCollection;
 using YAPO.Services;
 
 // ReSharper disable InconsistentNaming
-// ReSharper disable ParameterTypeCanBeEnumerable.Global
-// ReSharper disable RedundantAssignment
 // ReSharper disable UnusedType.Global
 // ReSharper disable UnusedMember.Global
 
-namespace YAPO.Patches
-{
-    public class PartyVmPatches
-    {
+namespace YAPO.Patches {
+    public class PartyVmPatches {
         [HarmonyPatch(typeof(PartyVM), "RefreshPartyInformation")]
-        public static class PartyVMPopulatePartyListLabelCallsite
-        {
-            public static void Postfix(PartyVM __instance)
-            {
-                FieldInfo partyScreenLogicField =
-                    __instance.GetType()
-                              .BaseType?.GetField("_partyScreenLogic", BindingFlags.NonPublic | BindingFlags.Instance);
-                PartyScreenLogic partyScreenLogic = (PartyScreenLogic) partyScreenLogicField?.GetValue(__instance);
+        public static class PartyVMPopulatePartyListLabelCallsite {
+            public static void Postfix(PartyVM __instance) {
+                if (__instance.PartyScreenLogic == null) return;
 
-                if (partyScreenLogic == null) return;
-
-                __instance.OtherPartyTroopsLbl =
-                    PartyHeaderCountHelper.PopulatePartyListLabel(__instance.OtherPartyTroops,
-                                                                  partyScreenLogic.LeftPartySizeLimit);
-                __instance.OtherPartyPrisonersLbl =
-                    PartyHeaderCountHelper.PopulatePartyListLabel(__instance.OtherPartyPrisoners);
-                __instance.MainPartyTroopsLbl =
-                    PartyHeaderCountHelper.PopulatePartyListLabel(__instance.MainPartyTroops,
-                                                                  partyScreenLogic.RightOwnerParty.PartySizeLimit);
+                __instance.OtherPartyTroopsLbl = PartyHeaderCountHelper.PopulatePartyListLabel(__instance.OtherPartyTroops, __instance.PartyScreenLogic.LeftPartySizeLimit);
+                __instance.OtherPartyPrisonersLbl = PartyHeaderCountHelper.PopulatePartyListLabel(__instance.OtherPartyPrisoners);
+                __instance.MainPartyTroopsLbl = PartyHeaderCountHelper.PopulatePartyListLabel(__instance.MainPartyTroops, __instance.PartyScreenLogic.RightOwnerParty.PartySizeLimit);
 
                 int limit = 0;
-                if (partyScreenLogic.RightOwnerParty?.Leader != null)
-                {
-                    limit = partyScreenLogic.RightOwnerParty.PrisonerSizeLimit;
+                if (__instance.PartyScreenLogic.RightOwnerParty?.Leader != null) {
+                    limit = __instance.PartyScreenLogic.RightOwnerParty.PrisonerSizeLimit;
                 }
 
-                __instance.MainPartyPrisonersLbl =
-                    PartyHeaderCountHelper.PopulatePartyListLabel(__instance.MainPartyPrisoners, limit);
+                __instance.MainPartyPrisonersLbl = PartyHeaderCountHelper.PopulatePartyListLabel(__instance.MainPartyPrisoners, limit);
             }
         }
     }

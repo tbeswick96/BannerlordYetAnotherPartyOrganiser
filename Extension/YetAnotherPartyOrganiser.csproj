@@ -18,7 +18,7 @@
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' Or '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
         <StartProgram>$(GameFolder)\bin\Win64_Shipping_Client\Bannerlord.exe</StartProgram>
-        <StartArguments>/singleplayer _MODULES_%2aNative%2aSandBox%2aSandBoxCore%2aStoryMode%2aCustomBattle%2aDeveloperConsole%2aModLib%2a0UIExtenderLibModule%2aAragas.SaveMissingModuleFix%2aYetAnotherPartyOrganiser%2a_MODULES_</StartArguments>
+        <StartArguments>/singleplayer _MODULES_%2aNative%2aSandBoxCore%2aSandBox%2aStoryMode%2aCustomBattle%2aDeveloperConsole%2aAragas.SaveMissingModuleFix%2aYetAnotherPartyOrganiser%2a_MODULES_</StartArguments>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
         <PlatformTarget>x64</PlatformTarget>
@@ -62,23 +62,35 @@
         <WarningLevel>4</WarningLevel>
     </PropertyGroup>
     <ItemGroup>
-        <Reference Include="0Harmony, Version=2.0.0.10, Culture=neutral, PublicKeyToken=null">
-            <HintPath>packages\Lib.Harmony.2.0.0.10\lib\net472\0Harmony.dll</HintPath>
-            <Private>True</Private>
+        <Reference Include="0Harmony, Version=2.0.2.0, Culture=neutral, PublicKeyToken=null">
+          <HintPath>packages\Lib.Harmony.2.0.2\lib\net472\0Harmony.dll</HintPath>
+          <Private>True</Private>
         </Reference>
-        <Reference Include="0UIExtenderLibModule, Version=1.0.5.0, Culture=neutral, PublicKeyToken=null">
-          <HintPath>..\..\..\..\Steam\steamapps\common\Mount &amp; Blade II Bannerlord\Modules\0UIExtenderLibModule\bin\Win64_Shipping_Client\0UIExtenderLibModule.dll</HintPath>
+        <Reference Include="Bannerlord.UIExtenderEx, Version=0.0.11.20, Culture=neutral, PublicKeyToken=null">
+          <HintPath>packages\Bannerlord.UIExtenderEx.0.0.11.20\lib\net472\Bannerlord.UIExtenderEx.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="MCMv3, Version=3.1.9.0, Culture=neutral, PublicKeyToken=null">
+          <HintPath>packages\Bannerlord.MCM.Integrated.3.1.9\lib\net472\MCMv3.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="MCMv3.Implementation.v3.1.9, Version=3.1.9.0, Culture=neutral, PublicKeyToken=null">
+          <HintPath>packages\Bannerlord.MCM.Integrated.3.1.9\lib\net472\MCMv3.Implementation.v3.1.9.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="MCMv3.UI.v3.1.9, Version=3.1.9.0, Culture=neutral, PublicKeyToken=null">
+          <HintPath>packages\Bannerlord.MCM.Integrated.3.1.9\lib\net472\MCMv3.UI.v3.1.9.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="System.Windows.Forms" />
+        <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed">
+            <HintPath>packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+          <Private>True</Private>
         </Reference>
         <Reference Include="System" />
         <Reference Include="System.Core" />
         <Reference Include="System.Data" />
         <Reference Include="System.Xml" />
-        <Reference Include="UIExtenderLib">
-            <HintPath>$(GameFolder)\Modules\0UIExtenderLibModule\bin\Win64_Shipping_Client\UIExtenderLib.dll</HintPath>
-        </Reference>
-        <Reference Include="ModLib">
-            <HintPath>$(GameFolder)\Modules\ModLib\bin\Win64_Shipping_Client\ModLib.dll</HintPath>
-        </Reference>
         <Reference Include="System.Numerics.Vectors">
             <HintPath>$(GameFolder)\bin\Win64_Shipping_Client\System.Numerics.Vectors.dll</HintPath>
             <Private>False</Private>
@@ -247,6 +259,10 @@
             <HintPath>$(GameFolder)\bin\Win64_Shipping_Client\TaleWorlds.Network.dll</HintPath>
             <Private>False</Private>
         </Reference>
+        <Reference Include="TaleWorlds.ObjectSystem, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+            <HintPath>$(GameFolder)\bin\Win64_Shipping_Client\TaleWorlds.ObjectSystem.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
         <Reference Include="TaleWorlds.PlatformService">
             <HintPath>$(GameFolder)\bin\Win64_Shipping_Client\TaleWorlds.PlatformService.dll</HintPath>
             <Private>False</Private>
@@ -289,15 +305,18 @@
         </Reference>
     </ItemGroup>
     <ItemGroup>
-        <Compile Include="Fixes\Formations\FixedFormationsBehaviour.cs" />
-        <Compile Include="Fixes\Formations\FixedFormationsSaveableTypeDefiner.cs" />
-        <Compile Include="Fixes\Formations\Patches\BasicCharacterObjectPatches.cs" />
-        <Compile Include="Fixes\Formations\Patches\CampaignPatches.cs" />
-        <Compile Include="Fixes\Formations\Patches\LoadContextPatches.cs" />
+        <Compile Include="Configuration\SorterConfigurationJsonService.cs" />
+        <Compile Include="Configuration\Models\SorterConfiguration.cs" />
+        <Compile Include="Configuration\Models\SorterConfigurationContainer.cs" />
+        <Compile Include="Configuration\Models\SorterConfigurationSave.cs" />
+        <Compile Include="Configuration\Patches\MBSaveLoadPatches.cs" />
+        <Compile Include="Configuration\SorterConfigurationManager.cs" />
         <Compile Include="Global\Helpers.cs" />
         <Compile Include="Global\States.cs" />
         <Compile Include="Global\Strings.cs" />
+        <Compile Include="Patches\PartyCharacterVmPatches.cs" />
         <Compile Include="Patches\PartyScreenWidgetPatches.cs" />
+        <Compile Include="MultipathUpgrade\Model\AvailableResources.cs" />
         <Compile Include="MultipathUpgrade\Model\PreferredTroopsByCulture.cs" />
         <Compile Include="MultipathUpgrade\Enum\RangedPreference.cs" />
         <Compile Include="MultipathUpgrade\Model\CharacterClass.cs" />
@@ -308,11 +327,13 @@
         <Compile Include="Patches\PartyVmPatches.cs" />
         <Compile Include="Patches\ViewModelPatches.cs" />
         <Compile Include="Services\PartyHeaderCountHelper.cs" />
+        <Compile Include="Services\RecruitmentResults.cs" />
         <Compile Include="Services\SortHelpers.cs" />
         <Compile Include="Services\TroopActionService.cs" />
         <Compile Include="Services\TroopSorterService.cs" />
         <Compile Include="MultipathUpgrade\Model\UpgradeCandidate.cs" />
         <Compile Include="MultipathUpgrade\Services\UpgradeTreeCrawler.cs" />
+        <Compile Include="Services\UpgradeResults.cs" />
         <Compile Include="ViewModels\TypeSortOptionVm.cs" />
         <Compile Include="YapoSettings.cs" />
         <Compile Include="SortByModeOptionVM.cs" />
@@ -320,7 +341,7 @@
         <Compile Include="YapoSubModule.cs" />
         <Compile Include="PartyVmMixin.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
-        <Compile Include="YapoSavableTypeDefiner.cs" />
+        <Compile Include="Enums.cs" />
         <Compile Include="PartyScreenExtension.cs" />
     </ItemGroup>
     <ItemGroup>
@@ -337,9 +358,6 @@
         <None Include="GUI\PrefabExtensions\TroopActionButtons.xml">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Include="ModuleData\FormationStrings.xml">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
         <None Include="ModuleData\PartyCountStrings.xml">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
@@ -348,8 +366,10 @@
     <PropertyGroup>
         <PostBuildEvent>mkdir "$(TargetDir)bin\Win64_Shipping_Client\"
             move "$(TargetDir)$(ProjectName).*" "$(TargetDir)bin\Win64_Shipping_Client\"
-            move "$(TargetDir)0Harmony.*" "$(TargetDir)bin\Win64_Shipping_Client\"
-            move "$(TargetDir)UIExtenderLib.*" "$(TargetDir)bin\Win64_Shipping_Client\"
-            move "$(TargetDir)ModLib.*" "$(TargetDir)bin\Win64_Shipping_Client\"
+            move "$(TargetDir)0Harmony*.*" "$(TargetDir)bin\Win64_Shipping_Client\"
+            move "$(TargetDir)Bannerlord.UIExtenderEx*.*" "$(TargetDir)bin\Win64_Shipping_Client\"
+            move "$(TargetDir)Newtonsoft*.*" "$(TargetDir)bin\Win64_Shipping_Client\"
+            move "$(TargetDir)MCMv3*.*" "$(TargetDir)bin\Win64_Shipping_Client\"
+            del "$(TargetDir)*.dll"
         </PostBuildEvent>
     </PropertyGroup></Project>

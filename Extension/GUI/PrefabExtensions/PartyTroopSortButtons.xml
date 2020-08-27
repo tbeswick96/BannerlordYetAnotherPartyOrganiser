@@ -21,11 +21,11 @@
                                             </Children>
                                         </Widget>
                                         <TextWidget Text="Type Order" WidthSizePolicy="CoverChildren" HeightSizePolicy="Fixed" SuggestedWidth="75" MarginTop="5" SuggestedHeight="35" HorizontalAlignment="Center" Brush="Party.Role.Main.Text" Brush.TextHorizontalAlignment="Center" />
-                                        <ScrollablePanel Id="TypeOrderMenuPartySortByScrollablePanel" HeightSizePolicy="StretchToParent" WidthSizePolicy="StretchToParent" InnerPanel="TypeOrderMenuPartySortByClipRect\InnerPanel" ClipRect="TypeOrderMenuPartySortByClipRect" MarginTop="42" MarginBottom="10" MarginRight="10" MarginLeft="10" AutoHideScrollBars="true" AcceptDrop="true" Command.Drop="ChangeOrderOfTypeOption">
+                                        <ScrollablePanel Id="TypeOrderMenuPartySortByScrollablePanel" HeightSizePolicy="StretchToParent" WidthSizePolicy="StretchToParent" InnerPanel="TypeOrderMenuPartySortByClipRect\InnerPanel" ClipRect="TypeOrderMenuPartySortByClipRect" MarginTop="42" MarginBottom="10" MarginRight="10" MarginLeft="10" AutoHideScrollBars="true" AcceptDrop="true" Command.Drop="ExecuteChangeOrderOfTypeOption">
                                             <Children>
                                                 <Widget Id="TypeOrderMenuPartySortByClipRect" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" HorizontalAlignment="Center" ClipContents="true" Brush.GlobalAlphaFactor="0.75">
                                                     <Children>
-                                                        <ListPanel Id="TypeOrderMenuPartySortByInnerPanel" DataSource="{TypeOrderOptionPartySortByVms}" LayoutImp.LayoutMethod="VerticalBottomToTop" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" AcceptDrop="true" Command.Drop="..\ChangeOrderOfTypeOption" CommandParameter.Drop="PartySortBy">
+                                                        <ListPanel Id="TypeOrderMenuPartySortByInnerPanel" DataSource="{TypeOrderOptionPartySortByVms}" LayoutImp.LayoutMethod="VerticalBottomToTop" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" AcceptDrop="true" Command.Drop="..\ExecuteChangeOrderOfTypeOption" CommandParameter.Drop="PartySortBy">
                                                             <ItemTemplate>
                                                                 <ListPanel WidthSizePolicy="StretchToParent" HeightSizePolicy="Fixed" SuggestedHeight="45" AcceptDrag="true" DragWidget="DragWidget" Sprite="SPOptions\standart_slider_canvas">
                                                                     <Children>
@@ -68,11 +68,11 @@
                                             </Children>
                                         </Widget>
                                         <TextWidget Text="Type Order" WidthSizePolicy="CoverChildren" HeightSizePolicy="Fixed" SuggestedWidth="75" MarginTop="5" SuggestedHeight="35" HorizontalAlignment="Center" Brush="Party.Role.Main.Text" Brush.TextHorizontalAlignment="Center" />
-                                        <ScrollablePanel Id="TypeOrderMenuPartyThenByScrollablePanel" HeightSizePolicy="StretchToParent" WidthSizePolicy="StretchToParent" InnerPanel="TypeOrderMenuPartyThenByClipRect\InnerPanel" ClipRect="TypeOrderMenuPartyThenByClipRect" MarginTop="42" MarginBottom="10" MarginRight="10" MarginLeft="10" AutoHideScrollBars="true" AcceptDrop="true" Command.Drop="ChangeOrderOfTypeOption">
+                                        <ScrollablePanel Id="TypeOrderMenuPartyThenByScrollablePanel" HeightSizePolicy="StretchToParent" WidthSizePolicy="StretchToParent" InnerPanel="TypeOrderMenuPartyThenByClipRect\InnerPanel" ClipRect="TypeOrderMenuPartyThenByClipRect" MarginTop="42" MarginBottom="10" MarginRight="10" MarginLeft="10" AutoHideScrollBars="true" AcceptDrop="true" Command.Drop="ExecuteChangeOrderOfTypeOption">
                                             <Children>
                                                 <Widget Id="TypeOrderMenuPartyThenByClipRect" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" HorizontalAlignment="Center" ClipContents="true" Brush.GlobalAlphaFactor="0.75">
                                                     <Children>
-                                                        <ListPanel Id="TypeOrderMenuPartyThenByInnerPanel" DataSource="{TypeOrderOptionPartyThenByVms}" LayoutImp.LayoutMethod="VerticalBottomToTop" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" AcceptDrop="true" Command.Drop="..\ChangeOrderOfTypeOption" CommandParameter.Drop="PartyPartyThenBy">
+                                                        <ListPanel Id="TypeOrderMenuPartyThenByInnerPanel" DataSource="{TypeOrderOptionPartyThenByVms}" LayoutImp.LayoutMethod="VerticalBottomToTop" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" AcceptDrop="true" Command.Drop="..\ExecuteChangeOrderOfTypeOption" CommandParameter.Drop="PartyPartyThenBy">
                                                             <ItemTemplate>
                                                                 <ListPanel WidthSizePolicy="StretchToParent" HeightSizePolicy="Fixed" SuggestedHeight="45" AcceptDrag="true" DragWidget="DragWidget" Sprite="SPOptions\standart_slider_canvas">
                                                                     <Children>

@@ -1,11 +1,9 @@
-﻿namespace YAPO.MultipathUpgrade.Enum
-{
-    public enum CharacterClassType
-    {
+﻿namespace YAPO.MultipathUpgrade.Enum {
+    public enum CharacterClassType {
         UNKNOWN,
         INFANTRY,
         RANGED,
         CAVALRY,
-        HORSE_ARCHER,
+        HORSE_ARCHER
     }
 }

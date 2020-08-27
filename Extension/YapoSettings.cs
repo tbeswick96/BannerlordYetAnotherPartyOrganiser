@@ -1,49 +1,49 @@
 ﻿using System.Collections.Generic;
-using System.Xml.Serialization;
-using ModLib;
-using ModLib.Attributes;
+using MCM.Abstractions.Attributes;
+using MCM.Abstractions.Attributes.v2;
+using MCM.Abstractions.Data;
+using MCM.Abstractions.Settings.Base.Global;
 using YAPO.Global;
 using YAPO.MultipathUpgrade.Enum;
 using YAPO.MultipathUpgrade.Model;
 
-namespace YAPO
-{
-    public class YapoSettings : SettingsBase
-    {
-        public const string InstanceId = Strings.MODULE_FOLDER_NAME + "Settings";
+namespace YAPO {
+    public class YapoSettings : AttributeGlobalSettings<YapoSettings> {
+        public override string Id => $"{Strings.MODULE_FOLDER_NAME}Settings";
+        public override string DisplayName => $"{Strings.MODULE_NAME} Settings";
+        public override string FolderName => Strings.MODULE_FOLDER_NAME;
+        public override string Format => "json";
 
-        public override string ModName { get; } = Strings.MODULE_NAME;
-        public override string ModuleFolderName { get; } = Strings.MODULE_FOLDER_NAME;
+        #region Sorting
 
-        [XmlElement]
-        public override string ID { get; set; } = InstanceId;
-
-        public static YapoSettings Instance => (YapoSettings) SettingsDatabase.GetSettings(InstanceId);
-
-        #region GeneralSettings
-
-        [XmlElement, SettingProperty(Strings.SETTINGS_ENABLE_AUTO_SORT_NAME, Strings.SETTINGS_ENABLE_AUTO_SORT_TOOLTIP), SettingPropertyGroup(Strings.SETTINGS_GENERAL_GROUP_NAME)]
+        [SettingPropertyBool(Strings.SETTINGS_ENABLE_AUTO_SORT_NAME, Order = 1, RequireRestart = false, HintText = Strings.SETTINGS_ENABLE_AUTO_SORT_TOOLTIP), SettingPropertyGroup(Strings.SETTINGS_SORTING_GROUP_NAME)]
         public bool IsAutoSortEnabled { get; set; } = true;
 
         #endregion
 
-        #region Fixes
+        #region Upgrade
 
-        [XmlElement, SettingProperty(Strings.SETTINGS_ENABLE_FORMATION_PERSISTENCE_NAME, Strings.SETTINGS_ENABLE_FORMATION_PERSISTENCE_TOOLTIP), SettingPropertyGroup(Strings.SETTINGS_FIXES_GROUP_NAME)]
-        public bool IsFormationPersistenceFixEnabled { get; set; } = true;
+        [SettingPropertyInteger(Strings.SETTINGS_BUFFER_DAILY_COST_NAME, 0, 10, Order = 1, RequireRestart = false, HintText = Strings.SETTINGS_BUFFER_DAILY_COST_TOOLTIP), SettingPropertyGroup(Strings.SETTINGS_UPGRADE_GROUP_NAME)]
+        public int DaysToPayDailyCostsBuffer { get; set; } = 3;
 
-        #endregion
+        [SettingPropertyBool(Strings.SETTINGS_SPLIT_UPGRADES_NAME, Order = 2, RequireRestart = false, HintText = Strings.SETTINGS_SPLIT_UPGRADES_TOOLTIP), SettingPropertyGroup(Strings.SETTINGS_UPGRADE_GROUP_NAME)]
+        public bool SplitUpgrades { get; set; }
 
-        #region UpgradeSettings
+        [SettingPropertyBool(Strings.SETTINGS_PLAYER_DECISION_NAME, Order = 3, RequireRestart = false, HintText = Strings.SETTINGS_PLAYER_DECISION_TOOLTIP), SettingPropertyGroup(Strings.SETTINGS_UPGRADE_GROUP_NAME)]
+        public bool PlayerDecision { get; set; }
 
-        [XmlElement, SettingProperty(Strings.SETTINGS_RANGED_PREFERENCE_NAME, 0, 2, Strings.SETTINGS_RANGED_PREFERENCE_TOOLTIP), SettingPropertyGroup(Strings.SETTINGS_UPGRADE_GROUP_NAME)]
-        public int RangedPreference { get; set; }
-
-        [XmlElement, SettingProperty(Strings.SETTINGS_PREFER_SHIELD_NAME, Strings.SETTINGS_PREFER_SHIELD_TOOLTIP), SettingPropertyGroup(Strings.SETTINGS_UPGRADE_GROUP_NAME)]
+        [SettingPropertyBool(Strings.SETTINGS_PREFER_SHIELD_NAME, Order = 4, RequireRestart = false, HintText = Strings.SETTINGS_PREFER_SHIELD_TOOLTIP), SettingPropertyGroup(Strings.SETTINGS_UPGRADE_GROUP_NAME)]
         public bool PreferShield { get; set; } = true;
 
-        public List<PreferredTroopsByCulture> PreferredTroopsByCulture = new List<PreferredTroopsByCulture>
-        {
+        [SettingPropertyDropdown(Strings.SETTINGS_RANGED_PREFERENCE_NAME, Order = 5, RequireRestart = false, HintText = Strings.SETTINGS_RANGED_PREFERENCE_TOOLTIP), SettingPropertyGroup(Strings.SETTINGS_UPGRADE_GROUP_NAME)]
+        public DefaultDropdown<RangedPreferenceObject> RangedPreference { get; set; } = new DefaultDropdown<RangedPreferenceObject>(new[] {
+                                                                                                                                        new RangedPreferenceObject(MultipathUpgrade.Enum.RangedPreference.NONE, "No Preference"),
+                                                                                                                                        new RangedPreferenceObject(MultipathUpgrade.Enum.RangedPreference.BOWS, "Prefer Bows"),
+                                                                                                                                        new RangedPreferenceObject(MultipathUpgrade.Enum.RangedPreference.CROSSBOWS, "Prefer Crossbows")
+                                                                                                                                    },
+                                                                                                                                    0);
+
+        public readonly List<PreferredTroopsByCulture> PreferredTroopsByCulture = new List<PreferredTroopsByCulture> {
             new PreferredTroopsByCulture {CultureIdentifier = "Khuzait", TroopClasses = new List<CharacterClassType> {CharacterClassType.HORSE_ARCHER, CharacterClassType.CAVALRY}},
             new PreferredTroopsByCulture {CultureIdentifier = "Battania", TroopClasses = new List<CharacterClassType> {CharacterClassType.INFANTRY}},
             new PreferredTroopsByCulture {CultureIdentifier = "Aserai", TroopClasses = new List<CharacterClassType> {CharacterClassType.INFANTRY, CharacterClassType.HORSE_ARCHER, CharacterClassType.RANGED}},

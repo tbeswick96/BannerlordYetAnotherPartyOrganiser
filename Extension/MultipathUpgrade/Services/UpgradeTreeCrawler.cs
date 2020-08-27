@@ -4,27 +4,20 @@ using TaleWorlds.CampaignSystem;
 using TaleWorlds.Core;
 using YAPO.MultipathUpgrade.Model;
 
-namespace YAPO.MultipathUpgrade.Services
-{
-    public static class UpgradeTreeCrawler
-    {
+namespace YAPO.MultipathUpgrade.Services {
+    public static class UpgradeTreeCrawler {
         private static List<CharacterClass> characterClasses;
 
-        public static IEnumerable<CharacterClass> GetUpgradeTreeTips(CharacterObject characterObject)
-        {
+        public static IEnumerable<CharacterClass> GetUpgradeTreeTips(CharacterObject characterObject) {
             characterClasses = new List<CharacterClass>();
             ProcessTree(characterObject);
             return characterClasses;
         }
 
-        private static void ProcessTree(CharacterObject characterObject)
-        {
-            if (characterObject.UpgradeTargets != null)
-            {
-                foreach (CharacterObject upgradeTarget in characterObject.UpgradeTargets)
-                {
-                    if (upgradeTarget.UpgradeTargets != null && upgradeTarget.UpgradeTargets.Any())
-                    {
+        private static void ProcessTree(CharacterObject characterObject) {
+            if (characterObject.UpgradeTargets != null) {
+                foreach (CharacterObject upgradeTarget in characterObject.UpgradeTargets) {
+                    if (upgradeTarget.UpgradeTargets != null && upgradeTarget.UpgradeTargets.Any()) {
                         ProcessTree(upgradeTarget);
                         continue;
                     }
@@ -33,8 +26,7 @@ namespace YAPO.MultipathUpgrade.Services
                 }
             }
 
-            if (characterClasses.IsEmpty())
-            {
+            if (characterClasses.IsEmpty()) {
                 characterClasses.Add(CharacterClassCreator.CreateCharacterClass(characterObject));
             }
         }

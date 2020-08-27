@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Module>
-    <Name value="Yet Another Party Organiser"/>
+    <Name value="Yet Another Party Organiser BETA"/>
     <Id value="YetAnotherPartyOrganiser"/>
-    <Version value="v1.1.2"/>
+    <Version value="v1.4.0"/>
     <SingleplayerModule value="true"/>
     <MultiplayerModule value="false"/>
     <Official value="false"/>
@@ -12,14 +12,21 @@
         <DependedModule Id="Sandbox"/>
         <DependedModule Id="CustomBattle"/>
         <DependedModule Id="StoryMode" />
-        <DependedModule Id="ModLib" />
-        <DependedModule Id="0UIExtenderLibModule" />
     </DependedModules>
     <SubModules>
         <SubModule>
             <Name value="YetAnotherPartyOrganiser"/>
             <DLLName value="YetAnotherPartyOrganiser.dll"/>
             <SubModuleClassType value="YAPO.YapoSubModule"/>
+            <Tags>
+                <Tag key="DedicatedServerType" value="none" />
+                <Tag key="IsNoRenderModeElement" value="false" />
+            </Tags>
+        </SubModule>
+        <SubModule>
+            <Name value="MCMv3 Integrated Loader"/>
+            <DLLName value="MCMv3.dll"/>
+            <SubModuleClassType value="MCM.IntegratedLoaderSubModule"/>
             <Tags>
                 <Tag key="DedicatedServerType" value="none" />
                 <Tag key="IsNoRenderModeElement" value="false" />
