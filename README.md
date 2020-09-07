@@ -4,18 +4,20 @@
 
 ### Another party organisation mod to add to your ever expanding collection!
 
-**IMPORTANT** If you used a version prior to 1.2.0, UIExtenderLibModule is a deprecated mod. Make sure you remove this mod from your load order. The library is included with this mod.
+**IMPORTANT** If you used a version prior to 1.5.0, `ModLib` is no longer a dependency. Make sure you delete the YAPO module folder before installing the new version.
 
-**IMPORTANT** If you used a version prior to 1.3.0, `Save Missing Module Fix` should no longer be needed for save files, as the vanilla saving mechanism has been removed in favour of a non-save-breaking JSON file alternative.
-However, if you do have issues with a save file not loading after unloading this mod, please try using [ALTERNATIVE Save Missing Module Fix](https://github.com/bmountney/Aragas.AltSaveSystemFix/releases/tag/1.3.0.0). This version has been tested with this mod and works well.
-We recommend loading this mod and your latest save, then saving the game again to remove the old data that this mod previously stored in the save file.
-It is also advised to load this mod regardless of whether you have issues with saves or not.
+**IMPORTANT** If you used a version prior to 1.5.0, there are new dependencies. See `Dependencies` below.
+
+---
 
 ## Dependencies
 
 | Dependency | Required | Notes |
 |------------|:---------:|-------|
-| [ModLib](https://www.nexusmods.com/mountandblade2bannerlord/mods/592) | ✓ | Used to provide settings and other goodies |
+| [Harmony](https://www.nexusmods.com/mountandblade2bannerlord/mods/2006) | ✓ | Load first |
+| [Butterlib](https://www.nexusmods.com/mountandblade2bannerlord/mods/2018) | ✓ | Load second |
+| [UIExtender](https://www.nexusmods.com/mountandblade2bannerlord/mods/2102) | ✓ | Load third |
+| [MCMv4 (Beta)](https://www.nexusmods.com/mountandblade2bannerlord/mods/612) | ✓ | Load fourth. Load before Native |
 
 Make sure that the dependent mods are enabled and listed above this mod within the launcher.
 
@@ -34,6 +36,8 @@ Make sure that the dependent mods are enabled and listed above this mod within t
 - Two sorting modes can be selected through two drop downs
   - Sorting is treated as Sort By -> Then By
   - Button to set opposite sorting direction between the Sort By -> Then By Modes, to allow more granular sorting rules
+- Customisable sorting rules
+  - Type sorting mode can be customised for each party and for each sort step. Select Type and press the * next to the dropdown
 - Button to place upgradable troops at the top of the list
 - Buttons will disable themselves if functionality is not available (e.g. cannot set opposite sorting if no Then By mode is selected)
 - Sorting configuration is saved to your save file
@@ -68,7 +72,7 @@ Options can be found via the main menu option:
 ### Planned Features
 
 - Anything that fits within the scope of party organisation that anyone may suggest! Feel free to create feature requests!
-- Configurable group sort order (sort cavalry after archers for example)
+- Configurable group sort orders (`Type` done)
 - Configurable upgrade rules
 - Handling of all multi-path upgradable troops by ratio or by party composition
 - Configurable main party prisoner and other party troops/prisoner (after battle) recruitment rules
