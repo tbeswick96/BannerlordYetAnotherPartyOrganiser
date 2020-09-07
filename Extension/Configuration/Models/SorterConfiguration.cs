@@ -1,4 +1,5 @@
-﻿using JetBrains.Annotations;
+﻿using System;
+using JetBrains.Annotations;
 
 namespace YAPO.Configuration.Models {
     [UsedImplicitly]
@@ -8,5 +9,7 @@ namespace YAPO.Configuration.Models {
         public SortDirection SortDirection;
         public bool SortOrderOpposite;
         public bool UpgradableOnTop;
+        public TypeSortOption[] SortByTypeOrder = Enum.GetValues(typeof(TypeSortOption)) as TypeSortOption[];
+        public TypeSortOption[] ThenByTypeOrder = Enum.GetValues(typeof(TypeSortOption)) as TypeSortOption[];
     }
 }

@@ -1,166 +1,322 @@
 <ListPanel WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" HorizontalAlignment="Left" VerticalAlignment="Bottom" PositionXOffset="664" MarginBottom="128" LayoutImp.LayoutMethod="VerticalBottomToTop">
     <Children>
-        <!-- Sort by option -->
-        <ListPanel WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" LayoutImp.LayoutMethod="VerticalBottomToTop">
+
+        <ListPanel WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" HorizontalAlignment="Right" LayoutImp.LayoutMethod="HorizontalRightToLeft">
             <Children>
-                <RichTextWidget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" VerticalAlignment="Center" HorizontalAlignment="Center" Brush="SPOptions.OptionName.Text" Text="Sort By"/>
-                <OptionsDropdownWidget Id="DropdownParent" WidthSizePolicy="Fixed" HeightSizePolicy="CoverChildren" SuggestedWidth="150" HorizontalAlignment="Center" DropdownContainerWidget="DropdownClipWidget\DropdownContainerWidget" ListPanel="DropdownClipWidget\DropdownContainerWidget\ScrollablePanel\ClipRect\PrimaryUsageSelectorList" Button="DropdownButton" UpdateSelectedItem="false" RichTextWidget="DropdownButton\SelectedTextWidget" DropdownClipWidget="DropdownClipWidget" Sprite="SPOptions\standart_slider_canvas">
+                <ListPanel WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" HorizontalAlignment="Right" VerticalAlignment="Bottom" LayoutImp.LayoutMethod="VerticalBottomToTop">
                     <Children>
-                        <ButtonWidget Id="DropdownButton" DoNotPassEventsToChildren="true" WidthSizePolicy="StretchToParent" HeightSizePolicy="Fixed" SuggestedHeight="35" HorizontalAlignment="Center" VerticalAlignment="Center" Brush="Party.Role.Dropdown">
+                        <!-- OtherSortBy Menu -->
+                        <ListPanel Id="TypeOrderOtherSortByMenu" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="220" SuggestedHeight="230" MarginBottom="90" MarginLeft="4" LayoutImp.LayoutMethod="VerticalBottomToTop">
                             <Children>
-                                <RichTextWidget Id="SelectedTextWidget" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" HorizontalAlignment="Center" TextHorizontalAlignment="Center" TextVerticalAlignment="Center" VerticalAlignment="Center" PositionYOffset="1" PositionXOffset="7" Text="@CurrentOtherSortByModeText" Brush="Party.Role.Main.Text"/>
-                                <HintWidget DataSource="{OtherSortByHintText}" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Command.HoverBegin="ExecuteBeginHint" Command.HoverEnd="ExecuteEndHint"/>
-                            </Children>
-                        </ButtonWidget>
-                        <Widget Id="DropdownClipWidget" WidthSizePolicy="CoverChildren" HeightSizePolicy="Fixed" ClipContents="true" WidgetToCopyHeightFrom="DropdownContainerWidget\ScrollablePanel">
-                            <Children>
-                                <Widget Id="DropdownContainerWidget" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" VerticalAlignment="Bottom" SuggestedWidth="150" SuggestedHeight="355" HorizontalAlignment="Center">
+                                <Widget WidthSizePolicy="StretchToParent" HeightSizePolicy="CoverChildren" MarginLeft="5" MarginRight="5" HorizontalAlignment="Right" LayoutImp.LayoutMethod="VerticalBottomToTop" Brush="Frame1.Broken.Left">
                                     <Children>
-                                        <ScrollablePanel Id="ScrollablePanel" WidthSizePolicy="StretchToParent" HeightSizePolicy="CoverChildren" AutoHideScrollBars="true" ClipRect="ClipRect" MarginBottom="20" VerticalAlignment="Bottom" InnerPanel="ClipRect\PrimaryUsageSelectorList" MaxHeight="355" VerticalScrollbar="..\VerticalScrollbar">
+                                        <Widget Id="TypeOrderOtherSortByCloseButtonWidget" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="35" SuggestedHeight="35" MarginLeft="185" MarginTop="-12">
                                             <Children>
-                                                <Widget Id="ClipRect" WidthSizePolicy="StretchToParent" HeightSizePolicy="CoverChildren" ClipContents="true" MaxHeight="355">
+                                                <ButtonIconOffsetWidget DoNotPassEventsToChildren="true" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Brush="MapBar.Left.Button4" ButtonIcon="TypeOrderOtherSortByCloseTextIcon" Command.Click="ExecuteTypeOrderOtherSortByClose" PressedXOffset="0" PressedYOffset="1" UpdateChildrenStates="true">
                                                     <Children>
-                                                        <ListPanel Id="OtherSortBySelectionList" DataSource="{OtherSortByModeOptionVms}" WidthSizePolicy="Fixed" HeightSizePolicy="CoverChildren" SuggestedWidth="150" HorizontalAlignment="Center" LayoutImp.LayoutMethod="VerticalBottomToTop" Sprite="dropdown_popup_9">
+                                                        <TextWidget Id="TypeOrderOtherSortByCloseTextIcon" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="30" SuggestedHeight="30" HorizontalAlignment="Center" VerticalAlignment="Center" MarginLeft="1" MarginTop="5" Brush="Party.Text.Toggle" Text="X"/>
+                                                    </Children>
+                                                </ButtonIconOffsetWidget>
+                                                <HintWidget DataSource="{TypeOrderCloseHintText}" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Command.HoverBegin="ExecuteBeginHint" Command.HoverEnd="ExecuteEndHint"/>
+                                            </Children>
+                                        </Widget>
+                                        <TextWidget Text="Type Order" WidthSizePolicy="CoverChildren" HeightSizePolicy="Fixed" SuggestedWidth="75" MarginTop="5" SuggestedHeight="35" HorizontalAlignment="Center" Brush="Party.Role.Main.Text" Brush.TextHorizontalAlignment="Center" />
+                                        <ScrollablePanel Id="TypeOrderMenuOtherSortByScrollablePanel" HeightSizePolicy="StretchToParent" WidthSizePolicy="StretchToParent" InnerPanel="TypeOrderMenuOtherSortByClipRect\InnerPanel" ClipRect="TypeOrderMenuOtherSortByClipRect" MarginTop="42" MarginBottom="10" MarginRight="10" MarginLeft="10" AutoHideScrollBars="true" AcceptDrop="true" Command.Drop="ExecuteChangeOrderOfOtherTypeOption">
+                                            <Children>
+                                                <Widget Id="TypeOrderMenuOtherSortByClipRect" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" HorizontalAlignment="Center" ClipContents="true" Brush.GlobalAlphaFactor="0.75">
+                                                    <Children>
+                                                        <ListPanel Id="TypeOrderMenuOtherSortByInnerPanel" DataSource="{TypeOrderOptionOtherSortByVms}" LayoutImp.LayoutMethod="VerticalBottomToTop" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" AcceptDrop="true" Command.Drop="..\ExecuteChangeOrderOfOtherTypeOption" CommandParameter.Drop="OtherSortBy">
                                                             <ItemTemplate>
-                                                                <ButtonWidget DoNotPassEventsToChildren="true" WidthSizePolicy="StretchToParent" HeightSizePolicy="Fixed" SuggestedHeight="30" MarginLeft="6" MarginRight="6" HorizontalAlignment="Center" VerticalAlignment="Bottom" ButtonType="Radio" UpdateChildrenStates="true" Brush="FaceGen.Scrollbar.Handle" Command.Click="ExecuteSelectOtherSortBy">
+                                                                <ListPanel WidthSizePolicy="StretchToParent" HeightSizePolicy="Fixed" SuggestedHeight="45" AcceptDrag="true" DragWidget="DragWidget" Sprite="SPOptions\standart_slider_canvas">
                                                                     <Children>
-                                                                        <ListPanel WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent">
+                                                                        <ButtonWidget WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" VerticalAlignment="Center" IsDisabled="true">
                                                                             <Children>
-                                                                                <RichTextWidget WidthSizePolicy="CoverChildren" HeightSizePolicy="StretchToParent" HorizontalAlignment="Center" VerticalAlignment="Center" TextHorizontalAlignment="Center" TextVerticalAlignment="Center" Brush="Party.Role.Main.Text" Text="@Label" />
+                                                                                <TextWidget Text="@Label" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" PositionYOffset="3" Brush="Party.Role.Main.Text" Brush.TextHorizontalAlignment="Center"/>
                                                                             </Children>
-                                                                        </ListPanel>
+                                                                        </ButtonWidget>
+                                                                        <Widget Id="DragWidget" DoNotAcceptEvents="true" DoNotPassEventsToChildren="true" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="200" SuggestedHeight="45" HorizontalAlignment="Center" VerticalAlignment="Center" Sprite="SPOptions\standart_slider_canvas" IsDisabled="true" IsVisible="false">
+                                                                            <Children>
+                                                                                <TextWidget Text="@Label" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" PositionYOffset="3" Brush="Party.Role.Main.Text" Brush.TextHorizontalAlignment="Center"/>
+                                                                            </Children>
+                                                                        </Widget>
                                                                     </Children>
-                                                                </ButtonWidget>
+                                                                </ListPanel>
                                                             </ItemTemplate>
                                                         </ListPanel>
                                                     </Children>
                                                 </Widget>
                                             </Children>
                                         </ScrollablePanel>
-                                        <ScrollbarWidget Id="VerticalScrollbar" WidthSizePolicy="Fixed" HeightSizePolicy="StretchToParent" SuggestedWidth="8" HorizontalAlignment="Right" VerticalAlignment="Center" MarginTop="15" MarginBottom="15" AlignmentAxis="Vertical" Handle="VerticalScrollbarHandle" IsVisible="false" MaxValue="100" MinValue="0">
-                                            <Children>
-                                                <Widget WidthSizePolicy="Fixed" HeightSizePolicy="StretchToParent" SuggestedWidth="4" HorizontalAlignment="Center" Sprite="BlankWhiteSquare_9" Brush.AlphaFactor="0.2" Brush.Color="#5A4033FF" />
-                                                <ImageWidget Id="VerticalScrollbarHandle" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="8" SuggestedHeight="10" HorizontalAlignment="Center" Brush="FaceGen.Scrollbar.Handle" />
-                                            </Children>
-                                        </ScrollbarWidget>
                                     </Children>
                                 </Widget>
                             </Children>
-                        </Widget>
-                    </Children>
-                </OptionsDropdownWidget>
-            </Children>
-        </ListPanel>
+                        </ListPanel>
 
-        <!-- Then by option -->
-        <ListPanel WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" LayoutImp.LayoutMethod="VerticalBottomToTop" MarginTop="10">
-            <Children>
-                <RichTextWidget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" VerticalAlignment="Center" HorizontalAlignment="Center" Brush="SPOptions.OptionName.Text" Text="Then By"/>
-                <OptionsDropdownWidget Id="DropdownParent" WidthSizePolicy="Fixed" HeightSizePolicy="CoverChildren" SuggestedWidth="150" HorizontalAlignment="Center" DropdownContainerWidget="DropdownClipWidget\DropdownContainerWidget" ListPanel="DropdownClipWidget\DropdownContainerWidget\ScrollablePanel\ClipRect\PrimaryUsageSelectorList" Button="DropdownButton" UpdateSelectedItem="false" RichTextWidget="DropdownButton\SelectedTextWidget" DropdownClipWidget="DropdownClipWidget" Sprite="SPOptions\standart_slider_canvas">
-                    <Children>
-                        <ButtonWidget Id="DropdownButton" DoNotPassEventsToChildren="true" WidthSizePolicy="StretchToParent" HeightSizePolicy="Fixed" SuggestedHeight="35" HorizontalAlignment="Center" VerticalAlignment="Center" Brush="Party.Role.Dropdown">
+                        <!-- OtherThenBy menu -->
+                        <ListPanel Id="TypeOrderOtherThenByMenu" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="220" SuggestedHeight="230" MarginBottom="10" MarginLeft="4" LayoutImp.LayoutMethod="VerticalBottomToTop">
                             <Children>
-                                <RichTextWidget Id="SelectedTextWidget" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" HorizontalAlignment="Center" VerticalAlignment="Center" TextHorizontalAlignment="Center" TextVerticalAlignment="Center" PositionYOffset="1" PositionXOffset="7" Text="@CurrentOtherThenByModeText" Brush="Party.Role.Main.Text"/>
-                                <HintWidget DataSource="{OtherThenByHintText}" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Command.HoverBegin="ExecuteBeginHint" Command.HoverEnd="ExecuteEndHint"/>
-                            </Children>
-                        </ButtonWidget>
-                        <Widget Id="DropdownClipWidget" WidthSizePolicy="CoverChildren" HeightSizePolicy="Fixed" ClipContents="true" WidgetToCopyHeightFrom="DropdownContainerWidget\ScrollablePanel">
-                            <Children>
-                                <Widget Id="DropdownContainerWidget" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" VerticalAlignment="Bottom" SuggestedWidth="150" SuggestedHeight="355" HorizontalAlignment="Center">
+                                <Widget WidthSizePolicy="StretchToParent" HeightSizePolicy="CoverChildren" MarginLeft="5" MarginRight="5" HorizontalAlignment="Right" LayoutImp.LayoutMethod="VerticalBottomToTop" Brush="Frame1.Broken.Left">
                                     <Children>
-                                        <ScrollablePanel Id="ScrollablePanel" WidthSizePolicy="StretchToParent" HeightSizePolicy="CoverChildren" AutoHideScrollBars="true" ClipRect="ClipRect" MarginBottom="20" VerticalAlignment="Bottom" InnerPanel="ClipRect\PrimaryUsageSelectorList" MaxHeight="355" VerticalScrollbar="..\VerticalScrollbar">
+                                        <Widget Id="TypeOrderOtherThenByCloseButtonWidget" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="35" SuggestedHeight="35" MarginLeft="185" MarginTop="-12">
                                             <Children>
-                                                <Widget Id="ClipRect" WidthSizePolicy="StretchToParent" HeightSizePolicy="CoverChildren" ClipContents="true" MaxHeight="355">
+                                                <ButtonIconOffsetWidget DoNotPassEventsToChildren="true" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Brush="MapBar.Left.Button4" ButtonIcon="TypeOrderOtherThenByCloseTextIcon" Command.Click="ExecuteTypeOrderOtherThenByClose" PressedXOffset="0" PressedYOffset="1" UpdateChildrenStates="true">
                                                     <Children>
-                                                        <ListPanel Id="OtherThenBySelectionList" DataSource="{OtherThenByModeOptionVms}" WidthSizePolicy="Fixed" HeightSizePolicy="CoverChildren" SuggestedWidth="150" HorizontalAlignment="Center" LayoutImp.LayoutMethod="VerticalBottomToTop" Sprite="dropdown_popup_9">
+                                                        <TextWidget Id="TypeOrderOtherThenByCloseTextIcon" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="30" SuggestedHeight="30" HorizontalAlignment="Center" VerticalAlignment="Center" MarginLeft="1" MarginTop="5" Brush="Party.Text.Toggle" Text="X"/>
+                                                    </Children>
+                                                </ButtonIconOffsetWidget>
+                                                <HintWidget DataSource="{TypeOrderCloseHintText}" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Command.HoverBegin="ExecuteBeginHint" Command.HoverEnd="ExecuteEndHint"/>
+                                            </Children>
+                                        </Widget>
+                                        <TextWidget Text="Type Order" WidthSizePolicy="CoverChildren" HeightSizePolicy="Fixed" SuggestedWidth="75" MarginTop="5" SuggestedHeight="35" HorizontalAlignment="Center" Brush="Party.Role.Main.Text" Brush.TextHorizontalAlignment="Center" />
+                                        <ScrollablePanel Id="TypeOrderMenuOtherThenByScrollablePanel" HeightSizePolicy="StretchToParent" WidthSizePolicy="StretchToParent" InnerPanel="TypeOrderMenuOtherThenByClipRect\InnerPanel" ClipRect="TypeOrderMenuOtherThenByClipRect" MarginTop="42" MarginBottom="10" MarginRight="10" MarginLeft="10" AutoHideScrollBars="true" AcceptDrop="true" Command.Drop="ExecuteChangeOrderOfOtherTypeOption">
+                                            <Children>
+                                                <Widget Id="TypeOrderMenuOtherThenByClipRect" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" HorizontalAlignment="Center" ClipContents="true" Brush.GlobalAlphaFactor="0.75">
+                                                    <Children>
+                                                        <ListPanel Id="TypeOrderMenuOtherThenByInnerPanel" DataSource="{TypeOrderOptionOtherThenByVms}" LayoutImp.LayoutMethod="VerticalBottomToTop" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" AcceptDrop="true" Command.Drop="..\ExecuteChangeOrderOfOtherTypeOption" CommandParameter.Drop="OtherThenBy">
                                                             <ItemTemplate>
-                                                                <ButtonWidget DoNotPassEventsToChildren="true" WidthSizePolicy="StretchToParent" HeightSizePolicy="Fixed" SuggestedHeight="30" MarginLeft="6" MarginRight="6" HorizontalAlignment="Center" VerticalAlignment="Bottom" ButtonType="Radio" UpdateChildrenStates="true" Brush="FaceGen.Scrollbar.Handle" Command.Click="ExecuteSelectOtherThenBy">
+                                                                <ListPanel WidthSizePolicy="StretchToParent" HeightSizePolicy="Fixed" SuggestedHeight="45" AcceptDrag="true" DragWidget="DragWidget" Sprite="SPOptions\standart_slider_canvas">
                                                                     <Children>
-                                                                        <ListPanel WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent">
+                                                                        <ButtonWidget WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" VerticalAlignment="Center" IsDisabled="true">
                                                                             <Children>
-                                                                                <RichTextWidget WidthSizePolicy="CoverChildren" HeightSizePolicy="StretchToParent" HorizontalAlignment="Center" VerticalAlignment="Center" TextHorizontalAlignment="Center" TextVerticalAlignment="Center" Brush="Party.Role.Main.Text" Text="@Label" />
+                                                                                <TextWidget Text="@Label" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" PositionYOffset="3" Brush="Party.Role.Main.Text" Brush.TextHorizontalAlignment="Center"/>
                                                                             </Children>
-                                                                        </ListPanel>
+                                                                        </ButtonWidget>
+                                                                        <Widget Id="DragWidget" DoNotAcceptEvents="true" DoNotPassEventsToChildren="true" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="200" SuggestedHeight="35" HorizontalAlignment="Center" VerticalAlignment="Center" Brush="Party.Role.Dropdown" IsDisabled="true" IsVisible="false">
+                                                                            <Children>
+                                                                                <TextWidget Text="@Label" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Brush="Party.Role.Main.Text" Brush.TextHorizontalAlignment="Left"/>
+                                                                            </Children>
+                                                                        </Widget>
                                                                     </Children>
-                                                                </ButtonWidget>
+                                                                </ListPanel>
                                                             </ItemTemplate>
                                                         </ListPanel>
                                                     </Children>
                                                 </Widget>
                                             </Children>
                                         </ScrollablePanel>
-                                        <ScrollbarWidget Id="VerticalScrollbar" WidthSizePolicy="Fixed" HeightSizePolicy="StretchToParent" SuggestedWidth="8" HorizontalAlignment="Right" VerticalAlignment="Center" MarginTop="15" MarginBottom="15" AlignmentAxis="Vertical" Handle="VerticalScrollbarHandle" IsVisible="false" MaxValue="100" MinValue="0">
+                                    </Children>
+                                </Widget>
+                            </Children>
+                        </ListPanel>
+                    </Children>
+                </ListPanel>
+                <ListPanel WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" HorizontalAlignment="Left" VerticalAlignment="Bottom" LayoutImp.LayoutMethod="VerticalBottomToTop">
+                    <Children>
+                        <!-- Sort by option -->
+                        <ListPanel WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" HorizontalAlignment="Left" LayoutImp.LayoutMethod="VerticalBottomToTop">
+                            <Children>
+                                <ListPanel WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" HorizontalAlignment="Right" LayoutImp.LayoutMethod="HorizontalRightToLeft">
+                                    <Children>
+                                        <!-- OtherSortBy Toggle -->
+                                        <Widget Id="TypeOrderOtherSortByToggle" WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" HorizontalAlignment="Right" VerticalAlignment="Bottom" MarginLeft="4" UpdateChildrenStates="true">
                                             <Children>
-                                                <Widget WidthSizePolicy="Fixed" HeightSizePolicy="StretchToParent" SuggestedWidth="4" HorizontalAlignment="Center" Sprite="BlankWhiteSquare_9" Brush.AlphaFactor="0.2" Brush.Color="#5A4033FF" />
-                                                <ImageWidget Id="VerticalScrollbarHandle" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="8" SuggestedHeight="10" HorizontalAlignment="Center" Brush="FaceGen.Scrollbar.Handle" />
+                                                <Widget Id="TypeOrderOtherSortByOpenButtonWidget" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="35" SuggestedHeight="35">
+                                                    <Children>
+                                                        <ButtonIconOffsetWidget DoNotPassEventsToChildren="true" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Brush="MapBar.Left.Button4" ButtonIcon="TypeOrderOtherSortByOpenTextIcon" Command.Click="ExecuteTypeOrderOtherSortByOpen" PressedXOffset="0" PressedYOffset="1" UpdateChildrenStates="true">
+                                                            <Children>
+                                                                <TextWidget Id="TypeOrderOtherSortByOpenTextIcon" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="30" SuggestedHeight="30" HorizontalAlignment="Center" VerticalAlignment="Center" MarginTop="15" Brush="Party.Text.Toggle" Text="@TypeOrderOpenText"/>
+                                                            </Children>
+                                                        </ButtonIconOffsetWidget>
+                                                        <HintWidget DataSource="{TypeOrderOpenHintText}" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Command.HoverBegin="ExecuteBeginHint" Command.HoverEnd="ExecuteEndHint"/>
+                                                    </Children>
+                                                </Widget>
                                             </Children>
-                                        </ScrollbarWidget>
+                                        </Widget>
+                                        <ListPanel WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" HorizontalAlignment="Right" VerticalAlignment="Bottom" LayoutImp.LayoutMethod="VerticalBottomToTop">
+                                            <Children>
+                                                <RichTextWidget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" VerticalAlignment="Center" HorizontalAlignment="Center" Brush="SPOptions.OptionName.Text" Text="Sort By"/>
+                                                <OptionsDropdownWidget Id="DropdownParent" WidthSizePolicy="Fixed" HeightSizePolicy="CoverChildren" SuggestedWidth="150" HorizontalAlignment="Center" DropdownContainerWidget="DropdownClipWidget\DropdownContainerWidget" ListPanel="DropdownClipWidget\DropdownContainerWidget\ScrollablePanel\ClipRect\PrimaryUsageSelectorList" Button="DropdownButton" UpdateSelectedItem="false" RichTextWidget="DropdownButton\SelectedTextWidget" DropdownClipWidget="DropdownClipWidget" Sprite="SPOptions\standart_slider_canvas">
+                                                    <Children>
+                                                        <ButtonWidget Id="DropdownButton" DoNotPassEventsToChildren="true" WidthSizePolicy="StretchToParent" HeightSizePolicy="Fixed" SuggestedHeight="35" HorizontalAlignment="Center" VerticalAlignment="Center" Brush="Party.Role.Dropdown">
+                                                            <Children>
+                                                                <RichTextWidget Id="SelectedTextWidget" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" HorizontalAlignment="Center" TextHorizontalAlignment="Center" TextVerticalAlignment="Center" VerticalAlignment="Center" PositionYOffset="1" PositionXOffset="7" Text="@CurrentOtherSortByModeText" Brush="Party.Role.Main.Text"/>
+                                                                <HintWidget DataSource="{OtherSortByHintText}" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Command.HoverBegin="ExecuteBeginHint" Command.HoverEnd="ExecuteEndHint"/>
+                                                            </Children>
+                                                        </ButtonWidget>
+                                                        <Widget Id="DropdownClipWidget" WidthSizePolicy="CoverChildren" HeightSizePolicy="Fixed" SuggestedHeight="355" ClipContents="true" WidgetToCopyHeightFrom="DropdownContainerWidget\ScrollablePanel">
+                                                            <Children>
+                                                                <Widget Id="DropdownContainerWidget" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" VerticalAlignment="Bottom" SuggestedWidth="150" SuggestedHeight="355" HorizontalAlignment="Center">
+                                                                    <Children>
+                                                                        <ScrollablePanel Id="ScrollablePanel" WidthSizePolicy="StretchToParent" HeightSizePolicy="CoverChildren" AutoHideScrollBars="true" ClipRect="ClipRect" MarginBottom="20" VerticalAlignment="Bottom" InnerPanel="ClipRect\PrimaryUsageSelectorList" MaxHeight="355" VerticalScrollbar="..\VerticalScrollbar">
+                                                                            <Children>
+                                                                                <Widget Id="ClipRect" WidthSizePolicy="StretchToParent" HeightSizePolicy="CoverChildren" ClipContents="true" MaxHeight="355">
+                                                                                    <Children>
+                                                                                        <ListPanel Id="OtherSortBySelectionList" DataSource="{OtherSortByModeOptionVms}" WidthSizePolicy="Fixed" HeightSizePolicy="CoverChildren" SuggestedWidth="150" HorizontalAlignment="Center" LayoutImp.LayoutMethod="VerticalBottomToTop" Sprite="dropdown_popup_9">
+                                                                                            <ItemTemplate>
+                                                                                                <ButtonWidget DoNotPassEventsToChildren="true" WidthSizePolicy="StretchToParent" HeightSizePolicy="Fixed" SuggestedHeight="30" MarginLeft="6" MarginRight="6" HorizontalAlignment="Center" VerticalAlignment="Bottom" ButtonType="Radio" UpdateChildrenStates="true" Brush="FaceGen.Scrollbar.Handle" Command.Click="ExecuteSelectOtherSortBy">
+                                                                                                    <Children>
+                                                                                                        <ListPanel WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent">
+                                                                                                            <Children>
+                                                                                                                <RichTextWidget WidthSizePolicy="CoverChildren" HeightSizePolicy="StretchToParent" HorizontalAlignment="Center" VerticalAlignment="Center" TextHorizontalAlignment="Center" TextVerticalAlignment="Center" Brush="Party.Role.Main.Text" Text="@Label" />
+                                                                                                            </Children>
+                                                                                                        </ListPanel>
+                                                                                                    </Children>
+                                                                                                </ButtonWidget>
+                                                                                            </ItemTemplate>
+                                                                                        </ListPanel>
+                                                                                    </Children>
+                                                                                </Widget>
+                                                                            </Children>
+                                                                        </ScrollablePanel>
+                                                                        <ScrollbarWidget Id="VerticalScrollbar" WidthSizePolicy="Fixed" HeightSizePolicy="StretchToParent" SuggestedWidth="8" HorizontalAlignment="Right" VerticalAlignment="Center" MarginTop="15" MarginBottom="15" AlignmentAxis="Vertical" Handle="VerticalScrollbarHandle" IsVisible="false" MaxValue="100" MinValue="0">
+                                                                            <Children>
+                                                                                <Widget WidthSizePolicy="Fixed" HeightSizePolicy="StretchToParent" SuggestedWidth="4" HorizontalAlignment="Center" Sprite="BlankWhiteSquare_9" Brush.AlphaFactor="0.2" Brush.Color="#5A4033FF" />
+                                                                                <ImageWidget Id="VerticalScrollbarHandle" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="8" SuggestedHeight="10" HorizontalAlignment="Center" Brush="FaceGen.Scrollbar.Handle" />
+                                                                            </Children>
+                                                                        </ScrollbarWidget>
+                                                                    </Children>
+                                                                </Widget>
+                                                            </Children>
+                                                        </Widget>
+                                                    </Children>
+                                                </OptionsDropdownWidget>
+                                            </Children>
+                                        </ListPanel>
+                                    </Children>
+                                </ListPanel>
+                            </Children>
+                        </ListPanel>
+
+                        <!-- Then by option -->
+                        <ListPanel WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" HorizontalAlignment="Left" LayoutImp.LayoutMethod="VerticalBottomToTop" MarginTop="10">
+                            <Children>
+                                <ListPanel WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" HorizontalAlignment="Right" LayoutImp.LayoutMethod="HorizontalRightToLeft">
+                                    <Children>
+                                        <!-- OtherThenBy Toggle -->
+                                        <Widget Id="TypeOrderOtherThenByToggle" WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" HorizontalAlignment="Right" VerticalAlignment="Bottom" MarginLeft="4" UpdateChildrenStates="true">
+                                            <Children>
+                                                <Widget Id="TypeOrderOtherThenByOpenButtonWidget" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="35" SuggestedHeight="35">
+                                                    <Children>
+                                                        <ButtonIconOffsetWidget DoNotPassEventsToChildren="true" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Brush="MapBar.Left.Button4" ButtonIcon="TypeOrderOtherThenByOpenTextIcon" Command.Click="ExecuteTypeOrderOtherThenByOpen" PressedXOffset="0" PressedYOffset="1" UpdateChildrenStates="true">
+                                                            <Children>
+                                                                <TextWidget Id="TypeOrderOtherThenByOpenTextIcon" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="30" SuggestedHeight="30" HorizontalAlignment="Center" VerticalAlignment="Center" MarginTop="15" Brush="Party.Text.Toggle" Text="@TypeOrderOpenText"/>
+                                                            </Children>
+                                                        </ButtonIconOffsetWidget>
+                                                        <HintWidget DataSource="{TypeOrderOpenHintText}" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Command.HoverBegin="ExecuteBeginHint" Command.HoverEnd="ExecuteEndHint"/>
+                                                    </Children>
+                                                </Widget>
+                                            </Children>
+                                        </Widget>
+                                        <ListPanel WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" HorizontalAlignment="Right" VerticalAlignment="Bottom" LayoutImp.LayoutMethod="VerticalBottomToTop">
+                                            <Children>
+                                                <RichTextWidget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" VerticalAlignment="Center" HorizontalAlignment="Center" Brush="SPOptions.OptionName.Text" Text="Then By"/>
+                                                <OptionsDropdownWidget Id="DropdownParent" WidthSizePolicy="Fixed" HeightSizePolicy="CoverChildren" SuggestedWidth="150" HorizontalAlignment="Center" DropdownContainerWidget="DropdownClipWidget\DropdownContainerWidget" ListPanel="DropdownClipWidget\DropdownContainerWidget\ScrollablePanel\ClipRect\PrimaryUsageSelectorList" Button="DropdownButton" UpdateSelectedItem="false" RichTextWidget="DropdownButton\SelectedTextWidget" DropdownClipWidget="DropdownClipWidget" Sprite="SPOptions\standart_slider_canvas">
+                                                    <Children>
+                                                        <ButtonWidget Id="DropdownButton" DoNotPassEventsToChildren="true" WidthSizePolicy="StretchToParent" HeightSizePolicy="Fixed" SuggestedHeight="35" HorizontalAlignment="Center" VerticalAlignment="Center" Brush="Party.Role.Dropdown">
+                                                            <Children>
+                                                                <RichTextWidget Id="SelectedTextWidget" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" HorizontalAlignment="Center" VerticalAlignment="Center" TextHorizontalAlignment="Center" TextVerticalAlignment="Center" PositionYOffset="1" PositionXOffset="7" Text="@CurrentOtherThenByModeText" Brush="Party.Role.Main.Text"/>
+                                                                <HintWidget DataSource="{OtherThenByHintText}" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Command.HoverBegin="ExecuteBeginHint" Command.HoverEnd="ExecuteEndHint"/>
+                                                            </Children>
+                                                        </ButtonWidget>
+                                                        <Widget Id="DropdownClipWidget" WidthSizePolicy="CoverChildren" HeightSizePolicy="Fixed" SuggestedHeight="355" ClipContents="true" WidgetToCopyHeightFrom="DropdownContainerWidget\ScrollablePanel">
+                                                            <Children>
+                                                                <Widget Id="DropdownContainerWidget" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" VerticalAlignment="Bottom" SuggestedWidth="150" SuggestedHeight="355" HorizontalAlignment="Center">
+                                                                    <Children>
+                                                                        <ScrollablePanel Id="ScrollablePanel" WidthSizePolicy="StretchToParent" HeightSizePolicy="CoverChildren" AutoHideScrollBars="true" ClipRect="ClipRect" MarginBottom="20" VerticalAlignment="Bottom" InnerPanel="ClipRect\PrimaryUsageSelectorList" MaxHeight="355" VerticalScrollbar="..\VerticalScrollbar">
+                                                                            <Children>
+                                                                                <Widget Id="ClipRect" WidthSizePolicy="StretchToParent" HeightSizePolicy="CoverChildren" ClipContents="true" MaxHeight="355">
+                                                                                    <Children>
+                                                                                        <ListPanel Id="OtherThenBySelectionList" DataSource="{OtherThenByModeOptionVms}" WidthSizePolicy="Fixed" HeightSizePolicy="CoverChildren" SuggestedWidth="150" HorizontalAlignment="Center" LayoutImp.LayoutMethod="VerticalBottomToTop" Sprite="dropdown_popup_9">
+                                                                                            <ItemTemplate>
+                                                                                                <ButtonWidget DoNotPassEventsToChildren="true" WidthSizePolicy="StretchToParent" HeightSizePolicy="Fixed" SuggestedHeight="30" MarginLeft="6" MarginRight="6" HorizontalAlignment="Center" VerticalAlignment="Bottom" ButtonType="Radio" UpdateChildrenStates="true" Brush="FaceGen.Scrollbar.Handle" Command.Click="ExecuteSelectOtherThenBy">
+                                                                                                    <Children>
+                                                                                                        <ListPanel WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent">
+                                                                                                            <Children>
+                                                                                                                <RichTextWidget WidthSizePolicy="CoverChildren" HeightSizePolicy="StretchToParent" HorizontalAlignment="Center" VerticalAlignment="Center" TextHorizontalAlignment="Center" TextVerticalAlignment="Center" Brush="Party.Role.Main.Text" Text="@Label" />
+                                                                                                            </Children>
+                                                                                                        </ListPanel>
+                                                                                                    </Children>
+                                                                                                </ButtonWidget>
+                                                                                            </ItemTemplate>
+                                                                                        </ListPanel>
+                                                                                    </Children>
+                                                                                </Widget>
+                                                                            </Children>
+                                                                        </ScrollablePanel>
+                                                                        <ScrollbarWidget Id="VerticalScrollbar" WidthSizePolicy="Fixed" HeightSizePolicy="StretchToParent" SuggestedWidth="8" HorizontalAlignment="Right" VerticalAlignment="Center" MarginTop="15" MarginBottom="15" AlignmentAxis="Vertical" Handle="VerticalScrollbarHandle" IsVisible="false" MaxValue="100" MinValue="0">
+                                                                            <Children>
+                                                                                <Widget WidthSizePolicy="Fixed" HeightSizePolicy="StretchToParent" SuggestedWidth="4" HorizontalAlignment="Center" Sprite="BlankWhiteSquare_9" Brush.AlphaFactor="0.2" Brush.Color="#5A4033FF" />
+                                                                                <ImageWidget Id="VerticalScrollbarHandle" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="8" SuggestedHeight="10" HorizontalAlignment="Center" Brush="FaceGen.Scrollbar.Handle" />
+                                                                            </Children>
+                                                                        </ScrollbarWidget>
+                                                                    </Children>
+                                                                </Widget>
+                                                            </Children>
+                                                        </Widget>
+                                                    </Children>
+                                                </OptionsDropdownWidget>
+                                            </Children>
+                                        </ListPanel>
+                                    </Children>
+                                </ListPanel>
+                            </Children>
+                        </ListPanel>
+                    </Children>
+                </ListPanel>
+            </Children>
+        </ListPanel>
+
+        <ListPanel WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" HorizontalAlignment="Left" LayoutImp.LayoutMethod="VerticalBottomToTop">
+            <Children>
+                <!-- Sort buttons -->
+                <ListPanel WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" HorizontalAlignment="Left" LayoutImp.LayoutMethod="HorizontalLeftToRight">
+                    <Children>
+                        <!-- Sort ascending -->
+                        <Widget Id="SortButtonOtherAscending" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="76" SuggestedHeight="52" HorizontalAlignment="Left" VerticalAlignment="Top" MarginTop="20" UpdateChildrenStates="true">
+                            <Children>
+                                <ButtonIconOffsetWidget DoNotPassEventsToChildren="true" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Brush="MapBar.Left.Button4" ButtonIcon="SortAscendingTextIcon" Command.Click="ExecuteSortOtherAscending" PressedXOffset="0" PressedYOffset="1" UpdateChildrenStates="true">
+                                    <Children>
+                                        <TextWidget Id="SortAscendingTextIcon" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="50" SuggestedHeight="45" HorizontalAlignment="Center" VerticalAlignment="Center" MarginTop="2" Brush="Party.Text.Toggle" Text="@SortOtherAscendingText"/>
+                                    </Children>
+                                </ButtonIconOffsetWidget>
+                                <HintWidget DataSource="{SortOtherAscendingHintText}" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Command.HoverBegin="ExecuteBeginHint" Command.HoverEnd="ExecuteEndHint"/>
+                            </Children>
+                        </Widget>
+
+                        <!-- Sort descending -->
+                        <Widget Id="SortButtonOtherDescending" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="76" SuggestedHeight="52" HorizontalAlignment="Left" VerticalAlignment="Top" MarginTop="20" MarginLeft="4" UpdateChildrenStates="true">
+                            <Children>
+                                <ButtonIconOffsetWidget DoNotPassEventsToChildren="true" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Brush="MapBar.Left.Button4" ButtonIcon="SortDescendingTextIcon" Command.Click="ExecuteSortOtherDescending" PressedXOffset="0" PressedYOffset="1" UpdateChildrenStates="true">
+                                    <Children>
+                                        <TextWidget Id="SortDescendingTextIcon" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="50" SuggestedHeight="45" HorizontalAlignment="Center" VerticalAlignment="Center" MarginTop="2" Brush="Party.Text.Toggle" Text="@SortOtherDescendingText"/>
+                                    </Children>
+                                </ButtonIconOffsetWidget>
+                                <HintWidget DataSource="{SortOtherDescendingHintText}" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Command.HoverBegin="ExecuteBeginHint" Command.HoverEnd="ExecuteEndHint"/>
+                            </Children>
+                        </Widget>
+                    </Children>
+                </ListPanel>
+
+                <!-- Option buttons -->
+                <ListPanel WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" HorizontalAlignment="Left" LayoutImp.LayoutMethod="HorizontalLeftToRight">
+                    <Children>
+                        <!-- Sort Order -->
+                        <Widget Id="OtherSortOrderOppositeButton" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="76" SuggestedHeight="52" HorizontalAlignment="Left" VerticalAlignment="Top" MarginTop="2" UpdateChildrenStates="true">
+                            <Children>
+                                <Widget Id="OtherSortOrderOppositeButtonWidget" WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren">
+                                    <Children>
+                                        <ButtonIconOffsetWidget DoNotPassEventsToChildren="true" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Brush="MapBar.Left.Button4" ButtonIcon="OtherSortOrderOppositeTextIcon" Command.Click="ExecuteOtherSortOrderOpposite" PressedXOffset="0" PressedYOffset="1" UpdateChildrenStates="true">
+                                            <Children>
+                                                <TextWidget Id="OtherSortOrderOppositeTextIcon" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="50" SuggestedHeight="45" HorizontalAlignment="Center" VerticalAlignment="Center" MarginTop="2" Brush="Party.Text.Toggle" Text="@OtherSortOrderOppositeText"/>
+                                            </Children>
+                                        </ButtonIconOffsetWidget>
+                                        <HintWidget DataSource="{OtherSortOrderOppositeHintText}" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Command.HoverBegin="ExecuteBeginHint" Command.HoverEnd="ExecuteEndHint"/>
+                                    </Children>
+                                </Widget>
+                                <Widget Id="OtherSortOrderOppositeButtonWidgetDisabled" WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren">
+                                    <Children>
+                                        <ButtonIconOffsetWidget DoNotPassEventsToChildren="true" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Brush="MapBar.Left.Button4" ButtonIcon="OtherSortOrderOppositeTextIconDisabled" IsDisabled="true">
+                                            <Children>
+                                                <TextWidget Id="OtherSortOrderOppositeTextIconDisabled" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="50" SuggestedHeight="45" HorizontalAlignment="Center" VerticalAlignment="Center" MarginTop="2" Brush="Party.Text.Toggle" Text="@OtherSortOrderOppositeText"/>
+                                            </Children>
+                                        </ButtonIconOffsetWidget>
+                                        <HintWidget DataSource="{OtherSortOrderOppositeDisabledHintText}" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Command.HoverBegin="ExecuteBeginHint" Command.HoverEnd="ExecuteEndHint"/>
                                     </Children>
                                 </Widget>
                             </Children>
                         </Widget>
                     </Children>
-                </OptionsDropdownWidget>
-            </Children>
-        </ListPanel>
-
-        <!-- Sort buttons -->
-        <ListPanel WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" HorizontalAlignment="Left" LayoutImp.LayoutMethod="HorizontalLeftToRight">
-            <Children>
-                <!-- Sort ascending -->
-                <Widget Id="SortButtonOtherAscending" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="76" SuggestedHeight="52" HorizontalAlignment="Left" VerticalAlignment="Top" MarginTop="20" UpdateChildrenStates="true">
-                    <Children>
-                        <ButtonIconOffsetWidget DoNotPassEventsToChildren="true" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Brush="MapBar.Left.Button4" ButtonIcon="SortAscendingTextIcon" Command.Click="ExecuteSortOtherAscending" PressedXOffset="0" PressedYOffset="1" UpdateChildrenStates="true">
-                            <Children>
-                                <TextWidget Id="SortAscendingTextIcon" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="50" SuggestedHeight="45" HorizontalAlignment="Center" VerticalAlignment="Center" MarginTop="2" Brush="Party.Text.Toggle" Text="@SortOtherAscendingText"/>
-                            </Children>
-                        </ButtonIconOffsetWidget>
-                        <HintWidget DataSource="{SortOtherAscendingHintText}" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Command.HoverBegin="ExecuteBeginHint" Command.HoverEnd="ExecuteEndHint"/>
-                    </Children>
-                </Widget>
-
-                <!-- Sort descending -->
-                <Widget Id="SortButtonOtherDescending" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="76" SuggestedHeight="52" HorizontalAlignment="Left" VerticalAlignment="Top" MarginTop="20" MarginLeft="4" UpdateChildrenStates="true">
-                    <Children>
-                        <ButtonIconOffsetWidget DoNotPassEventsToChildren="true" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Brush="MapBar.Left.Button4" ButtonIcon="SortDescendingTextIcon" Command.Click="ExecuteSortOtherDescending" PressedXOffset="0" PressedYOffset="1" UpdateChildrenStates="true">
-                            <Children>
-                                <TextWidget Id="SortDescendingTextIcon" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="50" SuggestedHeight="45" HorizontalAlignment="Center" VerticalAlignment="Center" MarginTop="2" Brush="Party.Text.Toggle" Text="@SortOtherDescendingText"/>
-                            </Children>
-                        </ButtonIconOffsetWidget>
-                        <HintWidget DataSource="{SortOtherDescendingHintText}" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Command.HoverBegin="ExecuteBeginHint" Command.HoverEnd="ExecuteEndHint"/>
-                    </Children>
-                </Widget>
-            </Children>
-        </ListPanel>
-
-        <!-- Option buttons -->
-        <ListPanel WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" HorizontalAlignment="Left" LayoutImp.LayoutMethod="HorizontalLeftToRight">
-            <Children>
-                <!-- Sort Order -->
-                <Widget Id="OtherSortOrderOppositeButton" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="76" SuggestedHeight="52" HorizontalAlignment="Left" VerticalAlignment="Top" MarginTop="2" UpdateChildrenStates="true">
-                    <Children>
-                        <Widget Id="OtherSortOrderOppositeButtonWidget" WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren">
-                            <Children>
-                                <ButtonIconOffsetWidget DoNotPassEventsToChildren="true" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Brush="MapBar.Left.Button4" ButtonIcon="OtherSortOrderOppositeTextIcon" Command.Click="ExecuteOtherSortOrderOpposite" PressedXOffset="0" PressedYOffset="1" UpdateChildrenStates="true">
-                                    <Children>
-                                        <TextWidget Id="OtherSortOrderOppositeTextIcon" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="50" SuggestedHeight="45" HorizontalAlignment="Center" VerticalAlignment="Center" MarginTop="2" Brush="Party.Text.Toggle" Text="@OtherSortOrderOppositeText"/>
-                                    </Children>
-                                </ButtonIconOffsetWidget>
-                                <HintWidget DataSource="{OtherSortOrderOppositeHintText}" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Command.HoverBegin="ExecuteBeginHint" Command.HoverEnd="ExecuteEndHint"/>
-                            </Children>
-                        </Widget>
-                        <Widget Id="OtherSortOrderOppositeButtonWidgetDisabled" WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren">
-                            <Children>
-                                <ButtonIconOffsetWidget DoNotPassEventsToChildren="true" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Brush="MapBar.Left.Button4" ButtonIcon="OtherSortOrderOppositeTextIconDisabled" IsDisabled="true">
-                                    <Children>
-                                        <TextWidget Id="OtherSortOrderOppositeTextIconDisabled" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="50" SuggestedHeight="45" HorizontalAlignment="Center" VerticalAlignment="Center" MarginTop="2" Brush="Party.Text.Toggle" Text="@OtherSortOrderOppositeText"/>
-                                    </Children>
-                                </ButtonIconOffsetWidget>
-                                <HintWidget DataSource="{OtherSortOrderOppositeDisabledHintText}" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Command.HoverBegin="ExecuteBeginHint" Command.HoverEnd="ExecuteEndHint"/>
-                            </Children>
-                        </Widget>
-                    </Children>
-                </Widget>
+                </ListPanel>
             </Children>
         </ListPanel>
     </Children>

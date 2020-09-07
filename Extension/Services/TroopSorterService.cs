@@ -7,14 +7,14 @@ namespace YAPO.Services {
     public static class TroopSorterService {
         public static void Sort(ref List<TroopRosterElement> sortedTroops, ref List<TroopRosterElement> heroTroops, SorterConfiguration configuration) {
             sortedTroops = configuration.CurrentThenByMode == SortMode.NONE || configuration.CurrentThenByMode == configuration.CurrentSortByMode
-                               ? sortedTroops.SortBy(configuration.CurrentSortByMode, configuration.SortDirection).ToList()
-                               : sortedTroops.SortBy(configuration.CurrentSortByMode, configuration.SortDirection)
-                                             .ThenSortBy(configuration.CurrentThenByMode, configuration.SortOrderOpposite ? configuration.SortDirection.InvertDirection() : configuration.SortDirection)
+                               ? sortedTroops.SortBy(configuration.CurrentSortByMode, configuration).ToList()
+                               : sortedTroops.SortBy(configuration.CurrentSortByMode, configuration)
+                                             .ThenSortBy(configuration.CurrentThenByMode, configuration)
                                              .ToList();
             heroTroops = configuration.CurrentThenByMode == SortMode.NONE || configuration.CurrentThenByMode == configuration.CurrentSortByMode
-                             ? heroTroops.SortBy(configuration.CurrentSortByMode, configuration.SortDirection).ToList()
-                             : heroTroops.SortBy(configuration.CurrentSortByMode, configuration.SortDirection)
-                                         .ThenSortBy(configuration.CurrentThenByMode, configuration.SortOrderOpposite ? configuration.SortDirection.InvertDirection() : configuration.SortDirection)
+                             ? heroTroops.SortBy(configuration.CurrentSortByMode, configuration).ToList()
+                             : heroTroops.SortBy(configuration.CurrentSortByMode, configuration)
+                                         .ThenSortBy(configuration.CurrentThenByMode, configuration)
                                          .ToList();
 
             if (!configuration.UpgradableOnTop) return;

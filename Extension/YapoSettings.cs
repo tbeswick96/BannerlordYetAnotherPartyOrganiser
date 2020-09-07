@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using MCM.Abstractions.Attributes;
 using MCM.Abstractions.Attributes.v2;
-using MCM.Abstractions.Data;
+using MCM.Abstractions.Dropdown;
 using MCM.Abstractions.Settings.Base.Global;
 using YAPO.Global;
 using YAPO.MultipathUpgrade.Enum;
@@ -36,7 +36,7 @@ namespace YAPO {
         public bool PreferShield { get; set; } = true;
 
         [SettingPropertyDropdown(Strings.SETTINGS_RANGED_PREFERENCE_NAME, Order = 5, RequireRestart = false, HintText = Strings.SETTINGS_RANGED_PREFERENCE_TOOLTIP), SettingPropertyGroup(Strings.SETTINGS_UPGRADE_GROUP_NAME)]
-        public DefaultDropdown<RangedPreferenceObject> RangedPreference { get; set; } = new DefaultDropdown<RangedPreferenceObject>(new[] {
+        public DropdownDefault<RangedPreferenceObject> RangedPreference { get; set; } = new DropdownDefault<RangedPreferenceObject>(new[] {
                                                                                                                                         new RangedPreferenceObject(MultipathUpgrade.Enum.RangedPreference.NONE, "No Preference"),
                                                                                                                                         new RangedPreferenceObject(MultipathUpgrade.Enum.RangedPreference.BOWS, "Prefer Bows"),
                                                                                                                                         new RangedPreferenceObject(MultipathUpgrade.Enum.RangedPreference.CROSSBOWS, "Prefer Crossbows")

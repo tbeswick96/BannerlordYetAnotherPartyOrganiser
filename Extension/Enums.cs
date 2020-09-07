@@ -13,4 +13,11 @@
         ASCENDING,
         DESCENDING
     }
+
+    public enum TypeSortOption {
+        CAVALRY,
+        RANGED_CAVALRY,
+        INFANTRY,
+        RANGED
+    }
 }
