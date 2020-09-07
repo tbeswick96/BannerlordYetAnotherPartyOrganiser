@@ -357,7 +357,6 @@
         <Compile Include="Global\Helpers.cs" />
         <Compile Include="Global\States.cs" />
         <Compile Include="Global\Strings.cs" />
-        <Compile Include="Patches\OtherPatches.cs" />
         <Compile Include="Patches\PartyCharacterVmPatches.cs" />
         <Compile Include="Patches\PartyScreenWidgetPatches.cs" />
         <Compile Include="MultipathUpgrade\Model\AvailableResources.cs" />
