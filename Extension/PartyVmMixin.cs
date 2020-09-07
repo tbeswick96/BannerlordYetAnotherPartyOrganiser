@@ -32,9 +32,13 @@ namespace YAPO {
         private MBBindingList<SortByModeOptionVm> _partyThenByModeOptionVms = new MBBindingList<SortByModeOptionVm>();
         private MBBindingList<TypeSortOptionVm> _typeOrderOptionPartySortByVms = new MBBindingList<TypeSortOptionVm>();
         private MBBindingList<TypeSortOptionVm> _typeOrderOptionPartyThenByVms = new MBBindingList<TypeSortOptionVm>();
+        private MBBindingList<TypeSortOptionVm> _typeOrderOptionOtherSortByVms = new MBBindingList<TypeSortOptionVm>();
+        private MBBindingList<TypeSortOptionVm> _typeOrderOptionOtherThenByVms = new MBBindingList<TypeSortOptionVm>();
 
         private bool _typeSortOrderPartySortByOpen;
         private bool _typeSortOrderPartyThenByOpen;
+        private bool _typeSortOrderOtherSortByOpen;
+        private bool _typeSortOrderOtherThenByOpen;
 
         public PartyVmMixin(PartyVM viewModel) : base(viewModel) {
             States.PartyVmMixin = this;
@@ -50,20 +54,22 @@ namespace YAPO {
             InitialiseSortModeOptionVmList(_otherSortByModeOptionVms);
             InitialiseSortModeOptionVmList(_otherThenByModeOptionVms);
 
-            InitialiseTypeSortOptionVmList(_typeOrderOptionPartySortByVms);
-            InitialiseTypeSortOptionVmList(_typeOrderOptionPartyThenByVms);
+            InitialiseTypeSortOptionVmList(_typeOrderOptionPartySortByVms, States.PartySorterConfiguration.SortByTypeOrder);
+            InitialiseTypeSortOptionVmList(_typeOrderOptionPartyThenByVms, States.PartySorterConfiguration.ThenByTypeOrder);
+            InitialiseTypeSortOptionVmList(_typeOrderOptionOtherSortByVms, States.OtherSorterConfiguration.SortByTypeOrder);
+            InitialiseTypeSortOptionVmList(_typeOrderOptionOtherThenByVms, States.OtherSorterConfiguration.ThenByTypeOrder);
 
             InitialiseOptionDropdowns();
         }
 
         private void InitialiseSortModeOptionVmList(ICollection<SortByModeOptionVm> optionVms) {
-            foreach (SortMode sortMode in (SortMode[]) Enum.GetValues(typeof(SortMode))) {
+            foreach (SortMode sortMode in Enum.GetValues(typeof(SortMode))) {
                 optionVms.Add(new SortByModeOptionVm(this, sortMode));
             }
         }
 
-        private static void InitialiseTypeSortOptionVmList(ICollection<TypeSortOptionVm> optionVms) {
-            foreach (TypeSortOption typeSortOption in (TypeSortOption[]) Enum.GetValues(typeof(TypeSortOption))) {
+        private static void InitialiseTypeSortOptionVmList(ICollection<TypeSortOptionVm> optionVms, IEnumerable<TypeSortOption> typeOptions) {
+            foreach (TypeSortOption typeSortOption in typeOptions) {
                 optionVms.Add(new TypeSortOptionVm(typeSortOption));
             }
         }
@@ -90,7 +96,7 @@ namespace YAPO {
         public void FirstRefresh() {
             if (States.PartyVmMixin != this || _firstRefreshDone) return;
 
-            if (YapoSettings.Instance.IsAutoSortEnabled) {
+            if (YapoSettings.Instance == null || YapoSettings.Instance.IsAutoSortEnabled) {
                 SortParty(States.PartySorterConfiguration.SortDirection);
                 SortOther(States.PartySorterConfiguration.SortDirection);
             }
@@ -212,6 +218,8 @@ namespace YAPO {
             _viewModel.OnPropertyChanged(nameof(TypeOrderCloseHintText));
             _viewModel.OnPropertyChanged(nameof(TypeOrderOptionPartySortByVms));
             _viewModel.OnPropertyChanged(nameof(TypeOrderOptionPartyThenByVms));
+            _viewModel.OnPropertyChanged(nameof(TypeOrderOptionOtherSortByVms));
+            _viewModel.OnPropertyChanged(nameof(TypeOrderOptionOtherThenByVms));
             RefreshPartyScreenWidgetStates();
         }
 
@@ -227,8 +235,12 @@ namespace YAPO {
 
             RefreshTypeSortOrderWidgetState(allWidgets, "TypeOrderPartySortBy", () => _typeSortOrderPartySortByOpen);
             RefreshTypeSortOrderWidgetState(allWidgets, "TypeOrderPartyThenBy", () => _typeSortOrderPartyThenByOpen);
+            RefreshTypeSortOrderWidgetState(allWidgets, "TypeOrderOtherSortBy", () => _typeSortOrderOtherSortByOpen);
+            RefreshTypeSortOrderWidgetState(allWidgets, "TypeOrderOtherThenBy", () => _typeSortOrderOtherThenByOpen);
             RefreshTypeSortOrderButtonWidgetState(allWidgets, "TypeOrderPartySortBy", () => CurrentPartySortByMode == SortMode.TYPE && !_typeSortOrderPartySortByOpen);
             RefreshTypeSortOrderButtonWidgetState(allWidgets, "TypeOrderPartyThenBy", () => CurrentPartyThenByMode == SortMode.TYPE && !_typeSortOrderPartyThenByOpen);
+            RefreshTypeSortOrderButtonWidgetState(allWidgets, "TypeOrderOtherSortBy", () => CurrentOtherSortByMode == SortMode.TYPE && !_typeSortOrderOtherSortByOpen);
+            RefreshTypeSortOrderButtonWidgetState(allWidgets, "TypeOrderOtherThenBy", () => CurrentOtherThenByMode == SortMode.TYPE && !_typeSortOrderOtherThenByOpen);
         }
 
         private static void RefreshPartyScreenWidgetState(IReadOnlyCollection<Widget> allWidgets, string widgetName, Func<bool> statePredicate) {
@@ -241,7 +253,7 @@ namespace YAPO {
             widgetDisabled.IsHidden = state;
         }
 
-        private static void RefreshTypeSortOrderButtonWidgetState(IReadOnlyCollection<Widget> allWidgets, string widgetName, Func<bool> statePredicate) {
+        private static void RefreshTypeSortOrderButtonWidgetState(IEnumerable<Widget> allWidgets, string widgetName, Func<bool> statePredicate) {
             Widget widget = allWidgets.FirstOrDefault(x => x.Id == $"{widgetName}OpenButtonWidget");
             if (widget == null) return;
 
@@ -279,48 +291,10 @@ namespace YAPO {
 
         #endregion
 
-        #region TypeSortOrder
-
-        [DataSourceProperty]
-        public string TypeOrderOpenText => "*";
-
-        [DataSourceProperty]
-        public HintViewModel TypeOrderOpenHintText => new HintViewModel(Strings.TYPE_ORDER_HINT_TEXT_OPEN);
-
-        [DataSourceProperty]
-        public HintViewModel TypeOrderCloseHintText => new HintViewModel(Strings.TYPE_ORDER_HINT_TEXT_CLOSE);
-
-        [DataSourceProperty]
-        public MBBindingList<TypeSortOptionVm> TypeOrderOptionPartySortByVms {
-            get => _typeOrderOptionPartySortByVms;
-            set {
-                if (value == _typeOrderOptionPartySortByVms) {
-                    return;
-                }
-
-                _typeOrderOptionPartySortByVms = value;
-                _viewModel.OnPropertyChanged(nameof(TypeOrderOptionPartySortByVms));
-                RefreshPartyScreenWidgetStates();
-            }
-        }
-
-        [DataSourceProperty]
-        public MBBindingList<TypeSortOptionVm> TypeOrderOptionPartyThenByVms {
-            get => _typeOrderOptionPartyThenByVms;
-            set {
-                if (value == _typeOrderOptionPartyThenByVms) {
-                    return;
-                }
-
-                _typeOrderOptionPartyThenByVms = value;
-                _viewModel.OnPropertyChanged(nameof(TypeOrderOptionPartyThenByVms));
-                RefreshPartyScreenWidgetStates();
-            }
-        }
+        #region Command - Party Type Sort Dropdowns
 
         [DataSourceMethod]
-        public void ExecuteChangeOrderOfTypeOption(TypeSortOptionVm targetOptionVm, int index, string path) {
-            Global.Helpers.DebugMessage("Type option change");
+        public void ExecuteChangeOrderOfPartyTypeOption(TypeSortOptionVm targetOptionVm, int index, string path) {
             MBBindingList<TypeSortOptionVm> optionVms;
             switch (path) {
                 case "PartySortBy":
@@ -329,40 +303,63 @@ namespace YAPO {
                 case "PartyThenBy":
                     optionVms = TypeOrderOptionPartyThenByVms;
                     break;
-                default: throw new Exception($"Option VM order change path '{path}' not found");
+                default: return;
             }
+            Global.Helpers.DebugMessage($"{path} type option change");
 
             index = index >= optionVms.IndexOf(targetOptionVm) ? --index : index;
             index = (int) MathF.Clamp(index, 0.0f, optionVms.Count - 1);
-
             optionVms.Remove(targetOptionVm);
             optionVms.Insert(index, targetOptionVm);
 
-            _viewModel.OnPropertyChanged(nameof(optionVms));
+            switch (path) {
+                case "PartySortBy":
+                    States.PartySorterConfiguration.SortByTypeOrder = TypeOrderOptionPartySortByVms.Select(x => x.Value).ToArray();
+                    _viewModel.OnPropertyChanged(nameof(TypeOrderOptionPartySortByVms));
+                    break;
+                case "PartyThenBy":
+                    States.PartySorterConfiguration.ThenByTypeOrder = TypeOrderOptionPartyThenByVms.Select(x => x.Value).ToArray();
+                    _viewModel.OnPropertyChanged(nameof(TypeOrderOptionPartyThenByVms));
+                    break;
+            }
+
             RefreshPartyScreenWidgetStates();
         }
 
-        [DataSourceMethod]
-        public void ExecuteTypeOrderPartySortByOpen() {
-            _typeSortOrderPartySortByOpen = true;
-            RefreshPartyScreenWidgetStates();
-        }
+        #endregion
+
+        #region Command - Other Type Sort Dropdowns
 
         [DataSourceMethod]
-        public void ExecuteTypeOrderPartySortByClose() {
-            _typeSortOrderPartySortByOpen = false;
-            RefreshPartyScreenWidgetStates();
-        }
+        public void ExecuteChangeOrderOfOtherTypeOption(TypeSortOptionVm targetOptionVm, int index, string path) {
+            MBBindingList<TypeSortOptionVm> optionVms;
+            switch (path) {
+                case "OtherSortBy":
+                    optionVms = TypeOrderOptionOtherSortByVms;
+                    break;
+                case "OtherThenBy":
+                    optionVms = TypeOrderOptionOtherThenByVms;
+                    break;
+                default: return;
+            }
+            Global.Helpers.DebugMessage($"{path} type option change");
 
-        [DataSourceMethod]
-        public void ExecuteTypeOrderPartyThenByOpen() {
-            _typeSortOrderPartyThenByOpen = true;
-            RefreshPartyScreenWidgetStates();
-        }
+            index = index >= optionVms.IndexOf(targetOptionVm) ? --index : index;
+            index = (int) MathF.Clamp(index, 0.0f, optionVms.Count - 1);
+            optionVms.Remove(targetOptionVm);
+            optionVms.Insert(index, targetOptionVm);
 
-        [DataSourceMethod]
-        public void ExecuteTypeOrderPartyThenByClose() {
-            _typeSortOrderPartyThenByOpen = false;
+            switch (path) {
+                case "OtherSortBy":
+                    States.OtherSorterConfiguration.SortByTypeOrder = TypeOrderOptionOtherSortByVms.Select(x => x.Value).ToArray();
+                    _viewModel.OnPropertyChanged(nameof(TypeOrderOptionOtherSortByVms));
+                    break;
+                case "OtherThenBy":
+                    States.OtherSorterConfiguration.ThenByTypeOrder = TypeOrderOptionOtherThenByVms.Select(x => x.Value).ToArray();
+                    _viewModel.OnPropertyChanged(nameof(TypeOrderOptionOtherThenByVms));
+                    break;
+            }
+
             RefreshPartyScreenWidgetStates();
         }
 
@@ -473,6 +470,19 @@ namespace YAPO {
 
         #endregion
 
+        #region Text - Type Sort Buttons
+
+        [DataSourceProperty]
+        public string TypeOrderOpenText => "*";
+
+        [DataSourceProperty]
+        public HintViewModel TypeOrderOpenHintText => new HintViewModel(Strings.TYPE_ORDER_HINT_TEXT_OPEN);
+
+        [DataSourceProperty]
+        public HintViewModel TypeOrderCloseHintText => new HintViewModel(Strings.TYPE_ORDER_HINT_TEXT_CLOSE);
+
+        #endregion
+
         #region Data - Party Sort Dropdowns
 
         [DataSourceProperty]
@@ -507,6 +517,9 @@ namespace YAPO {
                 if (CurrentPartyThenByMode == value) {
                     CurrentPartyThenByMode = currentSortByMode;
                 }
+
+                ExecuteTypeOrderPartySortByClose();
+                ExecuteTypeOrderPartyThenByClose();
 
                 RefreshPartyScreenWidgetStates();
             }
@@ -544,6 +557,10 @@ namespace YAPO {
                 States.PartySorterConfiguration.CurrentThenByMode = value;
                 CurrentPartyThenByModeText = value.AsString();
                 _viewModel.OnPropertyChanged(nameof(CurrentPartyThenByModeText));
+
+                ExecuteTypeOrderPartySortByClose();
+                ExecuteTypeOrderPartyThenByClose();
+
                 RefreshPartyScreenWidgetStates();
             }
         }
@@ -585,6 +602,9 @@ namespace YAPO {
                     CurrentOtherThenByMode = currentSortByMode;
                 }
 
+                ExecuteTypeOrderOtherSortByClose();
+                ExecuteTypeOrderOtherThenByClose();
+
                 RefreshPartyScreenWidgetStates();
             }
         }
@@ -621,6 +641,74 @@ namespace YAPO {
                 States.OtherSorterConfiguration.CurrentThenByMode = value;
                 CurrentOtherThenByModeText = value.AsString();
                 _viewModel.OnPropertyChanged(nameof(CurrentOtherThenByModeText));
+
+                ExecuteTypeOrderOtherSortByClose();
+                ExecuteTypeOrderOtherThenByClose();
+
+                RefreshPartyScreenWidgetStates();
+            }
+        }
+
+        #endregion
+
+        #region Data - Party Type Sort Dropdowns
+
+        [DataSourceProperty]
+        public MBBindingList<TypeSortOptionVm> TypeOrderOptionPartySortByVms {
+            get => _typeOrderOptionPartySortByVms;
+            set {
+                if (value == _typeOrderOptionPartySortByVms) {
+                    return;
+                }
+
+                _typeOrderOptionPartySortByVms = value;
+                _viewModel.OnPropertyChanged(nameof(TypeOrderOptionPartySortByVms));
+                RefreshPartyScreenWidgetStates();
+            }
+        }
+
+        [DataSourceProperty]
+        public MBBindingList<TypeSortOptionVm> TypeOrderOptionPartyThenByVms {
+            get => _typeOrderOptionPartyThenByVms;
+            set {
+                if (value == _typeOrderOptionPartyThenByVms) {
+                    return;
+                }
+
+                _typeOrderOptionPartyThenByVms = value;
+                _viewModel.OnPropertyChanged(nameof(TypeOrderOptionPartyThenByVms));
+                RefreshPartyScreenWidgetStates();
+            }
+        }
+
+        #endregion
+
+        #region Data - Other Type Sort Dropdowns
+
+        [DataSourceProperty]
+        public MBBindingList<TypeSortOptionVm> TypeOrderOptionOtherSortByVms {
+            get => _typeOrderOptionOtherSortByVms;
+            set {
+                if (value == _typeOrderOptionOtherSortByVms) {
+                    return;
+                }
+
+                _typeOrderOptionOtherSortByVms = value;
+                _viewModel.OnPropertyChanged(nameof(TypeOrderOptionOtherSortByVms));
+                RefreshPartyScreenWidgetStates();
+            }
+        }
+
+        [DataSourceProperty]
+        public MBBindingList<TypeSortOptionVm> TypeOrderOptionOtherThenByVms {
+            get => _typeOrderOptionOtherThenByVms;
+            set {
+                if (value == _typeOrderOptionOtherThenByVms) {
+                    return;
+                }
+
+                _typeOrderOptionOtherThenByVms = value;
+                _viewModel.OnPropertyChanged(nameof(TypeOrderOptionOtherThenByVms));
                 RefreshPartyScreenWidgetStates();
             }
         }
@@ -689,6 +777,62 @@ namespace YAPO {
         public void ExecuteActionRecruit() {
             Global.Helpers.DebugMessage("Action recruit Pressed");
             RecruitPrisoners();
+        }
+
+        #endregion
+
+        #region Command - Party Type Sort Buttons
+
+        [DataSourceMethod]
+        public void ExecuteTypeOrderPartySortByOpen() {
+            _typeSortOrderPartySortByOpen = true;
+            RefreshPartyScreenWidgetStates();
+        }
+
+        [DataSourceMethod]
+        public void ExecuteTypeOrderPartySortByClose() {
+            _typeSortOrderPartySortByOpen = false;
+            RefreshPartyScreenWidgetStates();
+        }
+
+        [DataSourceMethod]
+        public void ExecuteTypeOrderPartyThenByOpen() {
+            _typeSortOrderPartyThenByOpen = true;
+            RefreshPartyScreenWidgetStates();
+        }
+
+        [DataSourceMethod]
+        public void ExecuteTypeOrderPartyThenByClose() {
+            _typeSortOrderPartyThenByOpen = false;
+            RefreshPartyScreenWidgetStates();
+        }
+
+        #endregion
+
+        #region Command - Other Type Sort Buttons
+
+        [DataSourceMethod]
+        public void ExecuteTypeOrderOtherSortByOpen() {
+            _typeSortOrderOtherSortByOpen = true;
+            RefreshPartyScreenWidgetStates();
+        }
+
+        [DataSourceMethod]
+        public void ExecuteTypeOrderOtherSortByClose() {
+            _typeSortOrderOtherSortByOpen = false;
+            RefreshPartyScreenWidgetStates();
+        }
+
+        [DataSourceMethod]
+        public void ExecuteTypeOrderOtherThenByOpen() {
+            _typeSortOrderOtherThenByOpen = true;
+            RefreshPartyScreenWidgetStates();
+        }
+
+        [DataSourceMethod]
+        public void ExecuteTypeOrderOtherThenByClose() {
+            _typeSortOrderOtherThenByOpen = false;
+            RefreshPartyScreenWidgetStates();
         }
 
         #endregion
